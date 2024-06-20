@@ -1,4 +1,3 @@
-// controllers/customerController.js
 import Customer from "../models/Controller.js";
 
 // Get all customers
@@ -13,14 +12,7 @@ export const getCustomers = async (req, res) => {
 
 // Get one customer by ID
 export const getCustomerById = async (req, res) => {
-  // try {
-  //   const customer = await Customer.findById(req.params.id);
-  //   if (!customer)
-  //     return res.status(404).json({ message: "Customer not found" });
-  //   res.json(customer);
-  // } catch (err) {
-  //   res.status(500).json({ message: err.message });
-  // }
+  
   try {
     const customer = await Customer.findById(req.params.id);
     res.json(customer);
@@ -49,32 +41,6 @@ export const createCustomer = async (req, res) => {
 
 // Update a customer
 export const updateCustomer = async (req, res) => {
-  // try {
-  //   const customer = await Customer.findById(req.params.id);
-  //   if (!customer)
-  //     return res.status(404).json({ message: "Customer not found" });
-
-  //   if (req.body.name != null) {
-  //     customer.name = req.body.name;
-  //   }
-  //   if (req.body.phoneNumber != null) {
-  //     customer.phoneNumber = req.body.phoneNumber;
-  //   }
-  //   if (req.body.debts != null) {
-  //     customer.debts = req.body.debts;
-  //   }
-  //   if (req.body.payments != null) {
-  //     customer.payments = req.body.payments;
-  //   }
-  //   if (req.body.buyers != null) {
-  //     customer.buyers = req.body.buyers;
-  //   }
-
-  //   const updatedCustomer = await customer.save();
-  //   res.json(updatedCustomer);
-  // } catch (err) {
-  //   res.status(400).json({ message: err.message });
-  // }
   try {
     const updatedCustomer = await Customer.findByIdAndUpdate(
       req.params.id,

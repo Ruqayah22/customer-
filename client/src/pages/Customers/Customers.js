@@ -14,7 +14,6 @@ import {
 import MuiAppBar from "@mui/material/AppBar";
 import { useNavigate } from "react-router-dom";
 import { Brightness4, Brightness7, Home } from "@mui/icons-material";
-// import SideListPages from "../../components/SideListPages";
 import AllCustomers from "./AllCustomers";
 
 const drawerWidth = 240;
@@ -46,7 +45,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const Customers = () => {
-  // const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(true);
 
   const darkTheme = useMemo(

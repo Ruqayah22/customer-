@@ -15,9 +15,6 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-// app.use("/", Routes);
-// app.use("/customers", customerRouter);
-
 // Routes
 app.use("/customers", customersRouter);
 
