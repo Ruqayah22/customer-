@@ -54,16 +54,6 @@ const CustomerDetails = () => {
       });
   }, [id]);
 
-  //  const formatAmount = (amount) => {
-  //    if (!amount) return "";
-  //    return new Intl.NumberFormat().format(parseFloat(amount));
-  //  };
-
-  // // Helper function to format amount
-  // const formatAmount = (amount) => {
-  //   return parseFloat(amount).toFixed(3);
-  // };
-  
   const formatAmount = (amount) => {
     const parsedAmount = parseFloat(amount);
     return isNaN(parsedAmount)
@@ -73,12 +63,6 @@ const CustomerDetails = () => {
           maximumFractionDigits: 3,
         });
   };
-
-
-  // // Helper function to format date
-  // const formatDate = (date) => {
-  //   return new Date(date).toISOString().split("T")[0];
-  // };
 
   const handleAddDebt = () => {
     const updatedCustomer = {
@@ -232,7 +216,6 @@ const CustomerDetails = () => {
       calculateTotalPayment().replace(/,/g, "");
     return formatAmount(restAmount);
   };
-  
 
   if (!customer) return <Typography>Loading...</Typography>;
 

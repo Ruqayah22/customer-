@@ -80,8 +80,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
-
 const formatAmount = (amount) => {
   const parsedAmount = parseFloat(amount);
   return isNaN(parsedAmount)
@@ -95,7 +93,10 @@ const formatAmount = (amount) => {
 // Helper Function to Calculate Remaining Debt
 const calculateRestAmount = (debts, payments) => {
   const totalDebts = debts.reduce((total, debt) => total + debt.amount, 0);
-  const totalPayments = payments.reduce((total, payment) => total + payment.amount, 0);
+  const totalPayments = payments.reduce(
+    (total, payment) => total + payment.amount,
+    0
+  );
   const restAmount = totalDebts - totalPayments;
   return formatAmount(restAmount);
 };
@@ -238,8 +239,6 @@ const AllCustomers = () => {
     });
   };
 
-  
-
   return (
     <>
       <Typography
@@ -337,7 +336,6 @@ const AllCustomers = () => {
             >
               <TableRow>
                 <TableCell>Actions</TableCell>
-                {/* <TableCell>رقم الهاتف</TableCell> */}
                 <TableCell>المتبقي</TableCell>
                 <TableCell>الاسم</TableCell>
               </TableRow>
@@ -384,13 +382,11 @@ const AllCustomers = () => {
                         {calculateRestAmount(
                           customer.debts || [],
                           customer.payments || []
-                        ).toLocaleString("en-US") }{" "}
+                        ).toLocaleString("en-US")}{" "}
                         IQD
                       </TableCell>
-                      {/* <TableCell>{customer.phoneNumber}</TableCell> */}
                       <TableCell>
                         <Link
-                          // to={`/customerDetails/${customer._id}`}
                           to={`/customers/${customer._id}`}
                           style={{ textDecoration: "none", color: "inherit" }}
                         >

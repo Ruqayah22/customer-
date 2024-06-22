@@ -62,7 +62,6 @@ const Customers = () => {
   const navigate = useNavigate();
 
   return (
-    // <AllCustomers />
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
