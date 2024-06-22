@@ -54,18 +54,50 @@ const CustomerDetails = () => {
       });
   }, [id]);
 
+  //  const formatAmount = (amount) => {
+  //    if (!amount) return "";
+  //    return new Intl.NumberFormat().format(parseFloat(amount));
+  //  };
+
+  // // Helper function to format amount
+  // const formatAmount = (amount) => {
+  //   return parseFloat(amount).toFixed(3);
+  // };
   
+  const formatAmount = (amount) => {
+    const parsedAmount = parseFloat(amount);
+    return isNaN(parsedAmount)
+      ? "0.00"
+      : parsedAmount.toLocaleString("en-US", {
+          minimumFractionDigits: 3,
+          maximumFractionDigits: 3,
+        });
+  };
+
+
+  // // Helper function to format date
+  // const formatDate = (date) => {
+  //   return new Date(date).toISOString().split("T")[0];
+  // };
+
   const handleAddDebt = () => {
     const updatedCustomer = {
       ...customer,
-      debts: [...customer.debts, { ...newDebt, date: newDebt.date }], 
+      debts: [
+        ...customer.debts,
+        {
+          ...newDebt,
+          amount: parseFloat(newDebt.amount.replace(/,/g, "")),
+          date: newDebt.date,
+        },
+      ],
     };
 
     axios
       .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
       .then((response) => {
         setCustomer(response.data);
-        setNewDebt({ amount: "", date: "" }); 
+        setNewDebt({ amount: "", date: "" });
       })
       .catch((error) => {
         console.error("Error updating customer:", error);
@@ -75,33 +107,40 @@ const CustomerDetails = () => {
   const handleAddPayment = () => {
     const updatedCustomer = {
       ...customer,
-      payments: [...customer.payments, {...newPayment, date: newPayment.date}],
+      payments: [
+        ...customer.payments,
+        {
+          ...newPayment,
+          amount: parseFloat(newPayment.amount.replace(/,/g, "")),
+          date: newPayment.date,
+        },
+      ],
     };
-  axios
-    .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
-    .then((response) => {
-      setCustomer(response.data);
-      setNewPayment({ amount: "", date: "" });
-    })
-    .catch((error) => {
-      console.error("Error updating customer:", error);
-    });
+    axios
+      .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
+      .then((response) => {
+        setCustomer(response.data);
+        setNewPayment({ amount: "", date: "" });
+      })
+      .catch((error) => {
+        console.error("Error updating customer:", error);
+      });
   };
 
   const handleAddBuyer = () => {
     const updatedCustomer = {
       ...customer,
-      buyers: [...customer.buyers, {...newBuyer, date: newBuyer.date}],
+      buyers: [...customer.buyers, { ...newBuyer, date: newBuyer.date }],
     };
- axios
-    .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
-    .then((response) => {
-      setCustomer(response.data);
-      setNewBuyer({ name: "", count: "", date: "" });
-    })
-    .catch((error) => {
-      console.error("Error updating customer:", error);
-    });
+    axios
+      .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
+      .then((response) => {
+        setCustomer(response.data);
+        setNewBuyer({ name: "", count: "", date: "" });
+      })
+      .catch((error) => {
+        console.error("Error updating customer:", error);
+      });
   };
 
   const calculateTotalDebt = () => {
@@ -112,7 +151,7 @@ const CustomerDetails = () => {
         0
       );
     }
-    return totalDebt;
+    return formatAmount(totalDebt);
   };
 
   const calculateTotalPayment = () => {
@@ -123,7 +162,7 @@ const CustomerDetails = () => {
         0
       );
     }
-    return totalPayment;
+    return formatAmount(totalPayment);
   };
 
   const handleDeleteCustomer = async () => {
@@ -186,6 +225,14 @@ const CustomerDetails = () => {
   const formatDate = (date) => {
     return dayjs(date).format("YYYY-MM-DD");
   };
+
+  const calculateRestAmount = () => {
+    const restAmount =
+      calculateTotalDebt().replace(/,/g, "") -
+      calculateTotalPayment().replace(/,/g, "");
+    return formatAmount(restAmount);
+  };
+  
 
   if (!customer) return <Typography>Loading...</Typography>;
 
@@ -270,52 +317,168 @@ const CustomerDetails = () => {
             >
               Total Payment: {calculateTotalPayment()}
             </Typography>
+            {/* الباقي */}
+            <Typography
+              variant="h5"
+              gutterBottom
+              sx={{ padding: "5px", margin: "5px" }}
+            >
+              Rest: {calculateRestAmount()}
+            </Typography>
           </Box>
         </Box>
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Box sx={{ marginBottom: "20px" }}>
-              <Typography variant="h5" gutterBottom>
-                Add Debt
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={4}>
+            <Paper sx={{ padding: "16px" }}>
+              <Typography variant="h6" gutterBottom>
+                Add New Debt
               </Typography>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <FormControl fullWidth sx={{ marginRight: "10px" }}>
-                  <TextField
-                    name="debt"
-                    label="Debt"
-                    variant="outlined"
-                    value={newDebt.amount}
-                    onChange={(e) =>
-                      setNewDebt({ ...newDebt, amount: e.target.value })
-                    }
-                  />
-                </FormControl>
-                <FormControl fullWidth>
-                  <TextField
-                    name="date"
-                    label="Date"
-                    variant="outlined"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={formatDate(newDebt.date)}
-                    onChange={(e) =>
-                      setNewDebt({ ...newDebt, date: e.target.value })
-                    }
-                  />
-                </FormControl>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{ height: "50px", marginLeft: "10px" }}
-                  onClick={handleAddDebt}
-                >
-                  Add
-                </Button>
-              </Box>
-            </Box>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Amount"
+                  value={newDebt.amount}
+                  onChange={(e) =>
+                    setNewDebt({
+                      ...newDebt,
+                      amount: e.target.value.replace(/[^0-9.]/g, ""),
+                    })
+                  }
+                  InputProps={{
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  }}
+                  onBlur={(e) =>
+                    setNewDebt({
+                      ...newDebt,
+                      amount: formatAmount(e.target.value),
+                    })
+                  }
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Date"
+                  type="date"
+                  value={newDebt.date}
+                  onChange={(e) =>
+                    setNewDebt({ ...newDebt, date: e.target.value })
+                  }
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </FormControl>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddDebt}
+              >
+                Add Debt
+              </Button>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Paper sx={{ padding: "16px" }}>
+              <Typography variant="h6" gutterBottom>
+                Add New Payment
+              </Typography>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Amount"
+                  value={newPayment.amount}
+                  onChange={(e) =>
+                    setNewPayment({
+                      ...newPayment,
+                      amount: e.target.value.replace(/[^0-9.]/g, ""),
+                    })
+                  }
+                  InputProps={{
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  }}
+                  onBlur={(e) =>
+                    setNewPayment({
+                      ...newPayment,
+                      amount: formatAmount(e.target.value),
+                    })
+                  }
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Date"
+                  type="date"
+                  value={newPayment.date}
+                  onChange={(e) =>
+                    setNewPayment({ ...newPayment, date: e.target.value })
+                  }
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </FormControl>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddPayment}
+              >
+                Add Payment
+              </Button>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Paper sx={{ padding: "16px" }}>
+              <Typography variant="h6" gutterBottom>
+                Add New Buyer
+              </Typography>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Name"
+                  value={newBuyer.name}
+                  onChange={(e) =>
+                    setNewBuyer({ ...newBuyer, name: e.target.value })
+                  }
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Count"
+                  value={newBuyer.count}
+                  onChange={(e) =>
+                    setNewBuyer({ ...newBuyer, count: e.target.value })
+                  }
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Date"
+                  type="date"
+                  value={newBuyer.date}
+                  onChange={(e) =>
+                    setNewBuyer({ ...newBuyer, date: e.target.value })
+                  }
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </FormControl>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddBuyer}
+              >
+                Add Buyer
+              </Button>
+            </Paper>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2} sx={{ marginTop: "20px" }}>
+          <Grid item xs={12} md={6}>
+            <Typography variant="h6" gutterBottom>
+              Debts
+            </Typography>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
@@ -328,20 +491,23 @@ const CustomerDetails = () => {
                 <TableBody>
                   {customer.debts.map((debt) => (
                     <TableRow key={debt._id}>
-                      <TableCell>{debt.amount}</TableCell>
+                      <TableCell>{formatAmount(debt.amount)}</TableCell>
                       <TableCell>{formatDate(debt.date)}</TableCell>
                       <TableCell>
                         <Button
-                          onClick={() => handleEditItem("debts", debt)}
-                          color="primary"
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          onClick={() => handleDeleteItem("debts", debt._id)}
+                          variant="contained"
                           color="secondary"
+                          onClick={() => handleDeleteItem("debts", debt._id)}
+                          sx={{ marginRight: "8px" }}
                         >
                           Delete
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => handleEditItem("debts", debt)}
+                        >
+                          Edit
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -352,47 +518,9 @@ const CustomerDetails = () => {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <Box sx={{ marginBottom: "20px" }}>
-              <Typography variant="h5" gutterBottom>
-                Add Payment
-              </Typography>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <FormControl fullWidth sx={{ marginRight: "10px" }}>
-                  <TextField
-                    name="payment"
-                    label="Payment"
-                    variant="outlined"
-                    value={newPayment.amount}
-                    onChange={(e) =>
-                      setNewPayment({ ...newPayment, amount: e.target.value })
-                    }
-                  />
-                </FormControl>
-                <FormControl fullWidth>
-                  <TextField
-                    name="date"
-                    label="Date"
-                    variant="outlined"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={formatDate(newPayment.date)}
-                    onChange={(e) =>
-                      setNewPayment({ ...newPayment, date: e.target.value })
-                    }
-                  />
-                </FormControl>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{ height: "50px", marginLeft: "10px" }}
-                  onClick={handleAddPayment}
-                >
-                  Add
-                </Button>
-              </Box>
-            </Box>
+            <Typography variant="h6" gutterBottom>
+              Payments
+            </Typography>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
@@ -405,112 +533,25 @@ const CustomerDetails = () => {
                 <TableBody>
                   {customer.payments.map((payment) => (
                     <TableRow key={payment._id}>
-                      <TableCell>{payment.amount}</TableCell>
+                      <TableCell>{formatAmount(payment.amount)}</TableCell>
                       <TableCell>{formatDate(payment.date)}</TableCell>
                       <TableCell>
                         <Button
-                          onClick={() => handleEditItem("payments", payment)}
-                          color="primary"
-                        >
-                          Edit
-                        </Button>
-                        <Button
+                          variant="contained"
+                          color="secondary"
                           onClick={() =>
                             handleDeleteItem("payments", payment._id)
                           }
-                          color="secondary"
+                          sx={{ marginRight: "8px" }}
                         >
                           Delete
                         </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Box sx={{ marginBottom: "20px" }}>
-              <Typography variant="h5" gutterBottom>
-                Add Buyer
-              </Typography>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <FormControl fullWidth sx={{ marginRight: "10px" }}>
-                  <TextField
-                    name="name"
-                    label="Buyer Name"
-                    variant="outlined"
-                    value={newBuyer.name}
-                    onChange={(e) =>
-                      setNewBuyer({ ...newBuyer, name: e.target.value })
-                    }
-                  />
-                </FormControl>
-                <FormControl fullWidth sx={{ marginRight: "10px" }}>
-                  <TextField
-                    name="count"
-                    label="Count"
-                    variant="outlined"
-                    value={newBuyer.count}
-                    onChange={(e) =>
-                      setNewBuyer({ ...newBuyer, count: e.target.value })
-                    }
-                  />
-                </FormControl>
-                <FormControl fullWidth>
-                  <TextField
-                    name="date"
-                    label="Date"
-                    variant="outlined"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={formatDate(newBuyer.date)}
-                    onChange={(e) =>
-                      setNewBuyer({ ...newBuyer, date: e.target.value })
-                    }
-                  />
-                </FormControl>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{ height: "50px", marginLeft: "10px" }}
-                  onClick={handleAddBuyer}
-                >
-                  Add
-                </Button>
-              </Box>
-            </Box>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Buyer Name</TableCell>
-                    <TableCell>Count</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {customer.buyers.map((buyer) => (
-                    <TableRow key={buyer._id}>
-                      <TableCell>{buyer.name}</TableCell>
-                      <TableCell>{buyer.count}</TableCell>
-                      <TableCell>{formatDate(buyer.date)}</TableCell>
-                      <TableCell>
                         <Button
-                          onClick={() => handleEditItem("buyers", buyer)}
+                          variant="contained"
                           color="primary"
+                          onClick={() => handleEditItem("payments", payment)}
                         >
                           Edit
-                        </Button>
-                        <Button
-                          onClick={() => handleDeleteItem("buyers", buyer._id)}
-                          color="secondary"
-                        >
-                          Delete
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -520,8 +561,49 @@ const CustomerDetails = () => {
             </TableContainer>
           </Grid>
         </Grid>
-      </Box>
 
+        <Typography variant="h6" gutterBottom sx={{ marginTop: "20px" }}>
+          Buyers
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Count</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {customer.buyers.map((buyer) => (
+                <TableRow key={buyer._id}>
+                  <TableCell>{buyer.name}</TableCell>
+                  <TableCell>{buyer.count}</TableCell>
+                  <TableCell>{formatDate(buyer.date)}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleDeleteItem("buyers", buyer._id)}
+                      sx={{ marginRight: "8px" }}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleEditItem("buyers", buyer)}
+                    >
+                      Edit
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
         <DialogTitle>Edit {editItem?.type}</DialogTitle>
