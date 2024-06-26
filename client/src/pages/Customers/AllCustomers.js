@@ -23,9 +23,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import PrintIcon from "@mui/icons-material/Print";
 import SearchIcon from "@mui/icons-material/Search";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import dayjs from "dayjs";
 import { saveAs } from "file-saver";
-import { DownloadTableExcel } from "react-export-table-to-excel";
 import {
   Document,
   Packer,
@@ -35,6 +33,8 @@ import {
   TableCell as DocxTableCell,
   HeadingLevel,
   AlignmentType,
+  BorderStyle,
+  WidthType,
 } from "docx";
 import { deleteCustomer, getCustomers } from "../../api/CustApi";
 
@@ -157,74 +157,143 @@ const AllCustomers = () => {
     }
   };
 
-  const formatDate = (date) => {
-    return dayjs(date).format("MM/DD/YYYY");
-  };
-
+  
   const exportToWord = () => {
+    if (!customers || customers.length === 0) {
+      console.error("No customer data available.");
+      return;
+    }
+
     const doc = new Document({
       sections: [
         {
+          properties: {
+            page: {
+              margin: {
+                top: 720,
+                right: 720,
+                bottom: 720,
+                left: 720,
+              },
+            },
+          },
           children: [
             new Paragraph({
-              text: "Customer Data",
+              text: "الديون",
               heading: HeadingLevel.HEADING_1,
               alignment: AlignmentType.CENTER,
+              spacing: { after: 300 },
             }),
             new DocxTable({
+              width: { size: 100, type: WidthType.PERCENTAGE },
               rows: [
                 new DocxTableRow({
+                  tableHeader: true,
                   children: [
-                    new DocxTableCell({ children: [new Paragraph("No")] }),
-                    new DocxTableCell({ children: [new Paragraph("الاسم")] }),
                     new DocxTableCell({
-                      children: [new Paragraph("رقم الهاتف")],
+                      children: [
+                        new Paragraph({
+                          text: "المتبقي",
+                          bold: true,
+                          alignment: AlignmentType.CENTER,
+                        }),
+                      ],
+                      shading: { fill: "cccccc" },
+                      borders: {
+                        top: { style: BorderStyle.SINGLE, size: 2 },
+                        bottom: { style: BorderStyle.SINGLE, size: 2 },
+                        left: { style: BorderStyle.SINGLE, size: 2 },
+                        right: { style: BorderStyle.SINGLE, size: 2 },
+                      },
                     }),
-                    new DocxTableCell({ children: [new Paragraph("الدين")] }),
                     new DocxTableCell({
-                      children: [new Paragraph("تاريخ الدين")],
+                      children: [
+                        new Paragraph({
+                          text: "الاسم",
+                          bold: true,
+                          alignment: AlignmentType.CENTER,
+                        }),
+                      ],
+                      shading: { fill: "cccccc" },
+                      borders: {
+                        top: { style: BorderStyle.SINGLE, size: 2 },
+                        bottom: { style: BorderStyle.SINGLE, size: 2 },
+                        left: { style: BorderStyle.SINGLE, size: 2 },
+                        right: { style: BorderStyle.SINGLE, size: 2 },
+                      },
+                    }),
+                    new DocxTableCell({
+                      children: [
+                        new Paragraph({
+                          text: "رقم",
+                          bold: true,
+                          alignment: AlignmentType.CENTER,
+                        }),
+                      ],
+                      shading: { fill: "cccccc" },
+                      borders: {
+                        top: { style: BorderStyle.SINGLE, size: 2 },
+                        bottom: { style: BorderStyle.SINGLE, size: 2 },
+                        left: { style: BorderStyle.SINGLE, size: 2 },
+                        right: { style: BorderStyle.SINGLE, size: 2 },
+                      },
                     }),
                   ],
+                  // Adjust cell height with TableRowHeight
+                  height: { value: 400 }, // Set height in twips (1/20th of a point)
                 }),
                 ...customers.map(
                   (customer, index) =>
                     new DocxTableRow({
                       children: [
                         new DocxTableCell({
-                          children: [new Paragraph((index + 1).toString())],
-                        }),
-                        new DocxTableCell({
-                          children: [new Paragraph(customer.name || "N/A")],
+                          children: [
+                            new Paragraph({
+                              text: `${calculateRestAmount(
+                                customer.debts || [],
+                                customer.payments || []
+                              ).toLocaleString("en-US")} IQD`,
+                              alignment: AlignmentType.CENTER,
+                            }),
+                          ],
+                          borders: {
+                            top: { style: BorderStyle.SINGLE, size: 1 },
+                            bottom: { style: BorderStyle.SINGLE, size: 1 },
+                            left: { style: BorderStyle.SINGLE, size: 1 },
+                            right: { style: BorderStyle.SINGLE, size: 1 },
+                          },
                         }),
                         new DocxTableCell({
                           children: [
-                            new Paragraph(
-                              customer.phoneNumber
-                                ? customer.phoneNumber.toString()
-                                : "N/A"
-                            ),
+                            new Paragraph({
+                              text: customer.name || "N/A",
+                              alignment: AlignmentType.RIGHT,
+                            }),
                           ],
+                          borders: {
+                            top: { style: BorderStyle.SINGLE, size: 1 },
+                            bottom: { style: BorderStyle.SINGLE, size: 1 },
+                            left: { style: BorderStyle.SINGLE, size: 1 },
+                            right: { style: BorderStyle.SINGLE, size: 1 },
+                          },
                         }),
                         new DocxTableCell({
                           children: [
-                            new Paragraph(
-                              customer.debt !== null &&
-                              customer.debt !== undefined
-                                ? customer.debt.toLocaleString("en-US") + ",000"
-                                : "N/A"
-                            ),
+                            new Paragraph({
+                              text: (index + 1).toString(),
+                              alignment: AlignmentType.CENTER,
+                            }),
                           ],
-                        }),
-                        new DocxTableCell({
-                          children: [
-                            new Paragraph(
-                              customer.debtDate
-                                ? dayjs(customer.debtDate).format("YYYY-MM-DD")
-                                : "N/A"
-                            ),
-                          ],
+                          borders: {
+                            top: { style: BorderStyle.SINGLE, size: 1 },
+                            bottom: { style: BorderStyle.SINGLE, size: 1 },
+                            left: { style: BorderStyle.SINGLE, size: 1 },
+                            right: { style: BorderStyle.SINGLE, size: 1 },
+                          },
                         }),
                       ],
+                      // Adjust cell height with TableRowHeight
+                      height: { value: 300 }, // Set height in twips (1/20th of a point)
                     })
                 ),
               ],
@@ -235,10 +304,126 @@ const AllCustomers = () => {
     });
 
     Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, "customer_data.docx");
+      saveAs(blob, "customer_debt.docx");
     });
   };
 
+
+  // const exportToWord = () => {
+  //   const doc = new Document({
+  //     sections: [
+  //       {
+  //         properties: {},
+  //         children: [
+  //           new Paragraph({
+  //             text: "Customer Data",
+  //             heading: HeadingLevel.HEADING_1,
+  //             alignment: AlignmentType.CENTER,
+  //             spacing: { after: 300 }, // Space after title
+  //           }),
+  //           new DocxTable({
+  //             width: { size: 100, type: WidthType.PERCENTAGE }, // Full width table
+  //             rows: [
+  //               new DocxTableRow({
+  //                 tableHeader: true, // Mark as header row
+  //                 children: [
+  //                   new DocxTableCell({
+  //                     children: [new Paragraph({ text: "No", bold: true })],
+  //                     shading: { fill: "cccccc" }, // Grey header background
+  //                     borders: {
+  //                       top: { style: BorderStyle.SINGLE, size: 2 },
+  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
+  //                       left: { style: BorderStyle.SINGLE, size: 2 },
+  //                       right: { style: BorderStyle.SINGLE, size: 2 },
+  //                     },
+  //                   }),
+  //                   new DocxTableCell({
+  //                     children: [new Paragraph({ text: "الاسم", bold: true })],
+  //                     shading: { fill: "cccccc" },
+  //                     borders: {
+  //                       top: { style: BorderStyle.SINGLE, size: 2 },
+  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
+  //                       left: { style: BorderStyle.SINGLE, size: 2 },
+  //                       right: { style: BorderStyle.SINGLE, size: 2 },
+  //                     },
+  //                   }),
+  //                   new DocxTableCell({
+  //                     children: [
+  //                       new Paragraph({ text: "المتبقي", bold: true }),
+  //                     ],
+  //                     shading: { fill: "cccccc" },
+  //                     borders: {
+  //                       top: { style: BorderStyle.SINGLE, size: 2 },
+  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
+  //                       left: { style: BorderStyle.SINGLE, size: 2 },
+  //                       right: { style: BorderStyle.SINGLE, size: 2 },
+  //                     },
+  //                   }),
+  //                 ],
+  //               }),
+  //               ...customers.map(
+  //                 (customer, index) =>
+  //                   new DocxTableRow({
+  //                     children: [
+  //                       new DocxTableCell({
+  //                         children: [
+  //                           new Paragraph({
+  //                             text: (index + 1).toString(),
+  //                           }),
+  //                         ],
+  //                         borders: {
+  //                           top: { style: BorderStyle.SINGLE, size: 1 },
+  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
+  //                           left: { style: BorderStyle.SINGLE, size: 1 },
+  //                           right: { style: BorderStyle.SINGLE, size: 1 },
+  //                         },
+  //                       }),
+  //                       new DocxTableCell({
+  //                         children: [
+  //                           new Paragraph({
+  //                             text: customer.name || "N/A",
+  //                           }),
+  //                         ],
+  //                         borders: {
+  //                           top: { style: BorderStyle.SINGLE, size: 1 },
+  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
+  //                           left: { style: BorderStyle.SINGLE, size: 1 },
+  //                           right: { style: BorderStyle.SINGLE, size: 1 },
+  //                         },
+  //                       }),
+  //                       new DocxTableCell({
+  //                         children: [
+  //                           new Paragraph({
+  //                             text: `${calculateRestAmount(
+  //                               customer.debts || [],
+  //                               customer.payments || []
+  //                             ).toLocaleString("en-US")} IQD`,
+  //                           }),
+  //                         ],
+  //                         borders: {
+  //                           top: { style: BorderStyle.SINGLE, size: 1 },
+  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
+  //                           left: { style: BorderStyle.SINGLE, size: 1 },
+  //                           right: { style: BorderStyle.SINGLE, size: 1 },
+  //                         },
+  //                       }),
+  //                     ],
+  //                   })
+  //               ),
+  //             ],
+  //           }),
+  //         ],
+  //       },
+  //     ],
+  //   });
+
+  //   Packer.toBlob(doc).then((blob) => {
+  //     saveAs(blob, "customer_data.docx");
+  //   });
+  // };
+
+
+  
   return (
     <>
       <Typography
@@ -267,27 +452,7 @@ const AllCustomers = () => {
             >
               <PersonAddAltIcon />
             </Button>
-            <DownloadTableExcel
-              // eslint-disable-next-line no-useless-concat
-              filename={"الزبائن " + "(" + formatDate(new Date()) + ")"}
-              sheet="Customer"
-              currentTableRef={tableRef.current}
-            >
-              <Button
-                title="Download As Excel(xls)"
-                sx={{
-                  background: "#000000",
-                  position: "relative",
-                  color: "#ffff",
-                  left: "22%",
-                  top: "10px",
-                  borderRadius: "10px",
-                  paddingBottom: "10px",
-                }}
-              >
-                Excel
-              </Button>
-            </DownloadTableExcel>
+            
             <Button
               onClick={exportToWord}
               sx={{

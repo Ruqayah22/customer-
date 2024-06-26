@@ -21,6 +21,7 @@ function AddCustomer() {
   const [buyers, setBuyers] = useState([{ name: "", count: "", date: "" }]);
   const navigate = useNavigate();
 
+  
   const handleDebtChange = (index, field, value) => {
     const newDebts = [...debts];
     newDebts[index][field] = value;
@@ -53,58 +54,85 @@ function AddCustomer() {
   return (
     <Box display="flex" justifyContent="center" mt={5}>
       <Paper elevation={3} sx={{ padding: 4, maxWidth: 800, width: "100%" }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Add Customer
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          style={{
+            textAlign: "right",
+            fontWeight: "bold",
+            // color: "#80868e",
+            margin: "10px 0 30px 0",
+          }}
+        >
+          {/* Add Customer */}
+          اضافة زبون
         </Typography>
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} style={{ direction: "rtl" }}>
             <Grid item xs={12}>
               <TextField
-                label="Name"
+                label="الاسم" //"Name"
                 fullWidth
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                variant="standard"
+                InputProps={{ style: { textAlign: "right" } }}
+                InputLabelProps={{ style: { right: 30, left: "auto" } }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Phone Number"
+                label="رقم الهاتف" //"Phone Number"
                 fullWidth
+                variant="standard"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 required
+                InputProps={{ style: { textAlign: "right" } }}
+                InputLabelProps={{ style: { right: 30, left: "auto" } }}
               />
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" component="h2" gutterBottom>
-                Debts
+                {/* Debts */}
+                الديون
               </Typography>
               {debts.map((debt, index) => (
                 <Grid container spacing={2} key={index}>
                   <Grid item xs={6}>
                     <TextField
-                      label="Amount"
+                      label="الدين" //"Amount"
                       type="number"
                       fullWidth
+                      variant="standard"
                       value={debt.amount}
                       onChange={(e) =>
                         handleDebtChange(index, "amount", e.target.value)
                       }
                       required
+                      InputProps={{ style: { textAlign: "right" } }}
+                      InputLabelProps={{ style: { right: 30, left: "auto" } }}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
-                      label="Date"
+                      label="تاريخ الدين"
                       type="date"
                       fullWidth
-                      InputLabelProps={{ shrink: true }}
                       value={debt.date}
                       onChange={(e) =>
                         handleDebtChange(index, "date", e.target.value)
                       }
                       required
+                      variant="standard"
+                      InputLabelProps={{
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -120,13 +148,14 @@ function AddCustomer() {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" component="h2" gutterBottom>
-                Payments
+                {/* Payments */}
+                التسديد
               </Typography>
               {payments.map((payment, index) => (
                 <Grid container spacing={2} key={index}>
                   <Grid item xs={6}>
                     <TextField
-                      label="Amount"
+                      label="التسديد" //"Amount"
                       type="number"
                       fullWidth
                       value={payment.amount}
@@ -134,19 +163,34 @@ function AddCustomer() {
                         handlePaymentChange(index, "amount", e.target.value)
                       }
                       required
+                      variant="standard"
+                      InputLabelProps={{
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
-                      label="Date"
+                      label="تاريخ التسديد"
                       type="date"
                       fullWidth
-                      InputLabelProps={{ shrink: true }}
+                      // InputLabelProps={{ shrink: true }}
                       value={payment.date}
                       onChange={(e) =>
                         handlePaymentChange(index, "date", e.target.value)
                       }
                       required
+                      variant="standard"
+                      InputLabelProps={{
+                        shrink: true,
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -164,24 +208,32 @@ function AddCustomer() {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" component="h2" gutterBottom>
-                Buyers
+                {/* Buyers */}
+                البضاعة
               </Typography>
               {buyers.map((buyer, index) => (
                 <Grid container spacing={2} key={index}>
                   <Grid item xs={4}>
                     <TextField
-                      label="Name"
+                      label="البضاعة" //"Name"
                       fullWidth
                       value={buyer.name}
                       onChange={(e) =>
                         handleBuyerChange(index, "name", e.target.value)
                       }
                       required
+                      variant="standard"
+                      InputLabelProps={{
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <TextField
-                      label="Count"
+                      label="العدد" //"Count"
                       type="number"
                       fullWidth
                       value={buyer.count}
@@ -189,19 +241,34 @@ function AddCustomer() {
                         handleBuyerChange(index, "count", e.target.value)
                       }
                       required
+                      variant="standard"
+                      InputLabelProps={{
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <TextField
-                      label="Date"
+                      label="التاريخ" //"Date"
                       type="date"
                       fullWidth
-                      InputLabelProps={{ shrink: true }}
+                      // InputLabelProps={{ shrink: true }}
                       value={buyer.date}
                       onChange={(e) =>
                         handleBuyerChange(index, "date", e.target.value)
                       }
                       required
+                      variant="standard"
+                      InputLabelProps={{
+                        shrink: true,
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -223,8 +290,17 @@ function AddCustomer() {
                 variant="contained"
                 color="primary"
                 fullWidth
+                sx={{
+                  background: "#44484e",
+                  fontWeight: "bold",
+                  fontSize: "22px",
+                  "&:hover": {
+                    backgroundColor: "#5c6169", // Background color on hover
+                  },
+                }}
               >
-                Add Customer
+                {/* Add Customer */}
+                اضافة زبون
               </Button>
             </Grid>
           </Grid>

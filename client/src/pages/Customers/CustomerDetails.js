@@ -17,12 +17,19 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
+  // DialogContentText,
   DialogTitle,
+  IconButton,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import dayjs from "dayjs";
+
+import ClearIcon from "@mui/icons-material/Clear";
+import EditIcon from "@mui/icons-material/Edit";
 
 const CustomerDetails = () => {
   const { id } = useParams();
@@ -120,7 +127,7 @@ const CustomerDetails = () => {
       .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
       .then((response) => {
         setCustomer(response.data);
-        setNewBuyer({ name: "", count: "", date: "" });
+        setNewBuyer({ name: "", count: "", price: "", date: "" });
       })
       .catch((error) => {
         console.error("Error updating customer:", error);
@@ -219,9 +226,33 @@ const CustomerDetails = () => {
 
   if (!customer) return <Typography>Loading...</Typography>;
 
+  function formatCurrency(amount, currency) {
+    switch (currency) {
+      case "$":
+        return `$${amount}`;
+      case "IQD":
+        return `${formatAmount(amount)} IQD`;
+      default:
+        return `${amount.toFixed(2)}`;
+    }
+  }
+
   return (
     <Container>
-      <Box sx={{ width: "100%", margin: "20px" }}>
+      <Typography
+        variant="h4"
+        component="h1"
+        gutterBottom
+        style={{
+          textAlign: "center",
+          fontWeight: "bold",
+          margin: "30px 0 10px 0",
+        }}
+      >
+        {/* Customer Information */}
+        معلومات الزبون
+      </Typography>
+      <Box sx={{ width: "100%", margin: "20px", direction: "rtl" }}>
         <Box
           sx={{
             width: "100%",
@@ -238,88 +269,107 @@ const CustomerDetails = () => {
               marginRight: "20px",
             }}
           >
-            <Typography variant="h5" gutterBottom>
-              Customer Information
-            </Typography>
             <Box sx={{ marginBottom: "20px" }}>
               <Typography
                 variant="h5"
                 gutterBottom
-                sx={{ padding: "5px", margin: "5px" }}
+                sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
               >
-                Name: {customer.name}
+                {/* Name: {customer.name} */}
+                الاسم: {customer.name}
               </Typography>
               <Typography
                 variant="h5"
                 gutterBottom
-                sx={{ padding: "5px", margin: "5px" }}
+                sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
               >
-                Phone: {customer.phoneNumber}
+                {/* Phone: {customer.phoneNumber} */}
+                رقم الهاتف: {customer.phoneNumber}
               </Typography>
-            </Box>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-              margin: "20px",
-              padding: "10px",
-            }}
-          >
-            <Box>
-              <Button
+              <Box>
+                <IconButton
+                  variant="contained"
+                  color="primary"
+                  sx={{ padding: "5px", margin: "5px", color: "#44484e" }}
+                  onClick={handleDeleteCustomer}
+                >
+                  <ClearIcon />
+                </IconButton>
+                {/* <Button
                 variant="contained"
                 color="primary"
                 sx={{ padding: "5px", margin: "5px" }}
                 onClick={handleDeleteCustomer}
               >
                 Delete
-              </Button>
-              <Button
+              </Button> */}
+                <IconButton
+                  variant="contained"
+                  color="primary"
+                  sx={{ padding: "5px", margin: "5px", color: "#44484e" }}
+                  onClick={handleEditCustomer}
+                >
+                  <EditIcon />
+                </IconButton>
+                {/* <Button
                 variant="contained"
                 color="primary"
                 sx={{ padding: "5px", margin: "5px" }}
                 onClick={handleEditCustomer}
               >
                 Edit
-              </Button>
+              </Button> */}
+              </Box>
             </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              marginButton: "20px",
+              padding: "10px",
+            }}
+          >
             <Typography
               variant="h5"
               gutterBottom
-              sx={{ padding: "5px", margin: "5px" }}
+              sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
             >
-              Total Debt: {calculateTotalDebt()}
+              {/* Total Debt: {calculateTotalDebt()} */}
+              مجموع الديون: {calculateTotalDebt()}
             </Typography>
             <Typography
               variant="h5"
               gutterBottom
-              sx={{ padding: "5px", margin: "5px" }}
+              sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
             >
-              Total Payment: {calculateTotalPayment()}
+              {/* Total Payment: {calculateTotalPayment()} */}
+              مجموع التسديد: {calculateTotalPayment()}
             </Typography>
             {/* الباقي */}
             <Typography
               variant="h5"
               gutterBottom
-              sx={{ padding: "5px", margin: "5px" }}
+              sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
             >
-              Rest: {calculateRestAmount()}
+              {/* Rest: {calculateRestAmount()} */}
+              الباقي: {calculateRestAmount()}
             </Typography>
           </Box>
         </Box>
 
         <Grid container spacing={2}>
+          {/* add debt */}
           <Grid item xs={12} md={4}>
-            <Paper sx={{ padding: "16px" }}>
-              <Typography variant="h6" gutterBottom>
-                Add New Debt
+            <Paper sx={{ padding: "16px", textAlign: "center" }}>
+              <Typography variant="h5" gutterBottom fontWeight={"bold"}>
+                {/* Add New Debt */}
+                اضافة دين
               </Typography>
               <FormControl fullWidth margin="normal">
                 <TextField
-                  label="Amount"
+                  label="الدين" //"Amount"
                   value={newDebt.amount}
                   onChange={(e) =>
                     setNewDebt({
@@ -327,27 +377,40 @@ const CustomerDetails = () => {
                       amount: e.target.value.replace(/[^0-9.]/g, ""),
                     })
                   }
-                  InputProps={{
-                    inputMode: "numeric",
-                    pattern: "[0-9]*",
-                  }}
+                  // InputProps={{
+                  //   inputMode: "numeric",
+                  //   pattern: "[0-9]*",
+                  // }}
                   onBlur={(e) =>
                     setNewDebt({
                       ...newDebt,
                       amount: formatAmount(e.target.value),
                     })
                   }
+                  variant="standard"
+                  InputProps={{
+                    style: { textAlign: "right" },
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  }}
+                  InputLabelProps={{ style: { right: 30, left: "auto" } }}
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
                 <TextField
-                  label="Date"
+                  // label="Date"
                   type="date"
                   value={newDebt.date}
                   onChange={(e) =>
                     setNewDebt({ ...newDebt, date: e.target.value })
                   }
+                  // InputLabelProps={{
+                  //   shrink: true,
+                  // }}
+                  variant="standard"
+                  InputProps={{ style: { textAlign: "right" } }}
                   InputLabelProps={{
+                    style: { right: 30, left: "auto" },
                     shrink: true,
                   }}
                 />
@@ -356,19 +419,31 @@ const CustomerDetails = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleAddDebt}
+                sx={{
+                  background: "#44484e",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                  margin: "20px 0 10px 0",
+                  "&:hover": {
+                    backgroundColor: "#5c6169",
+                  },
+                }}
               >
-                Add Debt
+                {/* Add Debt */}
+                اضافة دين
               </Button>
             </Paper>
           </Grid>
+          {/* add Payment */}
           <Grid item xs={12} md={4}>
-            <Paper sx={{ padding: "16px" }}>
-              <Typography variant="h6" gutterBottom>
-                Add New Payment
+            <Paper sx={{ padding: "16px", textAlign: "center" }}>
+              <Typography variant="h5" gutterBottom fontWeight={"bold"}>
+                {/* Add New Payment */}
+                تسديد الدين
               </Typography>
               <FormControl fullWidth margin="normal">
                 <TextField
-                  label="Amount"
+                  label="التسديد" //"Amount"
                   value={newPayment.amount}
                   onChange={(e) =>
                     setNewPayment({
@@ -376,72 +451,144 @@ const CustomerDetails = () => {
                       amount: e.target.value.replace(/[^0-9.]/g, ""),
                     })
                   }
-                  InputProps={{
-                    inputMode: "numeric",
-                    pattern: "[0-9]*",
-                  }}
+                  // InputProps={{
+                  //   inputMode: "numeric",
+                  //   pattern: "[0-9]*",
+                  // }}
                   onBlur={(e) =>
                     setNewPayment({
                       ...newPayment,
                       amount: formatAmount(e.target.value),
                     })
                   }
+                  variant="standard"
+                  InputProps={{
+                    style: { textAlign: "right" },
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  }}
+                  InputLabelProps={{ style: { right: 30, left: "auto" } }}
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
                 <TextField
-                  label="Date"
+                  // label="Date"
                   type="date"
                   value={newPayment.date}
                   onChange={(e) =>
                     setNewPayment({ ...newPayment, date: e.target.value })
                   }
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  // InputLabelProps={{
+                  //   shrink: true,
+                  // }}
+                  variant="standard"
+                  InputProps={{ style: { textAlign: "right" } }}
+                  InputLabelProps={{ style: { right: 30, left: "auto" } }}
                 />
               </FormControl>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={handleAddPayment}
+                sx={{
+                  background: "#44484e",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                  margin: "20px 0 10px 0",
+                  "&:hover": {
+                    backgroundColor: "#5c6169",
+                  },
+                }}
               >
-                Add Payment
+                {/* Add Payment */}
+                اضافة تسديد
               </Button>
             </Paper>
           </Grid>
+          {/* add Buyer */}
           <Grid item xs={12} md={4}>
-            <Paper sx={{ padding: "16px" }}>
-              <Typography variant="h6" gutterBottom>
-                Add New Buyer
+            <Paper sx={{ padding: "16px", textAlign: "center" }}>
+              <Typography variant="h5" gutterBottom fontWeight={"bold"}>
+                {/* Add New Buyer */}
+                اضافة بضاعة
               </Typography>
               <FormControl fullWidth margin="normal">
                 <TextField
-                  label="Name"
+                  label="البضاعة" //"Name"
                   value={newBuyer.name}
                   onChange={(e) =>
                     setNewBuyer({ ...newBuyer, name: e.target.value })
                   }
+                  variant="standard"
+                  InputProps={{
+                    style: { textAlign: "right" },
+                  }}
+                  InputLabelProps={{ style: { right: 30, left: "auto" } }}
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
                 <TextField
-                  label="Count"
+                  label="السعر" //"price"
+                  value={newBuyer.price}
+                  onChange={(e) =>
+                    setNewBuyer({ ...newBuyer, price: e.target.value })
+                  }
+                  variant="standard"
+                  InputProps={{
+                    style: { textAlign: "right" },
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  }}
+                  InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel style={{ right: 30, left: "auto" }}>
+                  العملة
+                </InputLabel>
+                <Select
+                  value={newBuyer.currency}
+                  onChange={(e) =>
+                    setNewBuyer({ ...newBuyer, currency: e.target.value })
+                  }
+                  variant="standard"
+                  sx={{ textAlign: "right" }}
+                >
+                  <MenuItem value="$">$</MenuItem>
+                  <MenuItem value="IQD">IQD</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="العدد" //"Count"
                   value={newBuyer.count}
                   onChange={(e) =>
                     setNewBuyer({ ...newBuyer, count: e.target.value })
                   }
+                  variant="standard"
+                  InputProps={{
+                    style: { textAlign: "right" },
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  }}
+                  InputLabelProps={{ style: { right: 30, left: "auto" } }}
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
                 <TextField
-                  label="Date"
+                  // label="Date"
                   type="date"
                   value={newBuyer.date}
                   onChange={(e) =>
                     setNewBuyer({ ...newBuyer, date: e.target.value })
                   }
+                  // InputLabelProps={{
+                  //   shrink: true,
+                  // }}
+                  variant="standard"
+                  InputProps={{ style: { textAlign: "right" } }}
                   InputLabelProps={{
+                    style: { right: 30, left: "auto" },
                     shrink: true,
                   }}
                 />
@@ -450,25 +597,42 @@ const CustomerDetails = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleAddBuyer}
+                sx={{
+                  background: "#44484e",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                  margin: "20px 0 10px 0",
+                  "&:hover": {
+                    backgroundColor: "#5c6169",
+                  },
+                }}
               >
-                Add Buyer
+                {/* Add Buyer */}
+                اضافة بضاعة
               </Button>
             </Paper>
           </Grid>
         </Grid>
 
         <Grid container spacing={2} sx={{ marginTop: "20px" }}>
+          {/* debt table */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" gutterBottom>
-              Debts
+            <Typography
+              variant="h5"
+              gutterBottom
+              fontWeight={"bold"}
+              marginRight={5}
+            >
+              {/* Debts */}
+              الديون
             </Typography>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Amount</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Actions</TableCell>
+                    <TableCell>المبلغ {/*Amount*/}</TableCell>
+                    <TableCell>التاريخ {/*Date*/}</TableCell>
+                    <TableCell>{/*Actions*/}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -477,21 +641,45 @@ const CustomerDetails = () => {
                       <TableCell>{formatAmount(debt.amount)}</TableCell>
                       <TableCell>{formatDate(debt.date)}</TableCell>
                       <TableCell>
-                        <Button
+                        <IconButton
+                          variant="contained"
+                          color="primary"
+                          sx={{
+                            padding: "5px",
+                            margin: "5px",
+                            color: "#44484e",
+                          }}
+                          onClick={() => handleDeleteItem("debts", debt._id)}
+                        >
+                          <ClearIcon />
+                        </IconButton>
+                        {/* <Button
                           variant="contained"
                           color="secondary"
                           onClick={() => handleDeleteItem("debts", debt._id)}
                           sx={{ marginRight: "8px" }}
                         >
                           Delete
-                        </Button>
-                        <Button
+                        </Button> */}
+                        <IconButton
+                          variant="contained"
+                          color="primary"
+                          sx={{
+                            padding: "5px",
+                            margin: "5px",
+                            color: "#44484e",
+                          }}
+                          onClick={() => handleEditItem("debts", debt)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        {/* <Button
                           variant="contained"
                           color="primary"
                           onClick={() => handleEditItem("debts", debt)}
                         >
                           Edit
-                        </Button>
+                        </Button> */}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -499,18 +687,24 @@ const CustomerDetails = () => {
               </Table>
             </TableContainer>
           </Grid>
-
+          {/* payment table */}
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" gutterBottom>
-              Payments
+            <Typography
+              variant="h5"
+              gutterBottom
+              fontWeight={"bold"}
+              marginRight={5}
+            >
+              {/* Payments */}
+              التسديد
             </Typography>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Amount</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Actions</TableCell>
+                    <TableCell>المبلغ {/*Amount*/}</TableCell>
+                    <TableCell>التاريخ {/*Date*/}</TableCell>
+                    <TableCell>{/*Actions*/}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -519,7 +713,21 @@ const CustomerDetails = () => {
                       <TableCell>{formatAmount(payment.amount)}</TableCell>
                       <TableCell>{formatDate(payment.date)}</TableCell>
                       <TableCell>
-                        <Button
+                        <IconButton
+                          variant="contained"
+                          color="primary"
+                          sx={{
+                            padding: "5px",
+                            margin: "5px",
+                            color: "#44484e",
+                          }}
+                          onClick={() =>
+                            handleDeleteItem("payments", payment._id)
+                          }
+                        >
+                          <ClearIcon />
+                        </IconButton>
+                        {/* <Button
                           variant="contained"
                           color="secondary"
                           onClick={() =>
@@ -528,14 +736,26 @@ const CustomerDetails = () => {
                           sx={{ marginRight: "8px" }}
                         >
                           Delete
-                        </Button>
-                        <Button
+                        </Button> */}
+                        <IconButton
+                          variant="contained"
+                          color="primary"
+                          sx={{
+                            padding: "5px",
+                            margin: "5px",
+                            color: "#44484e",
+                          }}
+                          onClick={() => handleEditItem("payments", payment)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        {/* <Button
                           variant="contained"
                           color="primary"
                           onClick={() => handleEditItem("payments", payment)}
                         >
                           Edit
-                        </Button>
+                        </Button> */}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -544,18 +764,26 @@ const CustomerDetails = () => {
             </TableContainer>
           </Grid>
         </Grid>
-
-        <Typography variant="h6" gutterBottom sx={{ marginTop: "20px" }}>
-          Buyers
+        {/* Buyers table */}
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ marginTop: "20px", marginRight: "40px" }}
+          fontWeight={"bold"}
+        >
+          {/* Buyers */}
+          البضاعة
         </Typography>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Count</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Actions</TableCell>
+                <TableCell>البضاعة {/*Name*/}</TableCell>
+                <TableCell>العدد {/*Count*/}</TableCell>
+                <TableCell>السعر {/*price*/}</TableCell>
+                <TableCell>السعر الكلي {/*total price*/}</TableCell>
+                <TableCell>التاريخ {/*Date*/}</TableCell>
+                <TableCell>{/*Actions*/}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -563,23 +791,60 @@ const CustomerDetails = () => {
                 <TableRow key={buyer._id}>
                   <TableCell>{buyer.name}</TableCell>
                   <TableCell>{buyer.count}</TableCell>
+                  {/* <TableCell>
+                    {formatAmount(buyer.price)}
+                    
+                  </TableCell>
+                  <TableCell>{formatAmount(buyer.price * buyer.count)}</TableCell> */}
+                  {/* <TableCell>
+                    {buyer.currency === "IQD"
+                      ? formatAmount(buyer.price)
+                      : buyer.price}
+                  </TableCell>
+                  <TableCell>
+                    {buyer.currency === "IQD"
+                      ? formatAmount(buyer.price * buyer.count)
+                      : buyer.price * buyer.count}
+                  </TableCell> */}
+                  <TableCell>
+                    {formatCurrency(buyer.price, buyer.currency)}
+                  </TableCell>
+                  <TableCell>
+                    {formatCurrency(buyer.price * buyer.count, buyer.currency)}
+                  </TableCell>
                   <TableCell>{formatDate(buyer.date)}</TableCell>
                   <TableCell>
-                    <Button
+                    <IconButton
+                      variant="contained"
+                      color="primary"
+                      sx={{ padding: "5px", margin: "5px", color: "#44484e" }}
+                      onClick={() => handleDeleteItem("buyers", buyer._id)}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                    {/* <Button
                       variant="contained"
                       color="secondary"
                       onClick={() => handleDeleteItem("buyers", buyer._id)}
                       sx={{ marginRight: "8px" }}
                     >
                       Delete
-                    </Button>
-                    <Button
+                    </Button> */}
+                    <IconButton
+                      variant="contained"
+                      color="primary"
+                      sx={{ padding: "5px", margin: "5px", color: "#44484e" }}
+                      onClick={() => handleEditItem("buyers", buyer)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    {/* <Button
                       variant="contained"
                       color="primary"
                       onClick={() => handleEditItem("buyers", buyer)}
                     >
                       Edit
-                    </Button>
+                    </Button> */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -589,17 +854,24 @@ const CustomerDetails = () => {
       </Box>
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
-        <DialogTitle>Edit {editItem?.type}</DialogTitle>
+        {/* <DialogTitle>Edit {editItem?.type}</DialogTitle> */}
+        <DialogTitle
+          sx={{ textAlign: "center", fontWeight: "bold", fontSize: "30px" }}
+        >
+          تعديل
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/* <DialogContentText>
             Make changes to the selected {editItem?.type}.
-          </DialogContentText>
+          </DialogContentText> */}
           {editItem && (
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Box
+              sx={{ display: "flex", flexDirection: "column", margin: "5px" }}
+            >
               {editItem.type !== "buyers" && (
                 <TextField
-                  label="Amount"
-                  type="number"
+                  label="المبلغ" //"Amount"
+                  // type="number"
                   value={editItem.item.amount}
                   onChange={(e) =>
                     setEditItem({
@@ -613,7 +885,7 @@ const CustomerDetails = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="Buyer Name"
+                  label="البضاعة" //"Buyer Name"
                   value={editItem.item.name}
                   onChange={(e) =>
                     setEditItem({
@@ -627,7 +899,21 @@ const CustomerDetails = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="Count"
+                  label="السعر" //"Buyer Name"
+                  value={editItem.item.price}
+                  onChange={(e) =>
+                    setEditItem({
+                      ...editItem,
+                      item: { ...editItem.item, price: e.target.value },
+                    })
+                  }
+                  fullWidth
+                  sx={{ marginBottom: "20px" }}
+                />
+              )}
+              {editItem.type === "buyers" && (
+                <TextField
+                  label="العدد" //"Count"
                   type="number"
                   value={editItem.item.count}
                   onChange={(e) =>
@@ -641,7 +927,7 @@ const CustomerDetails = () => {
                 />
               )}
               <TextField
-                label="Date"
+                label="التاريخ" //"Date"
                 type="date"
                 value={editItem.item.date}
                 onChange={(e) =>
@@ -659,11 +945,17 @@ const CustomerDetails = () => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setEditDialogOpen(false)} color="primary">
-            Cancel
+          <Button
+            onClick={() => setEditDialogOpen(false)}
+            sx={{ color: "#44484e", fontWeight: "bold" }}
+          >
+            {/* Cancel */} الالغاء
           </Button>
-          <Button onClick={handleSaveEdit} color="primary">
-            Save
+          <Button
+            onClick={handleSaveEdit}
+            sx={{ color: "#44484e", fontWeight: "bold" }}
+          >
+            {/* Save */} حفظ
           </Button>
         </DialogActions>
       </Dialog>
