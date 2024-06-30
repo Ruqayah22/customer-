@@ -30,6 +30,9 @@ import dayjs from "dayjs";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
+import PrintIcon from "@mui/icons-material/Print";
+
+import PrintDialog from "./PrintDialog";
 
 const CustomerDetails = () => {
   const { id } = useParams();
@@ -39,6 +42,10 @@ const CustomerDetails = () => {
   const [newBuyer, setNewBuyer] = useState({ name: "", count: "", date: "" });
   const [editItem, setEditItem] = useState(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+
+  const [printDialogOpen, setPrintDialogOpen] = useState(false);
+  const [selectedBuyer, setSelectedBuyer] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -236,6 +243,23 @@ const CustomerDetails = () => {
         return `${amount.toFixed(2)}`;
     }
   }
+
+  // // Function to handle printing buyer information
+  // const handlePrintBuyer = (buyer) => {
+  //   setSelectedBuyer(buyer);
+  //   setPrintDialogOpen(true);
+  // };
+
+  // Function to handle printing buyer information
+  const handlePrintBuyer = (buyer) => {
+    setSelectedBuyer(buyer);
+    setPrintDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setPrintDialogOpen(false);
+    setSelectedBuyer(null); // Clear selected buyer after closing
+  };
 
   return (
     <Container>
@@ -814,6 +838,20 @@ const CustomerDetails = () => {
                   </TableCell>
                   <TableCell>{formatDate(buyer.date)}</TableCell>
                   <TableCell>
+                    {/* <IconButton
+                      aria-label="print"
+                      title="Print Customer"
+                      onClick={() => handlePrintBuyer(buyer)}
+                    >
+                      <PrintIcon />
+                    </IconButton> */}
+                    <IconButton
+                      aria-label="print"
+                      title="Print Customer"
+                      onClick={() => handlePrintBuyer(buyer)}
+                    >
+                      <PrintIcon />
+                    </IconButton>
                     <IconButton
                       variant="contained"
                       color="primary"
@@ -959,6 +997,20 @@ const CustomerDetails = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* Print Dialog */}
+      {/* <PrintDialog
+        open={printDialogOpen}
+        onClose={() => setPrintDialogOpen(false)}
+        customer={customer}
+        buyers={newBuyer} // Pass all table data
+        buyer={selectedBuyer} // Pass selected row data
+      /> */}
+      <PrintDialog
+        open={printDialogOpen}
+        onClose={handleCloseDialog}
+        selectedBuyer={selectedBuyer}
+      />
+      
     </Container>
   );
 };

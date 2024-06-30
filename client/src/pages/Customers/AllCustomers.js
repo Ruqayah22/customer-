@@ -20,7 +20,6 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import PrintIcon from "@mui/icons-material/Print";
 import SearchIcon from "@mui/icons-material/Search";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { saveAs } from "file-saver";
@@ -108,6 +107,7 @@ const AllCustomers = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const tableRef = useRef(null);
 
+  
   useEffect(() => {
     getAllCustomers();
   }, []);
@@ -309,120 +309,6 @@ const AllCustomers = () => {
   };
 
 
-  // const exportToWord = () => {
-  //   const doc = new Document({
-  //     sections: [
-  //       {
-  //         properties: {},
-  //         children: [
-  //           new Paragraph({
-  //             text: "Customer Data",
-  //             heading: HeadingLevel.HEADING_1,
-  //             alignment: AlignmentType.CENTER,
-  //             spacing: { after: 300 }, // Space after title
-  //           }),
-  //           new DocxTable({
-  //             width: { size: 100, type: WidthType.PERCENTAGE }, // Full width table
-  //             rows: [
-  //               new DocxTableRow({
-  //                 tableHeader: true, // Mark as header row
-  //                 children: [
-  //                   new DocxTableCell({
-  //                     children: [new Paragraph({ text: "No", bold: true })],
-  //                     shading: { fill: "cccccc" }, // Grey header background
-  //                     borders: {
-  //                       top: { style: BorderStyle.SINGLE, size: 2 },
-  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
-  //                       left: { style: BorderStyle.SINGLE, size: 2 },
-  //                       right: { style: BorderStyle.SINGLE, size: 2 },
-  //                     },
-  //                   }),
-  //                   new DocxTableCell({
-  //                     children: [new Paragraph({ text: "الاسم", bold: true })],
-  //                     shading: { fill: "cccccc" },
-  //                     borders: {
-  //                       top: { style: BorderStyle.SINGLE, size: 2 },
-  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
-  //                       left: { style: BorderStyle.SINGLE, size: 2 },
-  //                       right: { style: BorderStyle.SINGLE, size: 2 },
-  //                     },
-  //                   }),
-  //                   new DocxTableCell({
-  //                     children: [
-  //                       new Paragraph({ text: "المتبقي", bold: true }),
-  //                     ],
-  //                     shading: { fill: "cccccc" },
-  //                     borders: {
-  //                       top: { style: BorderStyle.SINGLE, size: 2 },
-  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
-  //                       left: { style: BorderStyle.SINGLE, size: 2 },
-  //                       right: { style: BorderStyle.SINGLE, size: 2 },
-  //                     },
-  //                   }),
-  //                 ],
-  //               }),
-  //               ...customers.map(
-  //                 (customer, index) =>
-  //                   new DocxTableRow({
-  //                     children: [
-  //                       new DocxTableCell({
-  //                         children: [
-  //                           new Paragraph({
-  //                             text: (index + 1).toString(),
-  //                           }),
-  //                         ],
-  //                         borders: {
-  //                           top: { style: BorderStyle.SINGLE, size: 1 },
-  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
-  //                           left: { style: BorderStyle.SINGLE, size: 1 },
-  //                           right: { style: BorderStyle.SINGLE, size: 1 },
-  //                         },
-  //                       }),
-  //                       new DocxTableCell({
-  //                         children: [
-  //                           new Paragraph({
-  //                             text: customer.name || "N/A",
-  //                           }),
-  //                         ],
-  //                         borders: {
-  //                           top: { style: BorderStyle.SINGLE, size: 1 },
-  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
-  //                           left: { style: BorderStyle.SINGLE, size: 1 },
-  //                           right: { style: BorderStyle.SINGLE, size: 1 },
-  //                         },
-  //                       }),
-  //                       new DocxTableCell({
-  //                         children: [
-  //                           new Paragraph({
-  //                             text: `${calculateRestAmount(
-  //                               customer.debts || [],
-  //                               customer.payments || []
-  //                             ).toLocaleString("en-US")} IQD`,
-  //                           }),
-  //                         ],
-  //                         borders: {
-  //                           top: { style: BorderStyle.SINGLE, size: 1 },
-  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
-  //                           left: { style: BorderStyle.SINGLE, size: 1 },
-  //                           right: { style: BorderStyle.SINGLE, size: 1 },
-  //                         },
-  //                       }),
-  //                     ],
-  //                   })
-  //               ),
-  //             ],
-  //           }),
-  //         ],
-  //       },
-  //     ],
-  //   });
-
-  //   Packer.toBlob(doc).then((blob) => {
-  //     saveAs(blob, "customer_data.docx");
-  //   });
-  // };
-
-
   
   return (
     <>
@@ -452,7 +338,7 @@ const AllCustomers = () => {
             >
               <PersonAddAltIcon />
             </Button>
-            
+
             <Button
               onClick={exportToWord}
               sx={{
@@ -519,14 +405,7 @@ const AllCustomers = () => {
                   .map((customer) => (
                     <TableRow key={customer._id}>
                       <TableCell>
-                        <IconButton
-                          aria-label="print"
-                          title="Print Customer"
-                          component={Link}
-                          to={`/printCustomer/${customer._id}`}
-                        >
-                          <PrintIcon />
-                        </IconButton>
+                        
                         <IconButton
                           aria-label="delete"
                           title="Delete Customer"
@@ -586,6 +465,7 @@ const AllCustomers = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        
       </Paper>
     </>
   );
