@@ -10,6 +10,9 @@ import {
   Typography,
   // IconButton,
   Box,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 // import AddIcon from "@mui/icons-material/Add";
 
@@ -250,6 +253,46 @@ function AddCustomer() {
                       }}
                     />
                   </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      label="السعر" //"price"
+                      value={buyer.price}
+                      onChange={(e) =>
+                        handleBuyerChange(index, "price", e.target.value)
+                      }
+                      variant="standard"
+                      InputProps={{
+                        style: { textAlign: "right" },
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                      }}
+                      InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Grid container spacing={2} marginTop={"2px"}>
+                      <Grid item xs={6} md={4}>
+                        <InputLabel style={{ right: 30, left: "auto", margin: "10px" }}>
+                          العملة
+                        </InputLabel>
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <Select
+                          label="العملة"
+                          value={buyer.currency}
+                          onChange={(e) =>
+                            handleBuyerChange(index, "currency", e.target.value)
+                          }
+                          variant="standard"
+                          sx={{ textAlign: "right" }}
+                        >
+                          <MenuItem value="$">$</MenuItem>
+                          <MenuItem value="IQD">IQD</MenuItem>
+                        </Select>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
                   <Grid item xs={4}>
                     <TextField
                       label="التاريخ" //"Date"
