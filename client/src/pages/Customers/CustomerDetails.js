@@ -47,7 +47,6 @@ const CustomerDetails = () => {
     date: "",
   });
 
-  // const [newBuyer, setNewBuyer] = useState({ name: "", count: "", date: "" });
   const [editItem, setEditItem] = useState(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
@@ -133,21 +132,7 @@ const CustomerDetails = () => {
       });
   };
 
-  // const handleAddBuyer = () => {
-  //   const updatedCustomer = {
-  //     ...customer,
-  //     buyers: [...customer.buyers, { ...newBuyer, date: newBuyer.date }],
-  //   };
-  //   axios
-  //     .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
-  //     .then((response) => {
-  //       setCustomer(response.data);
-  //       setNewBuyer({ name: "", count: "", price: "", date: "" });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error updating customer:", error);
-  //     });
-  // };
+  
 
 const handleAddBuyer = () => {
   const updatedCustomer = {
@@ -270,12 +255,7 @@ const handleAddBuyer = () => {
     }
   }
 
-  // // Function to handle printing buyer information
-  // const handlePrintBuyer = (buyer) => {
-  //   setSelectedBuyer(buyer);
-  //   setPrintDialogOpen(true);
-  // };
-
+  
   // Function to handle printing buyer information
   const handlePrintBuyer = (buyer) => {
     setSelectedBuyer(buyer);
@@ -345,14 +325,7 @@ const handleAddBuyer = () => {
                 >
                   <ClearIcon />
                 </IconButton>
-                {/* <Button
-                variant="contained"
-                color="primary"
-                sx={{ padding: "5px", margin: "5px" }}
-                onClick={handleDeleteCustomer}
-              >
-                Delete
-              </Button> */}
+                
                 <IconButton
                   variant="contained"
                   color="primary"
@@ -361,14 +334,7 @@ const handleAddBuyer = () => {
                 >
                   <EditIcon />
                 </IconButton>
-                {/* <Button
-                variant="contained"
-                color="primary"
-                sx={{ padding: "5px", margin: "5px" }}
-                onClick={handleEditCustomer}
-              >
-                Edit
-              </Button> */}
+                
               </Box>
             </Box>
           </Box>
@@ -427,10 +393,7 @@ const handleAddBuyer = () => {
                       amount: e.target.value.replace(/[^0-9.]/g, ""),
                     })
                   }
-                  // InputProps={{
-                  //   inputMode: "numeric",
-                  //   pattern: "[0-9]*",
-                  // }}
+                  
                   onBlur={(e) =>
                     setNewDebt({
                       ...newDebt,
@@ -473,9 +436,7 @@ const handleAddBuyer = () => {
                   onChange={(e) =>
                     setNewDebt({ ...newDebt, date: e.target.value })
                   }
-                  // InputLabelProps={{
-                  //   shrink: true,
-                  // }}
+                 
                   variant="standard"
                   InputProps={{ style: { textAlign: "right" } }}
                   InputLabelProps={{
@@ -539,10 +500,6 @@ const handleAddBuyer = () => {
                       amount: e.target.value.replace(/[^0-9.]/g, ""),
                     })
                   }
-                  // InputProps={{
-                  //   inputMode: "numeric",
-                  //   pattern: "[0-9]*",
-                  // }}
                   onBlur={(e) =>
                     setNewPayment({
                       ...newPayment,
@@ -585,9 +542,6 @@ const handleAddBuyer = () => {
                   onChange={(e) =>
                     setNewPayment({ ...newPayment, date: e.target.value })
                   }
-                  // InputLabelProps={{
-                  //   shrink: true,
-                  // }}
                   variant="standard"
                   InputProps={{ style: { textAlign: "right" } }}
                   InputLabelProps={{ style: { right: 30, left: "auto" } }}
@@ -746,17 +700,7 @@ const handleAddBuyer = () => {
                   <MenuItem value="IQD">IQD</MenuItem>
                 </Select>
 
-                {/* <Select
-                  value={newBuyer.currency}
-                  onChange={(e) =>
-                    setNewBuyer({ ...newBuyer, currency: e.target.value })
-                  }
-                  variant="standard"
-                  sx={{ textAlign: "right" }}
-                >
-                  <MenuItem value="$">$</MenuItem>
-                  <MenuItem value="IQD">IQD</MenuItem>
-                </Select> */}
+              
               </FormControl>
               <FormControl fullWidth margin="normal">
                 <TextField
@@ -801,9 +745,7 @@ const handleAddBuyer = () => {
                   onChange={(e) =>
                     setNewBuyer({ ...newBuyer, date: e.target.value })
                   }
-                  // InputLabelProps={{
-                  //   shrink: true,
-                  // }}
+                  
                   variant="standard"
                   InputProps={{ style: { textAlign: "right" } }}
                   InputLabelProps={{
@@ -891,14 +833,7 @@ const handleAddBuyer = () => {
                         >
                           <ClearIcon />
                         </IconButton>
-                        {/* <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => handleDeleteItem("debts", debt._id)}
-                          sx={{ marginRight: "8px" }}
-                        >
-                          Delete
-                        </Button> */}
+                        
                         <IconButton
                           variant="contained"
                           color="primary"
@@ -911,13 +846,7 @@ const handleAddBuyer = () => {
                         >
                           <EditIcon />
                         </IconButton>
-                        {/* <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleEditItem("debts", debt)}
-                        >
-                          Edit
-                        </Button> */}
+                        
                       </TableCell>
                     </TableRow>
                   ))}
@@ -965,16 +894,7 @@ const handleAddBuyer = () => {
                         >
                           <ClearIcon />
                         </IconButton>
-                        {/* <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() =>
-                            handleDeleteItem("payments", payment._id)
-                          }
-                          sx={{ marginRight: "8px" }}
-                        >
-                          Delete
-                        </Button> */}
+                        
                         <IconButton
                           variant="contained"
                           color="primary"
@@ -987,13 +907,7 @@ const handleAddBuyer = () => {
                         >
                           <EditIcon />
                         </IconButton>
-                        {/* <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleEditItem("payments", payment)}
-                        >
-                          Edit
-                        </Button> */}
+                        
                       </TableCell>
                     </TableRow>
                   ))}
@@ -1029,21 +943,7 @@ const handleAddBuyer = () => {
                 <TableRow key={buyer._id}>
                   <TableCell>{buyer.name}</TableCell>
                   <TableCell>{buyer.count}</TableCell>
-                  {/* <TableCell>
-                    {formatAmount(buyer.price)}
-                    
-                  </TableCell>
-                  <TableCell>{formatAmount(buyer.price * buyer.count)}</TableCell> */}
-                  {/* <TableCell>
-                    {buyer.currency === "IQD"
-                      ? formatAmount(buyer.price)
-                      : buyer.price}
-                  </TableCell>
-                  <TableCell>
-                    {buyer.currency === "IQD"
-                      ? formatAmount(buyer.price * buyer.count)
-                      : buyer.price * buyer.count}
-                  </TableCell> */}
+                  
                   <TableCell>
                     {formatCurrency(buyer.price, buyer.currency)}
                   </TableCell>
@@ -1052,13 +952,7 @@ const handleAddBuyer = () => {
                   </TableCell>
                   <TableCell>{formatDate(buyer.date)}</TableCell>
                   <TableCell>
-                    {/* <IconButton
-                      aria-label="print"
-                      title="Print Customer"
-                      onClick={() => handlePrintBuyer(buyer)}
-                    >
-                      <PrintIcon />
-                    </IconButton> */}
+                    
                     <IconButton
                       aria-label="print"
                       title="Print Customer"
@@ -1074,14 +968,7 @@ const handleAddBuyer = () => {
                     >
                       <ClearIcon />
                     </IconButton>
-                    {/* <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => handleDeleteItem("buyers", buyer._id)}
-                      sx={{ marginRight: "8px" }}
-                    >
-                      Delete
-                    </Button> */}
+                    
                     <IconButton
                       variant="contained"
                       color="primary"
@@ -1090,13 +977,7 @@ const handleAddBuyer = () => {
                     >
                       <EditIcon />
                     </IconButton>
-                    {/* <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleEditItem("buyers", buyer)}
-                    >
-                      Edit
-                    </Button> */}
+                    
                   </TableCell>
                 </TableRow>
               ))}
@@ -1106,16 +987,12 @@ const handleAddBuyer = () => {
       </Box>
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
-        {/* <DialogTitle>Edit {editItem?.type}</DialogTitle> */}
         <DialogTitle
           sx={{ textAlign: "center", fontWeight: "bold", fontSize: "30px" }}
         >
           تعديل
         </DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            Make changes to the selected {editItem?.type}.
-          </DialogContentText> */}
           {editItem && (
             <Box
               sx={{ display: "flex", flexDirection: "column", margin: "5px" }}
@@ -1123,7 +1000,6 @@ const handleAddBuyer = () => {
               {editItem.type !== "buyers" && (
                 <TextField
                   label="المبلغ" //"Amount"
-                  // type="number"
                   value={editItem.item.amount}
                   onChange={(e) =>
                     setEditItem({
@@ -1132,7 +1008,6 @@ const handleAddBuyer = () => {
                     })
                   }
                   fullWidth
-                  // sx={{ marginBottom: "20px" }}
                   sx={{
                     marginBottom: "20px",
                     "& .MuiOutlinedInput-root": {
@@ -1166,7 +1041,6 @@ const handleAddBuyer = () => {
                     })
                   }
                   fullWidth
-                  // sx={{ marginBottom: "20px" }}
                   sx={{
                     marginBottom: "20px",
                     "& .MuiOutlinedInput-root": {
@@ -1200,7 +1074,6 @@ const handleAddBuyer = () => {
                     })
                   }
                   fullWidth
-                  // sx={{ marginBottom: "20px" }}
                   sx={{
                     marginBottom: "20px",
                     "& .MuiOutlinedInput-root": {
@@ -1235,7 +1108,6 @@ const handleAddBuyer = () => {
                     })
                   }
                   fullWidth
-                  // sx={{ marginBottom: "20px" }}
                   sx={{
                     marginBottom: "20px",
                     "& .MuiOutlinedInput-root": {
@@ -1312,13 +1184,7 @@ const handleAddBuyer = () => {
         </DialogActions>
       </Dialog>
       {/* Print Dialog */}
-      {/* <PrintDialog
-        open={printDialogOpen}
-        onClose={() => setPrintDialogOpen(false)}
-        customer={customer}
-        buyers={newBuyer} // Pass all table data
-        buyer={selectedBuyer} // Pass selected row data
-      /> */}
+      
       <PrintDialog
         open={printDialogOpen}
         onClose={handleCloseDialog}

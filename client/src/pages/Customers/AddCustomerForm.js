@@ -44,16 +44,6 @@ function AddCustomer() {
   };
 
 
-  // const handleBuyerChange = (index, field, value) => {
-  //   const newBuyers = [...buyers];
-  //   if (field === "date") {
-  //     newBuyers[index][field] = value === "" ? "-" : value;
-  //   } else {
-  //     newBuyers[index][field] = value === "" ? "-" : value;
-  //   }
-  //   setBuyers(newBuyers);
-  // };
-
   const handleBuyerChange = (index, field, value) => {
     const newBuyers = [...buyers];
     if (field === "date") {
@@ -61,11 +51,10 @@ function AddCustomer() {
     } else if (field === "amount") {
       newBuyers[index][field] = value === "" ? "0" : value;
     } else if (field === "currency") {
-      // Ensure value is within the valid options "$" or "IQD"
       if (value === "$" || value === "IQD") {
         newBuyers[index][field] = value;
       } else {
-        newBuyers[index][field] = ""; // Or handle default case as needed
+        newBuyers[index][field] = ""; 
       }
     } else {
       newBuyers[index][field] = value === "" ? "-" : value;
@@ -85,41 +74,7 @@ function AddCustomer() {
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Set default values for empty dates
-  //   const updatedDebts = debts.map((debt) => ({
-  //     ...debt,
-  //     date: debt.date === "" ? "-" : debt.date,
-  //   }));
-
-  //   const updatedPayments = payments.map((payment) => ({
-  //     ...payment,
-  //     date: payment.date === "" ? "-" : payment.date,
-  //   }));
-
-  //   const updatedBuyers = buyers.map((buyer) => ({
-  //     ...buyer,
-  //     date: buyer.date === "" ? "-" : buyer.date,
-  //   }));
-
-  //   const customer = {
-  //     name,
-  //     phoneNumber,
-  //     debts: updatedDebts,
-  //     payments: updatedPayments,
-  //     buyers: updatedBuyers,
-  //   };
-
-  //   try {
-  //     await axios.post("http://localhost:8000/customers", customer);
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error("There was an error creating the customer!", error);
-  //   }
-  // };
-
+  
   return (
     <Box display="flex" justifyContent="center" mt={5}>
       <Paper elevation={3} sx={{ padding: 4, maxWidth: 800, width: "100%" }}>
