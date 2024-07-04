@@ -39,7 +39,15 @@ const CustomerDetails = () => {
   const [customer, setCustomer] = useState(null);
   const [newDebt, setNewDebt] = useState({ amount: "", date: "" });
   const [newPayment, setNewPayment] = useState({ amount: "", date: "" });
-  const [newBuyer, setNewBuyer] = useState({ name: "", count: "", date: "" });
+  const [newBuyer, setNewBuyer] = useState({
+    name: "",
+    price: "",
+    currency: "",
+    count: "",
+    date: "",
+  });
+
+  // const [newBuyer, setNewBuyer] = useState({ name: "", count: "", date: "" });
   const [editItem, setEditItem] = useState(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
@@ -125,21 +133,39 @@ const CustomerDetails = () => {
       });
   };
 
-  const handleAddBuyer = () => {
-    const updatedCustomer = {
-      ...customer,
-      buyers: [...customer.buyers, { ...newBuyer, date: newBuyer.date }],
-    };
-    axios
-      .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
-      .then((response) => {
-        setCustomer(response.data);
-        setNewBuyer({ name: "", count: "", price: "", date: "" });
-      })
-      .catch((error) => {
-        console.error("Error updating customer:", error);
-      });
+  // const handleAddBuyer = () => {
+  //   const updatedCustomer = {
+  //     ...customer,
+  //     buyers: [...customer.buyers, { ...newBuyer, date: newBuyer.date }],
+  //   };
+  //   axios
+  //     .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
+  //     .then((response) => {
+  //       setCustomer(response.data);
+  //       setNewBuyer({ name: "", count: "", price: "", date: "" });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error updating customer:", error);
+  //     });
+  // };
+
+const handleAddBuyer = () => {
+  const updatedCustomer = {
+    ...customer,
+    buyers: [...customer.buyers, { ...newBuyer, date: newBuyer.date }],
   };
+
+  axios
+    .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
+    .then((response) => {
+      setCustomer(response.data);
+      setNewBuyer({ name: "", price: "", currency: "$", count: "", date: "" }); // Reset newBuyer state
+    })
+    .catch((error) => {
+      console.error("Error updating customer:", error);
+    });
+};
+
 
   const calculateTotalDebt = () => {
     let totalDebt = 0;
@@ -418,6 +444,25 @@ const CustomerDetails = () => {
                     pattern: "[0-9]*",
                   }}
                   InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
@@ -436,6 +481,25 @@ const CustomerDetails = () => {
                   InputLabelProps={{
                     style: { right: 30, left: "auto" },
                     shrink: true,
+                  }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
                   }}
                 />
               </FormControl>
@@ -492,6 +556,25 @@ const CustomerDetails = () => {
                     pattern: "[0-9]*",
                   }}
                   InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
@@ -508,6 +591,25 @@ const CustomerDetails = () => {
                   variant="standard"
                   InputProps={{ style: { textAlign: "right" } }}
                   InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
                 />
               </FormControl>
               <Button
@@ -548,6 +650,25 @@ const CustomerDetails = () => {
                     style: { textAlign: "right" },
                   }}
                   InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
@@ -564,13 +685,68 @@ const CustomerDetails = () => {
                     pattern: "[0-9]*",
                   }}
                   InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
-                <InputLabel style={{ right: 30, left: "auto" }}>
+                <InputLabel
+                  style={{ right: 30, left: "auto" }}
+                  sx={{
+                    color: "#44484e",
+                    "&.Mui-focused": {
+                      color: "#44484e",
+                    },
+                    right: 30,
+                    left: "auto",
+                  }}
+                >
                   العملة
                 </InputLabel>
                 <Select
+                  value={newBuyer.currency}
+                  onChange={(e) =>
+                    setNewBuyer({ ...newBuyer, currency: e.target.value })
+                  }
+                  variant="standard"
+                  sx={{
+                    textAlign: "right",
+                    "& .MuiSelect-select": {
+                      textAlign: "right", // Align text to the right
+                    },
+                    "&:before": {
+                      borderBottomColor: "#44484e", // Normal underline color
+                    },
+                    "&:hover:not(.Mui-disabled):before": {
+                      borderBottomColor: "#44484e", // Hover underline color
+                    },
+                    "&:after": {
+                      borderBottomColor: "#44484e", // Focused underline color
+                    },
+                  }}
+                >
+                  <MenuItem value="$">$</MenuItem>
+                  <MenuItem value="IQD">IQD</MenuItem>
+                </Select>
+
+                {/* <Select
                   value={newBuyer.currency}
                   onChange={(e) =>
                     setNewBuyer({ ...newBuyer, currency: e.target.value })
@@ -580,7 +756,7 @@ const CustomerDetails = () => {
                 >
                   <MenuItem value="$">$</MenuItem>
                   <MenuItem value="IQD">IQD</MenuItem>
-                </Select>
+                </Select> */}
               </FormControl>
               <FormControl fullWidth margin="normal">
                 <TextField
@@ -596,6 +772,25 @@ const CustomerDetails = () => {
                     pattern: "[0-9]*",
                   }}
                   InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
@@ -614,6 +809,25 @@ const CustomerDetails = () => {
                   InputLabelProps={{
                     style: { right: 30, left: "auto" },
                     shrink: true,
+                  }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
                   }}
                 />
               </FormControl>
@@ -918,7 +1132,27 @@ const CustomerDetails = () => {
                     })
                   }
                   fullWidth
-                  sx={{ marginBottom: "20px" }}
+                  // sx={{ marginBottom: "20px" }}
+                  sx={{
+                    marginBottom: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#44484e",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#44484e",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#44484e",
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e",
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e",
+                    },
+                  }}
                 />
               )}
               {editItem.type === "buyers" && (
@@ -932,7 +1166,27 @@ const CustomerDetails = () => {
                     })
                   }
                   fullWidth
-                  sx={{ marginBottom: "20px" }}
+                  // sx={{ marginBottom: "20px" }}
+                  sx={{
+                    marginBottom: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#44484e",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#44484e",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#44484e",
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e",
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e",
+                    },
+                  }}
                 />
               )}
               {editItem.type === "buyers" && (
@@ -946,7 +1200,27 @@ const CustomerDetails = () => {
                     })
                   }
                   fullWidth
-                  sx={{ marginBottom: "20px" }}
+                  // sx={{ marginBottom: "20px" }}
+                  sx={{
+                    marginBottom: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#44484e",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#44484e",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#44484e",
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e",
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e",
+                    },
+                  }}
                 />
               )}
               {editItem.type === "buyers" && (
@@ -961,7 +1235,27 @@ const CustomerDetails = () => {
                     })
                   }
                   fullWidth
-                  sx={{ marginBottom: "20px" }}
+                  // sx={{ marginBottom: "20px" }}
+                  sx={{
+                    marginBottom: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#44484e",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#44484e",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#44484e",
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e",
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e",
+                    },
+                  }}
                 />
               )}
               <TextField
@@ -977,6 +1271,26 @@ const CustomerDetails = () => {
                 fullWidth
                 InputLabelProps={{
                   shrink: true,
+                }}
+                sx={{
+                  marginBottom: "20px",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#44484e",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#44484e",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#44484e",
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#44484e",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#44484e",
+                  },
                 }}
               />
             </Box>
@@ -1010,7 +1324,6 @@ const CustomerDetails = () => {
         onClose={handleCloseDialog}
         selectedBuyer={selectedBuyer}
       />
-      
     </Container>
   );
 };
