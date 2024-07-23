@@ -12,14 +12,36 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import dayjs from "dayjs";
+import "dayjs/locale/en";
+
 
 function AddCustomer() {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [debts, setDebts] = useState([{ amount: "0", date: "-" }]);
-  const [payments, setPayments] = useState([{ amount: "0", date: "-" }]);
+  const [debts, setDebts] = useState([
+    { amount: "0", date: dayjs().format("YYYY-MM-DD") },
+  ]);
+  const [payments, setPayments] = useState([
+    { amount: "0", date: dayjs().format("YYYY-MM-DD") },
+  ]);
   const [buyers, setBuyers] = useState([
-    { name: "", count: "", price: "", currency: "", date: "" },
+    {
+      name: "",
+      count: "",
+      price: "",
+      currency: "",
+      date: dayjs().format("YYYY-MM-DD"),
+    },
+  ]);
+  const [FromStore, setFromStore] = useState([
+    {
+      name: "",
+      quantity: "",
+      amount: "",
+      currency: "",
+      date: dayjs().format("YYYY-MM-DD"),
+    },
   ]);
   const navigate = useNavigate();
 
@@ -62,6 +84,25 @@ function AddCustomer() {
     setBuyers(newBuyers);
   };
 
+  const handleStoreChange = (index, field, value) => {
+    const newStore = [...FromStore];
+    if (field === "date") {
+      newStore[index][field] = value === "" ? "-" : value;
+    } else if (field === "amount") {
+      newStore[index][field] = value === "" ? "0" : value;
+    } else if (field === "currency") {
+      if (value === "$" || value === "IQD") {
+        newStore[index][field] = value;
+      } else {
+        newStore[index][field] = "";
+      }
+    } else {
+      newStore[index][field] = value === "" ? "-" : value;
+    }
+    setFromStore(newStore);
+  };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,6 +133,7 @@ function AddCustomer() {
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3} style={{ direction: "rtl" }}>
+            {/* name */}
             <Grid item xs={12}>
               <TextField
                 label="الاسم"
@@ -123,6 +165,7 @@ function AddCustomer() {
                 }}
               />
             </Grid>
+            {/* phoneNumber */}
             <Grid item xs={12}>
               <TextField
                 label="رقم الهاتف"
@@ -154,6 +197,7 @@ function AddCustomer() {
                 }}
               />
             </Grid>
+            {/* debt */}
             <Grid item xs={12}>
               <Typography variant="h6" component="h2" gutterBottom>
                 الديون
@@ -195,11 +239,46 @@ function AddCustomer() {
                     />
                   </Grid>
                   <Grid item xs={6}>
+                    {/* <TextField
+                      label="تاريخ الدين"
+                      type="date"
+                      fullWidth
+                      value={debt.date}
+                      onChange={(e) =>
+                        handleDebtChange(index, "date", e.target.value)
+                      }
+                      variant="standard"
+                      InputLabelProps={{
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
+                      sx={{
+                        "& .MuiInput-underline": {
+                          "&:before": {
+                            borderBottomColor: "#44484e", // Normal underline color
+                          },
+                          "&:hover:not(.Mui-disabled):before": {
+                            borderBottomColor: "#44484e", // Hover underline color
+                          },
+                          "&:after": {
+                            borderBottomColor: "#44484e", // Focused underline color
+                          },
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "#44484e", // Normal label color
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: "#44484e", // Focused label color
+                        },
+                      }}
+                    /> */}
                     <TextField
                       label="تاريخ الدين"
                       type="date"
                       fullWidth
-                      value={debt.date === "-" ? "" : debt.date}
+                      value={debt.date}
                       onChange={(e) =>
                         handleDebtChange(index, "date", e.target.value)
                       }
@@ -234,6 +313,7 @@ function AddCustomer() {
                 </Grid>
               ))}
             </Grid>
+            {/* payment */}
             <Grid item xs={12}>
               <Typography variant="h6" component="h2" gutterBottom>
                 التسديد
@@ -279,11 +359,64 @@ function AddCustomer() {
                     />
                   </Grid>
                   <Grid item xs={6}>
+                    {/* <LocalizationProvider
+                      dateAdapter={AdapterDayjs}
+                      locale={dayjs.locale("en")}
+                    >
+                      <DatePicker
+                        // value={date}
+                        // onChange={(newValue) => setDate(newValue)}
+                        value={payment.date}
+                        onChange={(e) =>
+                          handlePaymentChange(index, "date", e.target.value)
+                        }
+                        slots={{
+                          textField: (params) => (
+                            <TextField
+                              {...params}
+                              label="تاريخ التسديد"
+                              variant="standard"
+                              type="date"
+                              InputLabelProps={{
+                                shrink: true,
+                                style: {
+                                  right: 30,
+                                  left: "auto",
+                                  textAlign: "right",
+                                },
+                              }}
+                              InputProps={{
+                                style: { direction: "rtl", textAlign: "right" },
+                              }}
+                              sx={{
+                                "& .MuiInput-underline": {
+                                  "&:before": {
+                                    borderBottomColor: "#44484e", // Normal underline color
+                                  },
+                                  "&:hover:not(.Mui-disabled):before": {
+                                    borderBottomColor: "#44484e", // Hover underline color
+                                  },
+                                  "&:after": {
+                                    borderBottomColor: "#44484e", // Focused underline color
+                                  },
+                                },
+                                "& .MuiInputLabel-root": {
+                                  color: "#44484e", // Normal label color
+                                },
+                                "& .MuiInputLabel-root.Mui-focused": {
+                                  color: "#44484e", // Focused label color
+                                },
+                              }}
+                            />
+                          ),
+                        }}
+                      />
+                    </LocalizationProvider> */}
                     <TextField
                       label="تاريخ التسديد"
                       type="date"
                       fullWidth
-                      value={payment.date === "-" ? "" : payment.date}
+                      value={payment.date}
                       onChange={(e) =>
                         handlePaymentChange(index, "date", e.target.value)
                       }
@@ -319,6 +452,7 @@ function AddCustomer() {
                 </Grid>
               ))}
             </Grid>
+            {/* buyers */}
             <Grid item xs={12}>
               <Typography variant="h6" component="h2" gutterBottom>
                 البضاعة
@@ -526,6 +660,215 @@ function AddCustomer() {
                 </Grid>
               ))}
             </Grid>
+            {/* fromStore */}
+            <Grid item xs={12}>
+              <Typography variant="h6" component="h2" gutterBottom>
+                المخزن
+              </Typography>
+              {FromStore.map((Store, index) => (
+                <Grid container spacing={2} key={index}>
+                  <Grid item xs={4}>
+                    <TextField
+                      label="المخزن"
+                      fullWidth
+                      value={Store.name}
+                      onChange={(e) =>
+                        handleStoreChange(index, "name", e.target.value)
+                      }
+                      required
+                      variant="standard"
+                      InputLabelProps={{
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
+                      sx={{
+                        "& .MuiInput-underline": {
+                          "&:before": {
+                            borderBottomColor: "#44484e", // Normal underline color
+                          },
+                          "&:hover:not(.Mui-disabled):before": {
+                            borderBottomColor: "#44484e", // Hover underline color
+                          },
+                          "&:after": {
+                            borderBottomColor: "#44484e", // Focused underline color
+                          },
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "#44484e", // Normal label color
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: "#44484e", // Focused label color
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      label="العدد"
+                      type="number"
+                      fullWidth
+                      value={Store.quantity}
+                      onChange={(e) =>
+                        handleStoreChange(index, "quantity", e.target.value)
+                      }
+                      required
+                      variant="standard"
+                      InputLabelProps={{
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
+                      sx={{
+                        "& .MuiInput-underline": {
+                          "&:before": {
+                            borderBottomColor: "#44484e", // Normal underline color
+                          },
+                          "&:hover:not(.Mui-disabled):before": {
+                            borderBottomColor: "#44484e", // Hover underline color
+                          },
+                          "&:after": {
+                            borderBottomColor: "#44484e", // Focused underline color
+                          },
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "#44484e", // Normal label color
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: "#44484e", // Focused label color
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      label="السعر"
+                      value={Store.amount}
+                      onChange={(e) =>
+                        handleStoreChange(index, "amount", e.target.value)
+                      }
+                      variant="standard"
+                      InputProps={{
+                        style: { textAlign: "right" },
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                      }}
+                      InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                      sx={{
+                        "& .MuiInput-underline": {
+                          "&:before": {
+                            borderBottomColor: "#44484e", // Normal underline color
+                          },
+                          "&:hover:not(.Mui-disabled):before": {
+                            borderBottomColor: "#44484e", // Hover underline color
+                          },
+                          "&:after": {
+                            borderBottomColor: "#44484e", // Focused underline color
+                          },
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "#44484e", // Normal label color
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: "#44484e", // Focused label color
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Grid container spacing={2} marginTop={"2px"}>
+                      <Grid item xs={6} md={4}>
+                        <InputLabel
+                          style={{ right: 30, left: "auto", margin: "10px" }}
+                          sx={{
+                            color: "#44484e",
+                            "&.Mui-focused": {
+                              color: "#44484e",
+                            },
+                            right: 30,
+                            left: "auto",
+                          }}
+                        >
+                          العملة
+                        </InputLabel>
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <Select
+                          label="العملة"
+                          value={Store.currency}
+                          onChange={(e) =>
+                            handleStoreChange(index, "currency", e.target.value)
+                          }
+                          variant="standard"
+                          // sx={{ textAlign: "right" }}
+                          sx={{
+                            textAlign: "right",
+                            "& .MuiSelect-select": {
+                              textAlign: "right", // Align text to the right
+                            },
+                            "&:before": {
+                              borderBottomColor: "#44484e", // Normal underline color
+                            },
+                            "&:hover:not(.Mui-disabled):before": {
+                              borderBottomColor: "#44484e", // Hover underline color
+                            },
+                            "&:after": {
+                              borderBottomColor: "#44484e", // Focused underline color
+                            },
+                          }}
+                        >
+                          <MenuItem value="$">$</MenuItem>
+                          <MenuItem value="IQD">IQD</MenuItem>
+                        </Select>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <TextField
+                      label="التاريخ"
+                      type="date"
+                      fullWidth
+                      value={Store.date}
+                      onChange={(e) =>
+                        handleStoreChange(index, "date", e.target.value)
+                      }
+                      required
+                      variant="standard"
+                      InputLabelProps={{
+                        shrink: true,
+                        style: { right: 30, left: "auto", textAlign: "right" },
+                      }}
+                      InputProps={{
+                        style: { direction: "rtl", textAlign: "right" },
+                      }}
+                      sx={{
+                        "& .MuiInput-underline": {
+                          "&:before": {
+                            borderBottomColor: "#44484e", // Normal underline color
+                          },
+                          "&:hover:not(.Mui-disabled):before": {
+                            borderBottomColor: "#44484e", // Hover underline color
+                          },
+                          "&:after": {
+                            borderBottomColor: "#44484e", // Focused underline color
+                          },
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "#44484e", // Normal label color
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: "#44484e", // Focused label color
+                        },
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+            {/* button */}
             <Grid item xs={12}>
               <Button
                 type="submit"

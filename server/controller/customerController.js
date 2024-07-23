@@ -1,4 +1,4 @@
-import Customer from "../models/Controller.js";
+import Customer from "../models/CustomerSchema.js";
 
 // Get all customers
 export const getCustomers = async (req, res) => {
@@ -30,6 +30,7 @@ export const createCustomer = async (req, res) => {
     debts: req.body.debts || [],
     payments: req.body.payments || [],
     buyers: req.body.buyers || [],
+    store: req.body.FromStore || [],
   });
   try {
     const newCustomer = await customer.save();

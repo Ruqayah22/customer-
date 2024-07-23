@@ -4,7 +4,8 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
 import Connection from "./database/db.js";
-import customersRouter from "./routers/customers.js";
+import customersRouter from "./routers/customersRoute.js";
+import storedRouter from "./routers/StoredRoutes.js";
 
 
 const app = express();
@@ -17,7 +18,7 @@ app.use(cors());
 
 // Routes
 app.use("/customers", customersRouter);
-
+app.use("/stored", storedRouter);
 
 const PORT = 8000;
 

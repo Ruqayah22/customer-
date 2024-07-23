@@ -133,7 +133,7 @@ const AllCustomers = () => {
   };
 
   const navigateToAdd = () => {
-    navigate("/add");
+    navigate("/addCustomer");
   };
 
   const handleChangePage = (event, newPage) => {

@@ -37,15 +37,31 @@ import PrintDialog from "./PrintDialog";
 const CustomerDetails = () => {
   const { id } = useParams();
   const [customer, setCustomer] = useState(null);
-  const [newDebt, setNewDebt] = useState({ amount: "", date: "" });
-  const [newPayment, setNewPayment] = useState({ amount: "", date: "" });
+  const [newDebt, setNewDebt] = useState({
+    amount: "",
+    date: dayjs().format("YYYY-MM-DD"),
+  });
+  const [newPayment, setNewPayment] = useState({
+    amount: "",
+    date: dayjs().format("YYYY-MM-DD"),
+  });
   const [newBuyer, setNewBuyer] = useState({
     name: "",
     price: "",
     currency: "",
     count: "",
-    date: "",
+    date: dayjs().format("YYYY-MM-DD"),
   });
+
+  const [newStore, setNewStore] = useState([
+    {
+      name: "",
+      quantity: "",
+      amount: "",
+      currency: "",
+      date: dayjs().format("YYYY-MM-DD"),
+    },
+  ]);
 
   const [editItem, setEditItem] = useState(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -151,6 +167,28 @@ const handleAddBuyer = () => {
     });
 };
 
+const handleAddStore = () => {
+  const updatedCustomer = {
+    ...customer,
+    FromStore: [...customer.FromStore, { ...newStore, date: newStore.date }],
+  };
+
+  axios
+    .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
+    .then((response) => {
+      setCustomer(response.data);
+      setNewStore({
+        name: "",
+        amount: "",
+        currency: "$",
+        quantity: "",
+        date: "",
+      }); 
+    })
+    .catch((error) => {
+      console.error("Error updating customer:", error);
+    });
+};
 
   const calculateTotalDebt = () => {
     let totalDebt = 0;
@@ -325,7 +363,7 @@ const handleAddBuyer = () => {
                 >
                   <ClearIcon />
                 </IconButton>
-                
+
                 <IconButton
                   variant="contained"
                   color="primary"
@@ -334,7 +372,6 @@ const handleAddBuyer = () => {
                 >
                   <EditIcon />
                 </IconButton>
-                
               </Box>
             </Box>
           </Box>
@@ -393,7 +430,6 @@ const handleAddBuyer = () => {
                       amount: e.target.value.replace(/[^0-9.]/g, ""),
                     })
                   }
-                  
                   onBlur={(e) =>
                     setNewDebt({
                       ...newDebt,
@@ -436,7 +472,6 @@ const handleAddBuyer = () => {
                   onChange={(e) =>
                     setNewDebt({ ...newDebt, date: e.target.value })
                   }
-                 
                   variant="standard"
                   InputProps={{ style: { textAlign: "right" } }}
                   InputLabelProps={{
@@ -699,8 +734,6 @@ const handleAddBuyer = () => {
                   <MenuItem value="$">$</MenuItem>
                   <MenuItem value="IQD">IQD</MenuItem>
                 </Select>
-
-              
               </FormControl>
               <FormControl fullWidth margin="normal">
                 <TextField
@@ -745,7 +778,6 @@ const handleAddBuyer = () => {
                   onChange={(e) =>
                     setNewBuyer({ ...newBuyer, date: e.target.value })
                   }
-                  
                   variant="standard"
                   InputProps={{ style: { textAlign: "right" } }}
                   InputLabelProps={{
@@ -792,6 +824,208 @@ const handleAddBuyer = () => {
               </Button>
             </Paper>
           </Grid>
+          {/* from store */}
+          <Grid item xs={12} md={4}>
+            <Paper sx={{ padding: "16px", textAlign: "center" }}>
+              <Typography variant="h5" gutterBottom fontWeight={"bold"}>
+                من المخزن
+              </Typography>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="البضاعة" //"Name"
+                  value={newStore.name}
+                  onChange={(e) =>
+                    setNewStore({ ...newStore, name: e.target.value })
+                  }
+                  variant="standard"
+                  InputProps={{
+                    style: { textAlign: "right" },
+                  }}
+                  InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="السعر" //"price"
+                  value={newStore.amount}
+                  onChange={(e) =>
+                    setNewStore({ ...newStore, amount: e.target.value })
+                  }
+                  variant="standard"
+                  InputProps={{
+                    style: { textAlign: "right" },
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  }}
+                  InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel
+                  style={{ right: 30, left: "auto" }}
+                  sx={{
+                    color: "#44484e",
+                    "&.Mui-focused": {
+                      color: "#44484e",
+                    },
+                    right: 30,
+                    left: "auto",
+                  }}
+                >
+                  العملة
+                </InputLabel>
+                <Select
+                  value={newStore.currency}
+                  onChange={(e) =>
+                    setNewStore({ ...newStore, currency: e.target.value })
+                  }
+                  variant="standard"
+                  sx={{
+                    textAlign: "right",
+                    "& .MuiSelect-select": {
+                      textAlign: "right", // Align text to the right
+                    },
+                    "&:before": {
+                      borderBottomColor: "#44484e", // Normal underline color
+                    },
+                    "&:hover:not(.Mui-disabled):before": {
+                      borderBottomColor: "#44484e", // Hover underline color
+                    },
+                    "&:after": {
+                      borderBottomColor: "#44484e", // Focused underline color
+                    },
+                  }}
+                >
+                  <MenuItem value="$">$</MenuItem>
+                  <MenuItem value="IQD">IQD</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="العدد" //"quantity"
+                  value={newStore.quantity}
+                  onChange={(e) =>
+                    setNewStore({ ...newStore, quantity: e.target.value })
+                  }
+                  variant="standard"
+                  InputProps={{
+                    style: { textAlign: "right" },
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                  }}
+                  InputLabelProps={{ style: { right: 30, left: "auto" } }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  // label="Date"
+                  type="date"
+                  value={newStore.date}
+                  onChange={(e) =>
+                    setNewStore({ ...newStore, date: e.target.value })
+                  }
+                  variant="standard"
+                  InputProps={{ style: { textAlign: "right" } }}
+                  InputLabelProps={{
+                    style: { right: 30, left: "auto" },
+                    shrink: true,
+                  }}
+                  sx={{
+                    "& .MuiInput-underline": {
+                      "&:before": {
+                        borderBottomColor: "#44484e", // Normal underline color
+                      },
+                      "&:hover:not(.Mui-disabled):before": {
+                        borderBottomColor: "#44484e", // Hover underline color
+                      },
+                      "&:after": {
+                        borderBottomColor: "#44484e", // Focused underline color
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "#44484e", // Normal label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#44484e", // Focused label color
+                    },
+                  }}
+                />
+              </FormControl>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddStore}
+                sx={{
+                  background: "#44484e",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                  margin: "20px 0 10px 0",
+                  "&:hover": {
+                    backgroundColor: "#5c6169",
+                  },
+                }}
+              >
+                اضافة
+              </Button>
+            </Paper>
+          </Grid>
         </Grid>
 
         <Grid container spacing={2} sx={{ marginTop: "20px" }}>
@@ -833,7 +1067,7 @@ const handleAddBuyer = () => {
                         >
                           <ClearIcon />
                         </IconButton>
-                        
+
                         <IconButton
                           variant="contained"
                           color="primary"
@@ -846,7 +1080,6 @@ const handleAddBuyer = () => {
                         >
                           <EditIcon />
                         </IconButton>
-                        
                       </TableCell>
                     </TableRow>
                   ))}
@@ -894,7 +1127,7 @@ const handleAddBuyer = () => {
                         >
                           <ClearIcon />
                         </IconButton>
-                        
+
                         <IconButton
                           variant="contained"
                           color="primary"
@@ -907,7 +1140,6 @@ const handleAddBuyer = () => {
                         >
                           <EditIcon />
                         </IconButton>
-                        
                       </TableCell>
                     </TableRow>
                   ))}
@@ -943,7 +1175,7 @@ const handleAddBuyer = () => {
                 <TableRow key={buyer._id}>
                   <TableCell>{buyer.name}</TableCell>
                   <TableCell>{buyer.count}</TableCell>
-                  
+
                   <TableCell>
                     {formatCurrency(buyer.price, buyer.currency)}
                   </TableCell>
@@ -952,7 +1184,6 @@ const handleAddBuyer = () => {
                   </TableCell>
                   <TableCell>{formatDate(buyer.date)}</TableCell>
                   <TableCell>
-                    
                     <IconButton
                       aria-label="print"
                       title="Print Customer"
@@ -968,7 +1199,7 @@ const handleAddBuyer = () => {
                     >
                       <ClearIcon />
                     </IconButton>
-                    
+
                     <IconButton
                       variant="contained"
                       color="primary"
@@ -977,7 +1208,6 @@ const handleAddBuyer = () => {
                     >
                       <EditIcon />
                     </IconButton>
-                    
                   </TableCell>
                 </TableRow>
               ))}
@@ -1184,7 +1414,7 @@ const handleAddBuyer = () => {
         </DialogActions>
       </Dialog>
       {/* Print Dialog */}
-      
+
       <PrintDialog
         open={printDialogOpen}
         onClose={handleCloseDialog}
