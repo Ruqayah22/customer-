@@ -398,7 +398,7 @@ const CustomerDetails = () => {
   const handleDeleteCustomer = async () => {
     try {
       await axios.delete(`${apiUrl}/customers/${id}`);
-      console.log("Customer deleted successfully");
+      // console.log("Customer deleted successfully");
 
       navigate("/customers");
     } catch (error) {

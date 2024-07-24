@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,8 +14,9 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
-import { getProducer } from "../../api/StoredApi";
+// import { getProducer } from "../../api/StoredApi";
 
+const apiUrl = process.env.REACT_APP_SERVER_URL;
 
 function AddCustomer() {
   const [name, setName] = useState("");
@@ -35,30 +36,28 @@ function AddCustomer() {
       date: dayjs().format("YYYY-MM-DD"),
     },
   ]);
-  const [fromStore, setFromStore] = useState([
-    {
-      name: "",
-      quantity: "",
-      amount: "",
-      currency: "",
-      date: dayjs().format("YYYY-MM-DD"),
-    },
-  ]);
-
+  // const [fromStore, setFromStore] = useState([
+  //   {
+  //     name: "",
+  //     quantity: "",
+  //     amount: "",
+  //     currency: "",
+  //     date: dayjs().format("YYYY-MM-DD"),
+  //   },
+  // ]);
+  
   const navigate = useNavigate();
-  
-  const [producers, setProducers] = useState([]);
 
-  useEffect(() => {
-    getAllProducer();
-  }, []);
+  // const [producers, setProducers] = useState([]);
 
-  const getAllProducer = async () => {
-    let response = await getProducer();
-    //  console.log("Fetched producers:", response.data);
-    setProducers(response.data);
-  };
-  
+  // useEffect(() => {
+  //   getAllProducer();
+  // }, []);
+
+  // const getAllProducer = async () => {
+  //   let response = await getProducer();
+  //   setProducers(response.data);
+  // };
 
   const handleDebtChange = (index, field, value) => {
     const newDebts = [...debts];
@@ -80,7 +79,6 @@ function AddCustomer() {
     setPayments(newPayments);
   };
 
-
   const handleBuyerChange = (index, field, value) => {
     const newBuyers = [...buyers];
     if (field === "date") {
@@ -91,7 +89,7 @@ function AddCustomer() {
       if (value === "$" || value === "IQD") {
         newBuyers[index][field] = value;
       } else {
-        newBuyers[index][field] = ""; 
+        newBuyers[index][field] = "";
       }
     } else {
       newBuyers[index][field] = value === "" ? "-" : value;
@@ -99,66 +97,77 @@ function AddCustomer() {
     setBuyers(newBuyers);
   };
 
-  const handleStoreChange = (index, field, value) => {
-     const newStore = [...fromStore];
-     const selectedProducer = producers.find(
-       (producer) => producer._id === newStore[index].name
-     );
+  // const handleStoreChange = (index, field, value) => {
+  //   const newStore = [...fromStore];
+  //   const selectedProducer = producers.find(
+  //     (producer) => producer._id === newStore[index].name
+  //   );
 
-     console.log(`Handling change for field: ${field}, value: ${value}`);
+  //   if (field === "name") {
+  //     newStore[index][field] = value;
+  //     const producer = producers.find((producer) => producer._id === value);
+  //     if (producer) {
+  //       const quantity = parseFloat(newStore[index].quantity) || 0;
+  //       newStore[index].amount = (producer.salePrice * quantity).toFixed(2);
+  //     } else {
+  //       newStore[index].amount = "0";
+  //     }
+  //   } else if (field === "quantity") {
+  //     newStore[index][field] = value;
+  //     const quantity = parseFloat(value) || 0;
+  //     if (selectedProducer) {
+  //       newStore[index].amount = (
+  //         selectedProducer.salePrice * quantity
+  //       ).toFixed(2);
+  //     } else {
+  //       newStore[index].amount = "0";
+  //     }
+  //   } else {
+  //     newStore[index][field] = value;
+  //   }
 
-     if (field === "name") {
-       newStore[index][field] = value;
-       const producer = producers.find((producer) => producer._id === value);
-       console.log("Selected producer:", producer);
-       if (producer) {
-         const quantity = parseFloat(newStore[index].quantity) || 0;
-         newStore[index].amount = (producer.salePrice * quantity).toFixed(2);
-         console.log(
-           `Producer price: ${producer.salePrice}, Quantity: ${quantity}, Calculated amount: ${newStore[index].amount}
-         `);
-       } else {
-         newStore[index].amount = "0.00";
-       }
-     } else if (field === "quantity") {
-       newStore[index][field] = value;
-       const quantity = parseFloat(value) || 0;
-       if (selectedProducer) {
-         newStore[index].amount = (
-           selectedProducer.salePrice * quantity
-         ).toFixed(2);
-         console.log(
-           `Selected producer price: ${selectedProducer.salePrice}, Quantity: ${quantity}, Calculated amount: ${newStore[index].amount}
-         `);
-       } else {
-         newStore[index].amount = "0.00";
-       }
-     } else {
-       newStore[index][field] = value;
-     }
+  //   if (isNaN(newStore[index].amount)) {
+  //     newStore[index].amount = "0.00";
+  //   }
 
-     // Ensure amount is not NaN
-     if (isNaN(newStore[index].amount)) {
-       newStore[index].amount = "0.00";
-     }
+  //   setFromStore(newStore);
+  // };
 
-    //  console.log(Updated store data: , newStore[index]);
-     setFromStore(newStore);
-   };
-   
+  // const handleProducerChange = (index, event) => {
+  //   const selectedProducerId = event.target.value;
+  //   const selectedProducer = producers.find(
+  //     (p) => p._id === selectedProducerId
+  //   );
+
+  //   const newFromStore = [...fromStore];
+  //   newFromStore[index] = {
+  //     ...newFromStore[index],
+  //     name: selectedProducerId,
+  //     amount: selectedProducer ? selectedProducer.salePrice : "",
+  //     currency: selectedProducer ? selectedProducer.saleCurrency : "",
+  //   };
+
+  //   setFromStore(newFromStore);
+  // };
+
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const customer = { name, phoneNumber, debts, payments, buyers, fromStore };
+    const customer = { name, phoneNumber, debts, payments, buyers }; //fromStore
+
+    // console.log("Payload being sent:", customer); // Add this line to debug
+
     try {
-      await axios.post("http://localhost:8000/customers", customer);
+      await axios.post(`${apiUrl}/customers`, customer);
       navigate("/");
     } catch (error) {
       console.error("There was an error creating the customer!", error);
     }
   };
 
-  
   return (
     <Box display="flex" justifyContent="center" mt={5}>
       <Paper elevation={3} sx={{ padding: 4, maxWidth: 800, width: "100%" }}>
@@ -282,41 +291,6 @@ function AddCustomer() {
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    {/* <TextField
-                      label="تاريخ الدين"
-                      type="date"
-                      fullWidth
-                      value={debt.date}
-                      onChange={(e) =>
-                        handleDebtChange(index, "date", e.target.value)
-                      }
-                      variant="standard"
-                      InputLabelProps={{
-                        style: { right: 30, left: "auto", textAlign: "right" },
-                      }}
-                      InputProps={{
-                        style: { direction: "rtl", textAlign: "right" },
-                      }}
-                      sx={{
-                        "& .MuiInput-underline": {
-                          "&:before": {
-                            borderBottomColor: "#44484e", // Normal underline color
-                          },
-                          "&:hover:not(.Mui-disabled):before": {
-                            borderBottomColor: "#44484e", // Hover underline color
-                          },
-                          "&:after": {
-                            borderBottomColor: "#44484e", // Focused underline color
-                          },
-                        },
-                        "& .MuiInputLabel-root": {
-                          color: "#44484e", // Normal label color
-                        },
-                        "& .MuiInputLabel-root.Mui-focused": {
-                          color: "#44484e", // Focused label color
-                        },
-                      }}
-                    /> */}
                     <TextField
                       label="تاريخ الدين"
                       type="date"
@@ -402,59 +376,6 @@ function AddCustomer() {
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    {/* <LocalizationProvider
-                      dateAdapter={AdapterDayjs}
-                      locale={dayjs.locale("en")}
-                    >
-                      <DatePicker
-                        // value={date}
-                        // onChange={(newValue) => setDate(newValue)}
-                        value={payment.date}
-                        onChange={(e) =>
-                          handlePaymentChange(index, "date", e.target.value)
-                        }
-                        slots={{
-                          textField: (params) => (
-                            <TextField
-                              {...params}
-                              label="تاريخ التسديد"
-                              variant="standard"
-                              type="date"
-                              InputLabelProps={{
-                                shrink: true,
-                                style: {
-                                  right: 30,
-                                  left: "auto",
-                                  textAlign: "right",
-                                },
-                              }}
-                              InputProps={{
-                                style: { direction: "rtl", textAlign: "right" },
-                              }}
-                              sx={{
-                                "& .MuiInput-underline": {
-                                  "&:before": {
-                                    borderBottomColor: "#44484e", // Normal underline color
-                                  },
-                                  "&:hover:not(.Mui-disabled):before": {
-                                    borderBottomColor: "#44484e", // Hover underline color
-                                  },
-                                  "&:after": {
-                                    borderBottomColor: "#44484e", // Focused underline color
-                                  },
-                                },
-                                "& .MuiInputLabel-root": {
-                                  color: "#44484e", // Normal label color
-                                },
-                                "& .MuiInputLabel-root.Mui-focused": {
-                                  color: "#44484e", // Focused label color
-                                },
-                              }}
-                            />
-                          ),
-                        }}
-                      />
-                    </LocalizationProvider> */}
                     <TextField
                       label="تاريخ التسديد"
                       type="date"
@@ -704,7 +625,7 @@ function AddCustomer() {
               ))}
             </Grid>
             {/* fromStore */}
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Typography variant="h6" component="h2" gutterBottom>
                 المخزن
               </Typography>
@@ -713,10 +634,9 @@ function AddCustomer() {
                   <Grid item xs={4}>
                     <Select
                       labelId="category-label"
-                      value={store.name} 
-                      onChange={(e) =>
-                        handleStoreChange(index, "name", e.target.value)
-                      }
+                      value={store.name}
+                      // onChange={(e) => handleProducerChange(index, e)}
+                      onChange={(e) => handleProducerChange(index, e)}
                       displayEmpty
                       sx={{ width: "200px" }}
                     >
@@ -733,7 +653,6 @@ function AddCustomer() {
                   <Grid item xs={4}>
                     <TextField
                       label="العدد"
-                      // type="number"
                       fullWidth
                       value={store.quantity}
                       onChange={(e) =>
@@ -821,32 +740,39 @@ function AddCustomer() {
                         </InputLabel>
                       </Grid>
                       <Grid item xs={6} md={4}>
-                        <Select
-                          label="العملة"
-                          value={store.currency} // Updated value to reflect current state
+                        <TextField
+                          value={store.currency}
                           onChange={(e) =>
                             handleStoreChange(index, "currency", e.target.value)
                           }
                           variant="standard"
+                          InputProps={{
+                            style: { textAlign: "right" },
+                            inputMode: "text",
+                          }}
+                          InputLabelProps={{
+                            style: { right: 30, left: "auto" },
+                          }}
                           sx={{
-                            textAlign: "right",
-                            "& .MuiSelect-select": {
-                              textAlign: "right",
+                            "& .MuiInput-underline": {
+                              "&:before": {
+                                borderBottomColor: "#44484e",
+                              },
+                              "&:hover:not(.Mui-disabled):before": {
+                                borderBottomColor: "#44484e",
+                              },
+                              "&:after": {
+                                borderBottomColor: "#44484e",
+                              },
                             },
-                            "&:before": {
-                              borderBottomColor: "#44484e",
+                            "& .MuiInputLabel-root": {
+                              color: "#44484e",
                             },
-                            "&:hover:not(.Mui-disabled):before": {
-                              borderBottomColor: "#44484e",
-                            },
-                            "&:after": {
-                              borderBottomColor: "#44484e",
+                            "& .MuiInputLabel-root.Mui-focused": {
+                              color: "#44484e",
                             },
                           }}
-                        >
-                          <MenuItem value="$">$</MenuItem>
-                          <MenuItem value="IQD">IQD</MenuItem>
-                        </Select>
+                        />
                       </Grid>
                     </Grid>
                   </Grid>
@@ -891,7 +817,7 @@ function AddCustomer() {
                   </Grid>
                 </Grid>
               ))}
-            </Grid>
+            </Grid> */}
 
             {/* button */}
             <Grid item xs={12}>
@@ -920,5 +846,3 @@ function AddCustomer() {
 }
 
 export default AddCustomer;
-
-

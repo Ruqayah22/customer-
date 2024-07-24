@@ -30,7 +30,7 @@ export const createCustomer = async (req, res) => {
     debts: req.body.debts || [],
     payments: req.body.payments || [],
     buyers: req.body.buyers || [],
-    store: req.body.FromStore || [],
+    store: req.body.fromStore || [],
   });
   try {
     const newCustomer = await customer.save();

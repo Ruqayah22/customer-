@@ -687,7 +687,7 @@ const AddStore = ({ onClose }) => {
       (p) => p._id === selectedProducerId
     );
 
-    console.log("Selected Producer:", selectedProducer); // Debugging line
+    // console.log("Selected Producer:", selectedProducer); // Debugging line
 
     setNewStore({
       ...newStore,
