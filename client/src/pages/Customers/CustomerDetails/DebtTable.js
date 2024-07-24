@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
     Box,
     Button,
+    Container,
     Dialog,
     DialogActions,
     DialogContent,
   DialogTitle,
-  Grid,
+  // Grid,
   IconButton,
   Paper,
   Table,
@@ -120,8 +121,9 @@ const DebtTable = () => {
 
 
   return (
-    <TableContainer>
-      <Grid item xs={12} md={6}>
+    <Container>
+     {/* <TableContainer> */}
+      {/* <Grid item xs={12} md={6}> */}
         <Typography
           variant="h5"
           gutterBottom
@@ -177,7 +179,7 @@ const DebtTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Grid>
+      {/* </Grid> */}
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
         <DialogTitle
@@ -376,7 +378,8 @@ const DebtTable = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </TableContainer>
+    {/* </TableContainer> */}
+    </Container>
   );
 };
 

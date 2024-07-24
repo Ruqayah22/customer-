@@ -14,4 +14,4 @@ export const addProduct = (customerId, productData) =>
   axios.post(`${BASE_URL}/customers/${customerId}/products`, productData);
 
 export const addStore = (customerId, storeData) =>
-  axios.post(`${BASE_URL}/customers/${customerId}/store`, storeData);
+  axios.post(`${BASE_URL}/customers/${customerId}/stored`, storeData);

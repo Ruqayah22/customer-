@@ -7,7 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  // Grid,
   IconButton,
   Paper,
   Table,
@@ -122,63 +122,59 @@ const PaymentTable = () => {
 
   return (
     <Container>
-      <Grid item xs={12} md={6}>
-        <Typography
-          variant="h5"
-          gutterBottom
-          fontWeight={"bold"}
-          marginRight={5}
-        >
-          {/* Payments */}
-          التسديد
-        </Typography>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>المبلغ {/*Amount*/}</TableCell>
-                <TableCell>التاريخ {/*Date*/}</TableCell>
-                <TableCell>{/*Actions*/}</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {customer.payments.map((payment) => (
-                <TableRow key={payment._id}>
-                  <TableCell>{formatAmount(payment.amount)}</TableCell>
-                  <TableCell>{formatDate(payment.date)}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      variant="contained"
-                      color="primary"
-                      sx={{
-                        padding: "5px",
-                        margin: "5px",
-                        color: "#44484e",
-                      }}
-                      onClick={() => handleDeleteItem("payments", payment._id)}
-                    >
-                      <ClearIcon />
-                    </IconButton>
+    {/* <TableContainer> */}
+      {/* <Grid item xs={12} md={6}> */}
+      <Typography variant="h5" gutterBottom fontWeight={"bold"} marginRight={5}>
+        {/* Payments */}
+        التسديد
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>المبلغ {/*Amount*/}</TableCell>
+              <TableCell>التاريخ {/*Date*/}</TableCell>
+              <TableCell>{/*Actions*/}</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {customer.payments.map((payment) => (
+              <TableRow key={payment._id}>
+                <TableCell>{formatAmount(payment.amount)}</TableCell>
+                <TableCell>{formatDate(payment.date)}</TableCell>
+                <TableCell>
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      padding: "5px",
+                      margin: "5px",
+                      color: "#44484e",
+                    }}
+                    onClick={() => handleDeleteItem("payments", payment._id)}
+                  >
+                    <ClearIcon />
+                  </IconButton>
 
-                    <IconButton
-                      variant="contained"
-                      color="primary"
-                      sx={{
-                        padding: "5px",
-                        margin: "5px",
-                        color: "#44484e",
-                      }}
-                      onClick={() => handleEditItem("payments", payment)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      padding: "5px",
+                      margin: "5px",
+                      color: "#44484e",
+                    }}
+                    onClick={() => handleEditItem("payments", payment)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {/* </Grid> */}
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
         <DialogTitle
@@ -377,6 +373,7 @@ const PaymentTable = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* </TableContainer> */}
     </Container>
   );
 };

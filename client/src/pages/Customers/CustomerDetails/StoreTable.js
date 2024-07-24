@@ -49,8 +49,8 @@ const StoreTable = () => {
       .then((response) => {
         const customerData = response.data;
 
-        if (!Array.isArray(customerData.buyers)) {
-          customerData.buyers = [];
+        if (!Array.isArray(customerData.fromStore)) {
+          customerData.fromStore = [];
         }
 
         setCustomer(customerData);
@@ -87,7 +87,7 @@ const StoreTable = () => {
   // Function to find the producer by ID
   const findProducerNameById = (id) => {
     const producer = producers.find((p) => p._id === id);
-    return producer ? producer.type : "Unknown"; // or any fallback text
+    return producer ? producer.name : "Unknown"; // or any fallback text
   };
 
   // Delete functions for Debt, Payment, and Buyer
@@ -169,6 +169,8 @@ const StoreTable = () => {
     setSelectedBuyer(null); // Clear selected buyer after closing
   };
 
+if (!customer) return <Typography>Loading...</Typography>;
+
   return (
     <Container>
       <Typography
@@ -192,10 +194,12 @@ const StoreTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customer.FromStore.map((store) => (
+            {customer.fromStore.map((store) => (
               <TableRow key={store._id}>
                 {/* <TableCell>{store.name}</TableCell> */}
                 <TableCell>{findProducerNameById(store.name)}</TableCell>
+
+                {/* <TableCell>{store.name}</TableCell> */}
                 <TableCell>{store.quantity}</TableCell>
 
                 <TableCell>
@@ -220,7 +224,7 @@ const StoreTable = () => {
                     variant="contained"
                     color="primary"
                     sx={{ padding: "5px", margin: "5px", color: "#44484e" }}
-                    onClick={() => handleDeleteItem("FromStore", store._id)}
+                    onClick={() => handleDeleteItem("fromStore", store._id)}
                   >
                     <ClearIcon />
                   </IconButton>
@@ -229,7 +233,7 @@ const StoreTable = () => {
                     variant="contained"
                     color="primary"
                     sx={{ padding: "5px", margin: "5px", color: "#44484e" }}
-                    onClick={() => handleEditItem("FromStore", store)}
+                    onClick={() => handleEditItem("fromStore", store)}
                   >
                     <EditIcon />
                   </IconButton>

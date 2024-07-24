@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
 
-const AddDebt = () => {
+const AddDebt = ({ onClose }) => {
   const { id } = useParams();
 
   const [customer, setCustomer] = useState(null);
@@ -23,6 +23,7 @@ const AddDebt = () => {
     date: dayjs().format("YYYY-MM-DD"),
   });
 
+  
   useEffect(() => {
     axios
       .get(`${apiUrl}/customers/${id}`)
@@ -71,6 +72,8 @@ const AddDebt = () => {
       .then((response) => {
         setCustomer(response.data);
         setNewDebt({ amount: "", date: "" });
+        onClose();
+        
       })
       .catch((error) => {
         console.error("Error updating customer:", error);

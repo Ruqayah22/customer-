@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
 
-const AddBuyer = () => {
+const AddBuyer = ({ onClose }) => {
   const { id } = useParams();
   const [customer, setCustomer] = useState(null);
 
@@ -48,7 +48,6 @@ const AddBuyer = () => {
       });
   }, [id]);
 
-  
   const handleAddBuyer = () => {
     const updatedCustomer = {
       ...customer,
@@ -66,6 +65,7 @@ const AddBuyer = () => {
           count: "",
           date: "",
         }); // Reset newBuyer state
+      onClose();
       })
       .catch((error) => {
         console.error("Error updating customer:", error);

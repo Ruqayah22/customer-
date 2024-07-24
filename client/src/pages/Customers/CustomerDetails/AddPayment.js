@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
 
-const AddPayment = () => {
+const AddPayment = ({ onClose }) => {
   const { id } = useParams();
   const [customer, setCustomer] = useState(null);
 
@@ -69,6 +69,7 @@ const AddPayment = () => {
       .then((response) => {
         setCustomer(response.data);
         setNewPayment({ amount: "", date: "" });
+        onClose();
       })
       .catch((error) => {
         console.error("Error updating customer:", error);
