@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Customers from "./pages/Customers/Customers";
 import AddCustomer from "./pages/Customers/AddCustomerForm";
-import CustomerDetails from "./pages/Customers/CustomerDetails";
+import CustomerDetails from "./pages/Customers/CustomerDetails/CustomerDetails";
 import CustomerEdit from "./pages/Customers/CustomerEdit";
 
 import Stored from "./pages/Stored/Stored";

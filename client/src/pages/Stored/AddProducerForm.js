@@ -42,7 +42,7 @@ const cacheRtl = createCache({
 });
 
 const initialValue = {
-  type: "",
+  name: "",
   thickness: "",
   size: "",
   quantity: "",
@@ -93,8 +93,8 @@ function AddProducerForm() {
           <TextField
             label="الاسم"
             fullWidth
-            value={producer.type}
-            name="type"
+            value={producer.name}
+            name="name"
             onChange={(e) => onValueChange(e)}
             required
             variant="standard"

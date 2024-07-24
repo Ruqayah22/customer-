@@ -302,7 +302,7 @@ function AllStore() {
                       <TableCell>{producer.quantity}</TableCell>
                       <TableCell>{producer.size}</TableCell>
                       <TableCell>{producer.thickness}</TableCell>
-                      <TableCell>{producer.type}</TableCell>
+                      <TableCell>{producer.name}</TableCell>
                     </TableRow>
                   ))
               ) : (

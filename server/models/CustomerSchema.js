@@ -54,10 +54,35 @@ const BuyerSchema = new mongoose.Schema({
   },
 });
 
+// const StoreCustomerSchema = new mongoose.Schema({
+//   name: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: "Stored",
+//     required: true,
+//   },
+//   quantity: {
+//     type: Number,
+//     required: true,
+//   },
+//   amount: {
+//     type: Number,
+//     required: true,
+//   },
+//   currency: {
+//     type: String,
+//     required: true,
+//   },
+//   date: {
+//     type: Date,
+//     default: new Date(),
+//     required: true,
+//   },
+// });
+// StoreCustomer Schema
 const StoreCustomerSchema = new mongoose.Schema({
   name: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Stored",
+    ref: 'Stored',
     required: true,
   },
   quantity: {
@@ -74,7 +99,7 @@ const StoreCustomerSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: new Date(),
+    default: Date.now,
     required: true,
   },
 });
