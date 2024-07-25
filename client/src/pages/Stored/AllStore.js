@@ -26,7 +26,6 @@ import { deleteProducer, getProducer } from "../../api/StoredApi";
 import dayjs from "dayjs";
 
 import { DownloadTableExcel } from "react-export-table-to-excel";
-// import { getCustomers } from "../../api/CustApi";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -72,14 +71,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function AllStore() {
   const [producers, setProducers] = useState([]);
-  // const [customers, setCustomers] = useState([]);
 
   const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-
 
   useEffect(() => {
     getAllProducer();
@@ -133,7 +129,6 @@ function AllStore() {
 
   var today = new Date();
 
-
   const formatAmount = (amount) => {
     const parsedAmount = parseFloat(amount);
     return isNaN(parsedAmount)
@@ -144,16 +139,16 @@ function AllStore() {
         });
   };
 
- function formatCurrency(amount, currency) {
-   switch (currency) {
-     case "$":
-       return `$${amount}`;
-     case "IQD":
-       return `${formatAmount(amount)} IQD`;
-     default:
-       return `${amount.toFixed(2)}`;
-   }
- }
+  function formatCurrency(amount, currency) {
+    switch (currency) {
+      case "$":
+        return `$${amount}`;
+      case "IQD":
+        return `${formatAmount(amount)} IQD`;
+      default:
+        return `${amount.toFixed(2)}`;
+    }
+  }
 
   return (
     <>
@@ -245,7 +240,6 @@ function AllStore() {
                 <TableCell>التاريخ</TableCell>
                 <TableCell>سعر البيع</TableCell>
                 <TableCell>سعر الشراء</TableCell>
-                {/* <TableCell>الباقي </TableCell> */}
                 <TableCell>العدد</TableCell>
                 <TableCell>الابعاد</TableCell>
                 <TableCell>السمك</TableCell>
@@ -284,15 +278,12 @@ function AllStore() {
                       </TableCell>
 
                       <TableCell>{formatDate(producer.date)}</TableCell>
-
-                      {/* <TableCell>{formatAmount(producer.salePrice)}</TableCell> */}
                       <TableCell>
                         {formatCurrency(
                           producer.salePrice,
                           producer.saleCurrency
                         )}
                       </TableCell>
-                      {/* <TableCell>{formatAmount(producer.buyPrice)}</TableCell> */}
                       <TableCell>
                         {formatCurrency(
                           producer.buyPrice,

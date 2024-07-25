@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Box, Container, Grid, Typography, IconButton, Card, CardContent, Button, 
-  // Dialog, DialogTitle, DialogContent 
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  IconButton,
+  Card,
+  CardContent,
+  Button,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -16,7 +23,7 @@ import DebtTable from "./CustomerDetails/DebtTable";
 import PaymentTable from "./CustomerDetails/PaymentTable";
 import BuyersTable from "./CustomerDetails/BuyersTable";
 import StoreTable from "./CustomerDetails/StoreTable";
-import DialogWrapper from "../../components/DialogWrapper"; 
+import DialogWrapper from "../../components/DialogWrapper";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -57,32 +64,9 @@ const CustomerDetails = () => {
         });
   };
 
-  // const calculateTotalDebt = () => {
-  //   let totalDebt = 0;
-  //   if (customer && Array.isArray(customer.debts)) {
-  //     totalDebt = customer.debts.reduce(
-  //       (acc, debt) => acc + parseFloat(debt.amount),
-  //       0
-  //     );
-  //   }
-  //   return formatAmount(totalDebt);
-  // };
-
-  // const calculateTotalPayment = () => {
-  //   let totalPayment = 0;
-  //   if (customer && Array.isArray(customer.payments)) {
-  //     totalPayment = customer.payments.reduce(
-  //       (acc, payment) => acc + parseFloat(payment.amount),
-  //       0
-  //     );
-  //   }
-  //   return formatAmount(totalPayment);
-  // };
-
   const handleDeleteCustomer = async () => {
     try {
       await axios.delete(`${apiUrl}/customers/${id}`);
-      // console.log("Customer deleted successfully");
 
       navigate("/customers");
     } catch (error) {
@@ -94,20 +78,13 @@ const CustomerDetails = () => {
     navigate(`/customers/${id}/edit`);
   };
 
-  // const calculateRestAmount = () => {
-  //   const restAmount =
-  //     calculateTotalDebt().replace(/,/g, "") -
-  //     calculateTotalPayment().replace(/,/g, "");
-  //   return formatAmount(restAmount);
-  // };
-
   const handleOpenDialog = (dialogType) => {
     setOpenDialog(dialogType);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(null);
-     window.location.reload();
+    window.location.reload();
   };
 
   if (!customer) return <Typography>Loading...</Typography>;
@@ -129,7 +106,6 @@ const CustomerDetails = () => {
   const restAmountUSD = totalDebtUSD - totalPaymentUSD;
   const restAmountIQD = totalDebtIQD - totalPaymentIQD;
 
-  
   return (
     <Container>
       <Typography
@@ -168,7 +144,6 @@ const CustomerDetails = () => {
                 gutterBottom
                 sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
               >
-                {/* Name: {customer.name} */}
                 الاسم: {customer.name}
               </Typography>
               <Typography
@@ -176,7 +151,6 @@ const CustomerDetails = () => {
                 gutterBottom
                 sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
               >
-                {/* Phone: {customer.phoneNumber} */}
                 رقم الهاتف: {customer.phoneNumber}
               </Typography>
               <Box>
@@ -302,7 +276,6 @@ const CustomerDetails = () => {
                   </Typography>
                   <Button
                     variant="contained"
-                    // color="primary"
                     onClick={() => handleOpenDialog("payment")}
                     sx={{
                       background: "#44484e",
@@ -397,37 +370,7 @@ const CustomerDetails = () => {
         <BuyersTable />
         {/* store table */}
         <StoreTable />
-
-        {/* Dialogs */}
-        {/* <Dialog open={openDialog === "debt"} onClose={handleCloseDialog}>
-          <DialogTitle>تسجيل دين</DialogTitle>
-          <DialogContent>
-            <AddDebt />
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={openDialog === "payment"} onClose={handleCloseDialog}>
-          <DialogTitle>تسجيل دفع</DialogTitle>
-          <DialogContent>
-            <AddPayment />
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={openDialog === "buyer"} onClose={handleCloseDialog}>
-          <DialogTitle>إضافة مشتري</DialogTitle>
-          <DialogContent>
-            <AddBuyer />
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={openDialog === "store"} onClose={handleCloseDialog}>
-          <DialogTitle>إضافة متجر</DialogTitle>
-          <DialogContent>
-            <AddStore />
-          </DialogContent>
-        </Dialog> */}
       </Box>
-      {/* Render DialogWrapper for each dialog type */}
       <DialogWrapper
         open={openDialog === "debt"}
         onClose={handleCloseDialog}

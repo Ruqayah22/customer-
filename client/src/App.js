@@ -6,8 +6,7 @@ import CustomerDetails from "./pages/Customers/CustomerDetails";
 import CustomerEdit from "./pages/Customers/CustomerEdit";
 
 import Stored from "./pages/Stored/Stored";
-// import AddProducer from "./pages/Stored/AddProducer";
-import EditProducer from './pages/Stored/EditProducer';
+import EditProducer from "./pages/Stored/EditProducer";
 import AddProducerForm from "./pages/Stored/AddProducerForm";
 
 function App() {

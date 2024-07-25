@@ -14,7 +14,6 @@ import {
 import MuiAppBar from "@mui/material/AppBar";
 import { useNavigate } from "react-router-dom";
 import { Brightness4, Brightness7, Home, Menu } from "@mui/icons-material";
-// import SideListPages from "../../components/SideListPages";
 import AllStore from "./AllStore";
 
 const drawerWidth = 240;
@@ -105,7 +104,6 @@ function Stored() {
             </IconButton>
           </Toolbar>
         </AppBar>
-        {/* <SideListPages {...{ open, setOpen }} />; */}
         <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
           <DrawerHeader />
           <AllStore />

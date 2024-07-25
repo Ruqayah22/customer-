@@ -4,7 +4,6 @@ import {
   FormGroup,
   FormControl,
   InputLabel,
-  // Input,
   styled,
   Button,
   Typography,
@@ -83,13 +82,6 @@ function AddProducerForm() {
       </Typography>
       <CacheProvider value={cacheRtl}>
         <FormControl dir="rtl">
-          {/* <InputLabel htmlFor="my-input">النوع</InputLabel>
-          <Input
-            onChange={(e) => onValueChange(e)}
-            name="type"
-            value={producer.type}
-            id="my-input"
-          /> */}
           <TextField
             label="الاسم"
             fullWidth
@@ -103,32 +95,25 @@ function AddProducerForm() {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
         </FormControl>
         <FormControl dir="rtl">
-          {/* <InputLabel htmlFor="my-input">السمك</InputLabel>
-          <Input
-            onChange={(e) => onValueChange(e)}
-            name="thickness"
-            value={producer.thickness}
-            id="my-input"
-          /> */}
           <TextField
             label="السمك"
             fullWidth
@@ -142,32 +127,25 @@ function AddProducerForm() {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
         </FormControl>
         <FormControl dir="rtl">
-          {/* <InputLabel htmlFor="my-input">الابعاد</InputLabel>
-          <Input
-            onChange={(e) => onValueChange(e)}
-            name="size"
-            value={producer.size}
-            id="my-input"
-          /> */}
           <TextField
             label="الابعاد"
             fullWidth
@@ -181,32 +159,25 @@ function AddProducerForm() {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
         </FormControl>
         <FormControl dir="rtl">
-          {/* <InputLabel htmlFor="my-input">العدد</InputLabel>
-          <Input
-            onChange={(e) => onValueChange(e)}
-            name="quantity"
-            value={producer.quantity}
-            id="my-input"
-          /> */}
           <TextField
             label="العدد"
             fullWidth
@@ -220,26 +191,24 @@ function AddProducerForm() {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
         </FormControl>
-        {/* <FormControl dir="rtl"> */}
-        {/* <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> */}
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Grid container spacing={2}>
@@ -254,17 +223,15 @@ function AddProducerForm() {
                     width: "100px",
                     right: 20,
 
-                    "& .MuiSelect-select": {
-                      // textAlign: "right", // Align text to the right
-                    },
+                    "& .MuiSelect-select": {},
                     "&:before": {
-                      borderBottomColor: "#44484e", // Normal underline color
+                      borderBottomColor: "#44484e",
                     },
                     "&:hover:not(.Mui-disabled):before": {
-                      borderBottomColor: "#44484e", // Hover underline color
+                      borderBottomColor: "#44484e",
                     },
                     "&:after": {
-                      borderBottomColor: "#44484e", // Focused underline color
+                      borderBottomColor: "#44484e",
                     },
                   }}
                 >
@@ -274,7 +241,6 @@ function AddProducerForm() {
               </Grid>
               <Grid item xs={6} md={4}>
                 <InputLabel
-                  // style={{ right: 30, left: "auto", margin: "10px" }}
                   sx={{
                     color: "#44484e",
                     "&.Mui-focused": {
@@ -299,9 +265,7 @@ function AddProducerForm() {
                   variant="standard"
                   name="buyPrice"
                   InputProps={{
-                    style: {
-                      // textAlign: "right"
-                    },
+                    style: {},
                     inputMode: "numeric",
                     pattern: "[0-9]*",
                   }}
@@ -311,20 +275,20 @@ function AddProducerForm() {
                     right: 1,
                     "& .MuiInput-underline": {
                       "&:before": {
-                        borderBottomColor: "#44484e", // Normal underline color
+                        borderBottomColor: "#44484e",
                       },
                       "&:hover:not(.Mui-disabled):before": {
-                        borderBottomColor: "#44484e", // Hover underline color
+                        borderBottomColor: "#44484e",
                       },
                       "&:after": {
-                        borderBottomColor: "#44484e", // Focused underline color
+                        borderBottomColor: "#44484e",
                       },
                     },
                     "& .MuiInputLabel-root": {
-                      color: "#44484e", // Normal label color
+                      color: "#44484e",
                     },
                     "& .MuiInputLabel-root.Mui-focused": {
-                      color: "#44484e", // Focused label color
+                      color: "#44484e",
                     },
                   }}
                 />
@@ -347,10 +311,6 @@ function AddProducerForm() {
             </Grid>
           </Grid>
         </Grid>
-        {/* </Grid> */}
-        {/* </FormControl> */}
-
-        {/* <FormControl dir="rtl"> */}
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Grid container spacing={2}>
@@ -365,17 +325,15 @@ function AddProducerForm() {
                     width: "100px",
                     right: 20,
 
-                    "& .MuiSelect-select": {
-                      // textAlign: "right", // Align text to the right
-                    },
+                    "& .MuiSelect-select": {},
                     "&:before": {
-                      borderBottomColor: "#44484e", // Normal underline color
+                      borderBottomColor: "#44484e",
                     },
                     "&:hover:not(.Mui-disabled):before": {
-                      borderBottomColor: "#44484e", // Hover underline color
+                      borderBottomColor: "#44484e",
                     },
                     "&:after": {
-                      borderBottomColor: "#44484e", // Focused underline color
+                      borderBottomColor: "#44484e",
                     },
                   }}
                 >
@@ -385,7 +343,6 @@ function AddProducerForm() {
               </Grid>
               <Grid item xs={6} md={4}>
                 <InputLabel
-                  // style={{ right: 30, left: "auto", margin: "10px" }}
                   sx={{
                     color: "#44484e",
                     "&.Mui-focused": {
@@ -410,9 +367,7 @@ function AddProducerForm() {
                   name="salePrice"
                   variant="standard"
                   InputProps={{
-                    style: {
-                      // textAlign: "right"
-                    },
+                    style: {},
                     inputMode: "numeric",
                     pattern: "[0-9]*",
                   }}
@@ -422,20 +377,20 @@ function AddProducerForm() {
                     right: 1,
                     "& .MuiInput-underline": {
                       "&:before": {
-                        borderBottomColor: "#44484e", // Normal underline color
+                        borderBottomColor: "#44484e",
                       },
                       "&:hover:not(.Mui-disabled):before": {
-                        borderBottomColor: "#44484e", // Hover underline color
+                        borderBottomColor: "#44484e",
                       },
                       "&:after": {
-                        borderBottomColor: "#44484e", // Focused underline color
+                        borderBottomColor: "#44484e",
                       },
                     },
                     "& .MuiInputLabel-root": {
-                      color: "#44484e", // Normal label color
+                      color: "#44484e",
                     },
                     "& .MuiInputLabel-root.Mui-focused": {
-                      color: "#44484e", // Focused label color
+                      color: "#44484e",
                     },
                   }}
                 />
@@ -458,26 +413,7 @@ function AddProducerForm() {
             </Grid>
           </Grid>
         </Grid>
-        {/* <InputLabel htmlFor="my-input">سعر البيع</InputLabel>
-          <Input
-            name="salePrice"
-            onChange={(e) => onValueChange(e)}
-            value={producer.salePrice}
-            id="my-input"
-          /> */}
-        {/* </FormControl> */}
         <FormControl dir="rtl">
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <MobileDatePicker
-              label="التاريخ"
-              inputFormat="MM/DD/YYYY"
-              value={producer.date}
-              onChange={handleDate}
-              renderInput={(params) => (
-                <TextField variant="standard" {...params} />
-              )}
-            />
-          </LocalizationProvider> */}
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <MobileDatePicker
               label="التاريخ"

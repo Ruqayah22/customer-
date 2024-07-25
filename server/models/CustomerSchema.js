@@ -51,10 +51,7 @@ const BuyerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // date: {
-  //   type: Date,
-  //   required: true,
-  // },
+
   date: {
     type: Date,
     default: new Date(),
@@ -66,7 +63,7 @@ const BuyerSchema = new mongoose.Schema({
 const StoreCustomerSchema = new mongoose.Schema({
   name: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Stored',
+    ref: "Stored",
     required: true,
   },
   quantity: {

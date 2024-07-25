@@ -14,8 +14,6 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
 
-
-
 const CustomerEdit = () => {
   const { id } = useParams();
   const [customer, setCustomer] = useState({
@@ -81,14 +79,13 @@ const CustomerEdit = () => {
           textAlign={"center"}
           fontWeight={"bold"}
         >
-          {/* Edit Customer */}
           تعديل
         </Typography>
         <form onSubmit={handleSubmit} style={{ direction: "rtl" }}>
           <FormControl fullWidth sx={{ marginBottom: "20px" }}>
             <TextField
               name="name"
-              label="الاسم" //"Name"
+              label="الاسم"
               variant="outlined"
               value={customer.name}
               onChange={handleChange}
@@ -117,7 +114,7 @@ const CustomerEdit = () => {
           <FormControl fullWidth sx={{ marginBottom: "20px" }}>
             <TextField
               name="phoneNumber"
-              label="رقم الهاتف" //"Phone Number"
+              label="رقم الهاتف"
               variant="outlined"
               value={customer.phoneNumber}
               onChange={handleChange}
@@ -163,7 +160,6 @@ const CustomerEdit = () => {
                 },
               }}
             >
-              {/* Save */}
               حفظ
             </Button>
           </Box>

@@ -48,12 +48,9 @@ const PrintDialog = ({ open, onClose, selectedBuyer }) => {
         <Typography variant="h6">Buyer Details:</Typography>
         <Typography>Name: {name}</Typography>
         <Typography>Count: {count}</Typography>
-        <Typography>
-          Price: {formatCurrency(price, currency)} {/* Format currency */}
-        </Typography>
+        <Typography>Price: {formatCurrency(price, currency)}</Typography>
         <Typography>
           Total Price: {formatCurrency(price * count, currency)}{" "}
-          {/* Format total price */}
         </Typography>
         <Typography>Date: {formatDate(date)}</Typography>
       </DialogContent>

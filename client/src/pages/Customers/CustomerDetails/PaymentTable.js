@@ -91,7 +91,7 @@ const PaymentTable = () => {
     setEditItem({ type, item });
     setEditDialogOpen(true);
   };
-  
+
   const handleSaveEdit = () => {
     const { type, item } = editItem;
     const updatedCustomer = {
@@ -122,7 +122,6 @@ const PaymentTable = () => {
     }
   }
 
-
   if (!customer) return <Typography>Loading...</Typography>;
 
   return (
@@ -142,7 +141,9 @@ const PaymentTable = () => {
           <TableBody>
             {customer.payments.map((payment) => (
               <TableRow key={payment._id}>
-                <TableCell>{formatCurrency(payment.amount, payment.currency)}</TableCell>
+                <TableCell>
+                  {formatCurrency(payment.amount, payment.currency)}
+                </TableCell>
                 <TableCell>{formatDate(payment.date)}</TableCell>
                 <TableCell>
                   <IconButton
@@ -189,7 +190,7 @@ const PaymentTable = () => {
             >
               {editItem.type !== "buyers" && (
                 <TextField
-                  label="المبلغ" 
+                  label="المبلغ"
                   value={editItem.item.amount}
                   onChange={(e) =>
                     setEditItem({
@@ -222,7 +223,7 @@ const PaymentTable = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="البضاعة" 
+                  label="البضاعة"
                   value={editItem.item.name}
                   onChange={(e) =>
                     setEditItem({
@@ -255,7 +256,7 @@ const PaymentTable = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="السعر" 
+                  label="السعر"
                   value={editItem.item.price}
                   onChange={(e) =>
                     setEditItem({
@@ -288,7 +289,7 @@ const PaymentTable = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="العدد" 
+                  label="العدد"
                   type="number"
                   value={editItem.item.count}
                   onChange={(e) =>
@@ -321,7 +322,7 @@ const PaymentTable = () => {
                 />
               )}
               <TextField
-                label="التاريخ" 
+                label="التاريخ"
                 type="date"
                 value={editItem.item.date}
                 onChange={(e) =>
@@ -363,17 +364,16 @@ const PaymentTable = () => {
             onClick={() => setEditDialogOpen(false)}
             sx={{ color: "#44484e", fontWeight: "bold" }}
           >
-            {/* Cancel */} الالغاء
+            الالغاء
           </Button>
           <Button
             onClick={handleSaveEdit}
             sx={{ color: "#44484e", fontWeight: "bold" }}
           >
-            {/* Save */} حفظ
+            حفظ
           </Button>
         </DialogActions>
       </Dialog>
-      {/* </TableContainer> */}
     </Container>
   );
 };

@@ -13,7 +13,6 @@ export const getCustomers = async (req, res) => {
 
 // Get one customer by ID
 export const getCustomerById = async (req, res) => {
-  
   try {
     const customer = await Customer.findById(req.params.id);
     res.json(customer);
@@ -23,25 +22,6 @@ export const getCustomerById = async (req, res) => {
   }
 };
 
-// // Create a new customer
-// export const createCustomer = async (req, res) => {
-//   const customer = new Customer({
-//     name: req.body.name,
-//     phoneNumber: req.body.phoneNumber,
-//     debts: req.body.debts || [],
-//     payments: req.body.payments || [],
-//     buyers: req.body.buyers || [],
-//     store: req.body.fromStore || [],
-//   });
-//   try {
-//     const newCustomer = await customer.save();
-//     res.status(201).json(newCustomer);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
-// Create a new customer
 export const createCustomer = async (req, res) => {
   const customer = new Customer({
     name: req.body.name,
@@ -70,20 +50,6 @@ export const createCustomer = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-// // Update a customer
-// export const updateCustomer = async (req, res) => {
-//   try {
-//     const updatedCustomer = await Customer.findByIdAndUpdate(
-//       req.params.id,
-//       req.body,
-//       { new: true }
-//     );
-//     res.json(updatedCustomer);
-//   } catch (error) {
-//     console.error("Error updating customer:", error);
-//     res.status(500).json({ error: "Failed to update customer" });
-//   }
-// };
 
 // Update a customer
 export const updateCustomer = async (req, res) => {
@@ -99,8 +65,12 @@ export const updateCustomer = async (req, res) => {
       for (const item of req.body.fromStore) {
         const storedItem = await Stored.findById(item.name);
         if (storedItem) {
-          const existingItem = customer.fromStore.find(i => i.name.toString() === item.name);
-          const quantityDifference = existingItem ? item.quantity - existingItem.quantity : item.quantity;
+          const existingItem = customer.fromStore.find(
+            (i) => i.name.toString() === item.name
+          );
+          const quantityDifference = existingItem
+            ? item.quantity - existingItem.quantity
+            : item.quantity;
           storedItem.quantity -= quantityDifference;
           await storedItem.save();
         }
@@ -116,7 +86,6 @@ export const updateCustomer = async (req, res) => {
     res.status(500).json({ error: "Failed to update customer" });
   }
 };
-
 
 // Delete a customer
 export const deleteCustomer = async (req, res) => {

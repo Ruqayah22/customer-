@@ -89,17 +89,6 @@ const formatAmount = (amount) => {
       });
 };
 
-// // Helper Function to Calculate Remaining Debt
-// const calculateRestAmount = (debts, payments) => {
-//   const totalDebts = debts.reduce((total, debt) => total + debt.amount, 0);
-//   const totalPayments = payments.reduce(
-//     (total, payment) => total + payment.amount,
-//     0
-//   );
-//   const restAmount = totalDebts - totalPayments;
-//   return formatAmount(restAmount);
-// };
-
 const calculateRestAmount = (debts, payments) => {
   const totalDebtUSD = debts
     .filter((debt) => debt.currency === "$")
@@ -148,7 +137,7 @@ const AllCustomers = () => {
     if (!window.confirm("هل انت متأكد؟")) return;
     try {
       await deleteCustomer(id);
-      getAllCustomers(); // Refresh the list after deletion
+      getAllCustomers();
       window.alert("تم الحذف بنجاح");
     } catch (error) {
       console.error("Error deleting customer:", error);
@@ -179,189 +168,6 @@ const AllCustomers = () => {
       getAllCustomers();
     }
   };
-
-  // const exportToWord = () => {
-  //   if (!customers || customers.length === 0) {
-  //     console.error("No customer data available.");
-  //     return;
-  //   }
-
-  //   const doc = new Document({
-  //     sections: [
-  //       {
-  //         properties: {
-  //           page: {
-  //             margin: {
-  //               top: 720,
-  //               right: 720,
-  //               bottom: 720,
-  //               left: 720,
-  //             },
-  //           },
-  //         },
-  //         children: [
-  //           new Paragraph({
-  //             text: "الديون",
-  //             heading: HeadingLevel.HEADING_1,
-  //             alignment: AlignmentType.CENTER,
-  //             spacing: { after: 300 },
-  //           }),
-  //           new DocxTable({
-  //             width: { size: 100, type: WidthType.PERCENTAGE },
-  //             rows: [
-  //               new DocxTableRow({
-  //                 tableHeader: true,
-  //                 children: [
-  //                   new DocxTableCell({
-  //                     children: [
-  //                       new Paragraph({
-  //                         text: "$ المتبقي",
-  //                         bold: true,
-  //                         alignment: AlignmentType.CENTER,
-  //                       }),
-  //                     ],
-  //                     shading: { fill: "cccccc" },
-  //                     borders: {
-  //                       top: { style: BorderStyle.SINGLE, size: 2 },
-  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
-  //                       left: { style: BorderStyle.SINGLE, size: 2 },
-  //                       right: { style: BorderStyle.SINGLE, size: 2 },
-  //                     },
-  //                   }),
-  //                   new DocxTableCell({
-  //                     children: [
-  //                       new Paragraph({
-  //                         text: "IQD المتبقي",
-  //                         bold: true,
-  //                         alignment: AlignmentType.CENTER,
-  //                       }),
-  //                     ],
-  //                     shading: { fill: "cccccc" },
-  //                     borders: {
-  //                       top: { style: BorderStyle.SINGLE, size: 2 },
-  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
-  //                       left: { style: BorderStyle.SINGLE, size: 2 },
-  //                       right: { style: BorderStyle.SINGLE, size: 2 },
-  //                     },
-  //                   }),
-  //                   new DocxTableCell({
-  //                     children: [
-  //                       new Paragraph({
-  //                         text: "الاسم",
-  //                         bold: true,
-  //                         alignment: AlignmentType.CENTER,
-  //                       }),
-  //                     ],
-  //                     shading: { fill: "cccccc" },
-  //                     borders: {
-  //                       top: { style: BorderStyle.SINGLE, size: 2 },
-  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
-  //                       left: { style: BorderStyle.SINGLE, size: 2 },
-  //                       right: { style: BorderStyle.SINGLE, size: 2 },
-  //                     },
-  //                   }),
-  //                   new DocxTableCell({
-  //                     children: [
-  //                       new Paragraph({
-  //                         text: "رقم",
-  //                         bold: true,
-  //                         alignment: AlignmentType.CENTER,
-  //                       }),
-  //                     ],
-  //                     shading: { fill: "cccccc" },
-  //                     borders: {
-  //                       top: { style: BorderStyle.SINGLE, size: 2 },
-  //                       bottom: { style: BorderStyle.SINGLE, size: 2 },
-  //                       left: { style: BorderStyle.SINGLE, size: 2 },
-  //                       right: { style: BorderStyle.SINGLE, size: 2 },
-  //                     },
-  //                   }),
-  //                 ],
-  //                 // Adjust cell height with TableRowHeight
-  //                 height: { value: 400 }, // Set height in twips (1/20th of a point)
-  //               }),
-  //               ...customers.map(
-  //                 (customer, index) =>
-  //                   new DocxTableRow({
-  //                     children: [
-  //                       new DocxTableCell({
-  //                         children: [
-  //                           new Paragraph({
-  //                             text: `${calculateRestAmount(
-  //                               customer.debts || [],
-  //                               customer.payments || []
-  //                             ).toLocaleString("en-US")} IQD`,
-  //                             alignment: AlignmentType.CENTER,
-  //                           }),
-  //                         ],
-  //                         borders: {
-  //                           top: { style: BorderStyle.SINGLE, size: 1 },
-  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
-  //                           left: { style: BorderStyle.SINGLE, size: 1 },
-  //                           right: { style: BorderStyle.SINGLE, size: 1 },
-  //                         },
-  //                       }),
-  //                       new DocxTableCell({
-  //                         children: [
-  //                           new Paragraph({
-  //                             text: `${calculateRestAmount(
-  //                               customer.debts || [],
-  //                               customer.payments || []
-  //                             ).toLocaleString("en-US")} IQD`,
-  //                             alignment: AlignmentType.CENTER,
-  //                           }),
-  //                         ],
-  //                         borders: {
-  //                           top: { style: BorderStyle.SINGLE, size: 1 },
-  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
-  //                           left: { style: BorderStyle.SINGLE, size: 1 },
-  //                           right: { style: BorderStyle.SINGLE, size: 1 },
-  //                         },
-  //                       }),
-  //                       new DocxTableCell({
-  //                         children: [
-  //                           new Paragraph({
-  //                             text: customer.name || "N/A",
-  //                             alignment: AlignmentType.RIGHT,
-  //                           }),
-  //                         ],
-  //                         borders: {
-  //                           top: { style: BorderStyle.SINGLE, size: 1 },
-  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
-  //                           left: { style: BorderStyle.SINGLE, size: 1 },
-  //                           right: { style: BorderStyle.SINGLE, size: 1 },
-  //                         },
-  //                       }),
-  //                       new DocxTableCell({
-  //                         children: [
-  //                           new Paragraph({
-  //                             text: (index + 1).toString(),
-  //                             alignment: AlignmentType.CENTER,
-  //                           }),
-  //                         ],
-  //                         borders: {
-  //                           top: { style: BorderStyle.SINGLE, size: 1 },
-  //                           bottom: { style: BorderStyle.SINGLE, size: 1 },
-  //                           left: { style: BorderStyle.SINGLE, size: 1 },
-  //                           right: { style: BorderStyle.SINGLE, size: 1 },
-  //                         },
-  //                       }),
-  //                     ],
-  //                     // Adjust cell height with TableRowHeight
-  //                     height: { value: 300 }, // Set height in twips (1/20th of a point)
-  //                   })
-  //               ),
-  //             ],
-  //           }),
-  //         ],
-  //       },
-  //     ],
-  //   });
-
-  //   Packer.toBlob(doc).then((blob) => {
-  //     saveAs(blob, "customer_debt.docx");
-  //   });
-  // };
 
   const exportToWord = () => {
     if (!customers || customers.length === 0) {
@@ -461,7 +267,7 @@ const AllCustomers = () => {
                     }),
                   ],
                   // Adjust cell height with TableRowHeight
-                  height: { value: 400 }, // Set height in twips (1/20th of a point)
+                  height: { value: 400 },
                 }),
                 ...customers.map((customer, index) => {
                   const restAmounts = calculateRestAmount(
@@ -529,7 +335,7 @@ const AllCustomers = () => {
                       }),
                     ],
                     // Adjust cell height with TableRowHeight
-                    height: { value: 300 }, // Set height in twips (1/20th of a point)
+                    height: { value: 300 },
                   });
                 }),
               ],
@@ -540,14 +346,11 @@ const AllCustomers = () => {
     });
 
     const today = new Date();
-    const formattedDate = today.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+    const formattedDate = today.toISOString().split("T")[0];
 
     Packer.toBlob(doc).then((blob) => {
       saveAs(blob, `customer_debt_${formattedDate}.docx`);
     });
-    // Packer.toBlob(doc).then((blob) => {
-    //   saveAs(blob, "customer_debt.docx");
-    // });
   };
 
   return (
