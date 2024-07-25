@@ -52,6 +52,11 @@ const BuyersTable = () => {
         });
   };
 
+  const formatDate = (date) => {
+    return dayjs(date).format("YYYY-MM-DD");
+  };
+
+
   // Delete functions for Debt, Payment, and Buyer
   const handleDeleteItem = (type, itemId) => {
     const updatedCustomer = {
@@ -101,10 +106,7 @@ const BuyersTable = () => {
       });
   };
 
-  const formatDate = (date) => {
-    return dayjs(date).format("YYYY-MM-DD");
-  };
-
+  
   function formatCurrency(amount, currency) {
     switch (currency) {
       case "$":

@@ -12,6 +12,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
+const apiUrl = process.env.REACT_APP_SERVER_URL;
+
+
+
 const CustomerEdit = () => {
   const { id } = useParams();
   const [customer, setCustomer] = useState({
@@ -22,7 +26,7 @@ const CustomerEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/customers/${id}`)
+      .get(`${apiUrl}/customers/${id}`)
       .then((response) => {
         setCustomer(response.data);
       })
@@ -43,7 +47,7 @@ const CustomerEdit = () => {
     e.preventDefault();
 
     axios
-      .put(`http://localhost:8000/customers/${id}`, customer)
+      .put(`${apiUrl}/customers/${id}`, customer)
       .then((response) => {
         console.log("Customer updated successfully:", response.data);
         navigate(`/customers/${id}`);

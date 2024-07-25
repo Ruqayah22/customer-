@@ -5,7 +5,11 @@ import mongoose from "mongoose";
 const DebtSchema = new mongoose.Schema({
   amount: {
     type: Number,
-    required: true,
+    // required: true,
+  },
+  currency: {
+    type: String,
+    // required: true,
   },
   date: {
     type: Date,
@@ -17,7 +21,11 @@ const DebtSchema = new mongoose.Schema({
 const PaymentSchema = new mongoose.Schema({
   amount: {
     type: Number,
-    required: true,
+    // required: true,
+  },
+  currency: {
+    type: String,
+    // required: true,
   },
   date: {
     type: Date,

@@ -3,7 +3,10 @@ import {
   Button,
   FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -20,6 +23,7 @@ const AddDebt = ({ onClose }) => {
 
   const [newDebt, setNewDebt] = useState({
     amount: "",
+    currency: "",
     date: dayjs().format("YYYY-MM-DD"),
   });
 
@@ -44,15 +48,15 @@ const AddDebt = ({ onClose }) => {
       });
   }, [id]);
 
-  const formatAmount = (amount) => {
-    const parsedAmount = parseFloat(amount);
-    return isNaN(parsedAmount)
-      ? "0.00"
-      : parsedAmount.toLocaleString("en-US", {
-          minimumFractionDigits: 3,
-          maximumFractionDigits: 3,
-        });
-  };
+  // const formatAmount = (amount) => {
+  //   const parsedAmount = parseFloat(amount);
+  //   return isNaN(parsedAmount)
+  //     ? "0.00"
+  //     : parsedAmount.toLocaleString("en-US", {
+  //         minimumFractionDigits: 3,
+  //         maximumFractionDigits: 3,
+  //       });
+  // };
 
   const handleAddDebt = () => {
     const updatedCustomer = {
@@ -61,7 +65,7 @@ const AddDebt = ({ onClose }) => {
         ...customer.debts,
         {
           ...newDebt,
-          amount: parseFloat(newDebt.amount.replace(/,/g, "")),
+          // amount: parseFloat(newDebt.amount.replace(/,/g, "")),
           date: newDebt.date,
         },
       ],
@@ -71,7 +75,7 @@ const AddDebt = ({ onClose }) => {
       .put(`${apiUrl}/customers/${id}`, updatedCustomer)
       .then((response) => {
         setCustomer(response.data);
-        setNewDebt({ amount: "", date: "" });
+        setNewDebt({ amount: "", currency: "$", date: ""  });
         onClose();
         
       })
@@ -94,15 +98,15 @@ const AddDebt = ({ onClose }) => {
             onChange={(e) =>
               setNewDebt({
                 ...newDebt,
-                amount: e.target.value.replace(/[^0-9.]/g, ""),
+                amount: e.target.value
               })
             }
-            onBlur={(e) =>
-              setNewDebt({
-                ...newDebt,
-                amount: formatAmount(e.target.value),
-              })
-            }
+            // onBlur={(e) =>
+            //   setNewDebt({
+            //     ...newDebt,
+            //     amount: formatAmount(e.target.value),
+            //   })
+            // }
             variant="standard"
             InputProps={{
               style: { textAlign: "right" },
@@ -130,6 +134,49 @@ const AddDebt = ({ onClose }) => {
               },
             }}
           />
+        </FormControl>
+        <FormControl fullWidth margin="normal">
+          <InputLabel
+            style={{ right: 30, left: "auto" }}
+            sx={{
+              color: "#44484e",
+              "&.Mui-focused": {
+                color: "#44484e",
+              },
+              right: 30,
+              left: "auto",
+            }}
+          >
+            العملة
+          </InputLabel>
+          <Select
+            value={newDebt.currency}
+            onChange={(e) =>
+              setNewDebt({
+                ...newDebt,
+                currency: e.target.value,
+              })
+            }
+            variant="standard"
+            sx={{
+              textAlign: "right",
+              "& .MuiSelect-select": {
+                textAlign: "right", // Align text to the right
+              },
+              "&:before": {
+                borderBottomColor: "#44484e", // Normal underline color
+              },
+              "&:hover:not(.Mui-disabled):before": {
+                borderBottomColor: "#44484e", // Hover underline color
+              },
+              "&:after": {
+                borderBottomColor: "#44484e", // Focused underline color
+              },
+            }}
+          >
+            <MenuItem value="$">$</MenuItem>
+            <MenuItem value="IQD">IQD</MenuItem>
+          </Select>
         </FormControl>
         <FormControl fullWidth margin="normal">
           <TextField

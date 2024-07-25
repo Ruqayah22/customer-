@@ -118,11 +118,23 @@ const PaymentTable = () => {
       });
   };
 
+  function formatCurrency(amount, currency) {
+    switch (currency) {
+      case "$":
+        return `$${amount}`;
+      case "IQD":
+        return `${formatAmount(amount)} IQD`;
+      default:
+        return `${amount.toFixed(2)}`;
+    }
+  }
+
+
   if (!customer) return <Typography>Loading...</Typography>;
 
   return (
     <Container>
-    {/* <TableContainer> */}
+      {/* <TableContainer> */}
       {/* <Grid item xs={12} md={6}> */}
       <Typography variant="h5" gutterBottom fontWeight={"bold"} marginRight={5}>
         {/* Payments */}
@@ -140,7 +152,7 @@ const PaymentTable = () => {
           <TableBody>
             {customer.payments.map((payment) => (
               <TableRow key={payment._id}>
-                <TableCell>{formatAmount(payment.amount)}</TableCell>
+                <TableCell>{formatCurrency(payment.amount, payment.currency)}</TableCell>
                 <TableCell>{formatDate(payment.date)}</TableCell>
                 <TableCell>
                   <IconButton

@@ -106,7 +106,7 @@ const DebtTable = () => {
     };
 
     axios
-      .put(`http://localhost:8000/customers/${id}`, updatedCustomer)
+      .put(`${apiUrl}/customers/${id}`, updatedCustomer)
       .then((response) => {
         setCustomer(response.data);
         setEditDialogOpen(false);
@@ -117,68 +117,74 @@ const DebtTable = () => {
       });
   };
 
-  if (!customer) return <Typography>Loading...</Typography>;
+function formatCurrency(amount, currency) {
+  switch (currency) {
+    case "$":
+      return `$${amount}`;
+    case "IQD":
+      return `${formatAmount(amount)} IQD`;
+    default:
+      return `${amount.toFixed(2)}`;
+  }
+}
+
+if (!customer) return <Typography>Loading...</Typography>;
 
 
   return (
     <Container>
-     {/* <TableContainer> */}
+      {/* <TableContainer> */}
       {/* <Grid item xs={12} md={6}> */}
-        <Typography
-          variant="h5"
-          gutterBottom
-          fontWeight={"bold"}
-          marginRight={5}
-        >
-          {/* Debts */}
-          الديون
-        </Typography>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>المبلغ {/*Amount*/}</TableCell>
-                <TableCell>التاريخ {/*Date*/}</TableCell>
-                <TableCell>{/*Actions*/}</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {customer.debts.map((debt) => (
-                <TableRow key={debt._id}>
-                  <TableCell>{formatAmount(debt.amount)}</TableCell>
-                  <TableCell>{formatDate(debt.date)}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      variant="contained"
-                      color="primary"
-                      sx={{
-                        padding: "5px",
-                        margin: "5px",
-                        color: "#44484e",
-                      }}
-                      onClick={() => handleDeleteItem("debts", debt._id)}
-                    >
-                      <ClearIcon />
-                    </IconButton>
+      <Typography variant="h5" gutterBottom fontWeight={"bold"} marginRight={5}>
+        {/* Debts */}
+        الديون
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>المبلغ {/*Amount*/}</TableCell>
+              <TableCell>التاريخ {/*Date*/}</TableCell>
+              <TableCell>{/*Actions*/}</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {customer.debts.map((debt) => (
+              <TableRow key={debt._id}>
+                <TableCell>{formatCurrency(debt.amount, debt.currency)}</TableCell>
+                <TableCell>{formatDate(debt.date)}</TableCell>
+                <TableCell>
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      padding: "5px",
+                      margin: "5px",
+                      color: "#44484e",
+                    }}
+                    onClick={() => handleDeleteItem("debts", debt._id)}
+                  >
+                    <ClearIcon />
+                  </IconButton>
 
-                    <IconButton
-                      variant="contained"
-                      color="primary"
-                      sx={{
-                        padding: "5px",
-                        margin: "5px",
-                        color: "#44484e",
-                      }}
-                      onClick={() => handleEditItem("debts", debt)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      padding: "5px",
+                      margin: "5px",
+                      color: "#44484e",
+                    }}
+                    onClick={() => handleEditItem("debts", debt)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       {/* </Grid> */}
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
@@ -378,7 +384,7 @@ const DebtTable = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    {/* </TableContainer> */}
+      {/* </TableContainer> */}
     </Container>
   );
 };

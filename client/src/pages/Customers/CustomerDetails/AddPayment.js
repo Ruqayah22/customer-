@@ -2,7 +2,10 @@ import {
   Button,
   FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -19,6 +22,7 @@ const AddPayment = ({ onClose }) => {
 
   const [newPayment, setNewPayment] = useState({
     amount: "",
+    currency: "",
     date: dayjs().format("YYYY-MM-DD"),
   });
 
@@ -42,15 +46,15 @@ const AddPayment = ({ onClose }) => {
       });
   }, [id]);
 
-  const formatAmount = (amount) => {
-    const parsedAmount = parseFloat(amount);
-    return isNaN(parsedAmount)
-      ? "0.00"
-      : parsedAmount.toLocaleString("en-US", {
-          minimumFractionDigits: 3,
-          maximumFractionDigits: 3,
-        });
-  };
+  // const formatAmount = (amount) => {
+  //   const parsedAmount = parseFloat(amount);
+  //   return isNaN(parsedAmount)
+  //     ? "0.00"
+  //     : parsedAmount.toLocaleString("en-US", {
+  //         minimumFractionDigits: 3,
+  //         maximumFractionDigits: 3,
+  //       });
+  // };
 
   const handleAddPayment = () => {
     const updatedCustomer = {
@@ -59,7 +63,7 @@ const AddPayment = ({ onClose }) => {
         ...customer.payments,
         {
           ...newPayment,
-          amount: parseFloat(newPayment.amount.replace(/,/g, "")),
+          // amount: parseFloat(newPayment.amount.replace(/,/g, "")),
           date: newPayment.date,
         },
       ],
@@ -68,7 +72,7 @@ const AddPayment = ({ onClose }) => {
       .put(`${apiUrl}/customers/${id}`, updatedCustomer)
       .then((response) => {
         setCustomer(response.data);
-        setNewPayment({ amount: "", date: "" });
+        setNewPayment({ amount: "", currency: "$", date: "" });
         onClose();
       })
       .catch((error) => {
@@ -90,15 +94,15 @@ const AddPayment = ({ onClose }) => {
             onChange={(e) =>
               setNewPayment({
                 ...newPayment,
-                amount: e.target.value.replace(/[^0-9.]/g, ""),
+                amount: e.target.value,
               })
             }
-            onBlur={(e) =>
-              setNewPayment({
-                ...newPayment,
-                amount: formatAmount(e.target.value),
-              })
-            }
+            // onBlur={(e) =>
+            //   setNewPayment({
+            //     ...newPayment,
+            //     amount: formatAmount(e.target.value),
+            //   })
+            // }
             variant="standard"
             InputProps={{
               style: { textAlign: "right" },
@@ -126,6 +130,49 @@ const AddPayment = ({ onClose }) => {
               },
             }}
           />
+        </FormControl>
+        <FormControl fullWidth margin="normal">
+          <InputLabel
+            style={{ right: 30, left: "auto" }}
+            sx={{
+              color: "#44484e",
+              "&.Mui-focused": {
+                color: "#44484e",
+              },
+              right: 30,
+              left: "auto",
+            }}
+          >
+            العملة
+          </InputLabel>
+          <Select
+            value={newPayment.currency}
+            onChange={(e) =>
+              setNewPayment({
+                ...newPayment,
+                currency: e.target.value,
+              })
+            }
+            variant="standard"
+            sx={{
+              textAlign: "right",
+              "& .MuiSelect-select": {
+                textAlign: "right", // Align text to the right
+              },
+              "&:before": {
+                borderBottomColor: "#44484e", // Normal underline color
+              },
+              "&:hover:not(.Mui-disabled):before": {
+                borderBottomColor: "#44484e", // Hover underline color
+              },
+              "&:after": {
+                borderBottomColor: "#44484e", // Focused underline color
+              },
+            }}
+          >
+            <MenuItem value="$">$</MenuItem>
+            <MenuItem value="IQD">IQD</MenuItem>
+          </Select>
         </FormControl>
         <FormControl fullWidth margin="normal">
           <TextField

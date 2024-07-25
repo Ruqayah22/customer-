@@ -22,10 +22,10 @@ function AddCustomer() {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [debts, setDebts] = useState([
-    { amount: "0", date: dayjs().format("YYYY-MM-DD") },
+    { amount: "0", currency: "", date: dayjs().format("YYYY-MM-DD") },
   ]);
   const [payments, setPayments] = useState([
-    { amount: "0", date: dayjs().format("YYYY-MM-DD") },
+    { amount: "0", currency: "", date: dayjs().format("YYYY-MM-DD") },
   ]);
   const [buyers, setBuyers] = useState([
     {
@@ -65,7 +65,14 @@ function AddCustomer() {
       newDebts[index][field] = value === "" ? "-" : value;
     } else if (field === "amount") {
       newDebts[index][field] = value === "" ? "0" : value;
+    } else if (field === "currency") {
+      newDebts[index][field] = value === "" ? "" : value;
     }
+    // else if (field === "currency") {
+    //   if (value === "$" || value === "IQD") {
+    //     newDebts[index][field] = value;
+    //   } 
+    
     setDebts(newDebts);
   };
 
@@ -75,7 +82,14 @@ function AddCustomer() {
       newPayments[index][field] = value === "" ? "-" : value;
     } else if (field === "amount") {
       newPayments[index][field] = value === "" ? "0" : value;
+    } else if (field === "currency") {
+      newPayments[index][field] = value === "" ? "" : value;
     }
+    // else if (field === "currency") {
+    //   if (value === "$" || value === "IQD") {
+    //     newPayments[index][field] = value;
+    //   } 
+    // }
     setPayments(newPayments);
   };
 
@@ -290,6 +304,54 @@ function AddCustomer() {
                       }}
                     />
                   </Grid>
+                  <Grid item xs={4}>
+                    <Grid container spacing={2} marginTop={"2px"}>
+                      <Grid item xs={6} md={4}>
+                        <InputLabel
+                          style={{ right: 30, left: "auto", margin: "10px" }}
+                          sx={{
+                            color: "#44484e",
+                            "&.Mui-focused": {
+                              color: "#44484e",
+                            },
+                            right: 30,
+                            left: "auto",
+                          }}
+                        >
+                          العملة
+                        </InputLabel>
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <Select
+                          label="العملة"
+                          value={debt.currency}
+                          onChange={(e) =>
+                            handleDebtChange(index, "currency", e.target.value)
+                          }
+                          variant="standard"
+                          // sx={{ textAlign: "right" }}
+                          sx={{
+                            textAlign: "right",
+                            "& .MuiSelect-select": {
+                              textAlign: "right", // Align text to the right
+                            },
+                            "&:before": {
+                              borderBottomColor: "#44484e", // Normal underline color
+                            },
+                            "&:hover:not(.Mui-disabled):before": {
+                              borderBottomColor: "#44484e", // Hover underline color
+                            },
+                            "&:after": {
+                              borderBottomColor: "#44484e", // Focused underline color
+                            },
+                          }}
+                        >
+                          <MenuItem value="$">$</MenuItem>
+                          <MenuItem value="IQD">IQD</MenuItem>
+                        </Select>
+                      </Grid>
+                    </Grid>
+                  </Grid>
                   <Grid item xs={6}>
                     <TextField
                       label="تاريخ الدين"
@@ -374,6 +436,58 @@ function AddCustomer() {
                         },
                       }}
                     />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Grid container spacing={2} marginTop={"2px"}>
+                      <Grid item xs={6} md={4}>
+                        <InputLabel
+                          style={{ right: 30, left: "auto", margin: "10px" }}
+                          sx={{
+                            color: "#44484e",
+                            "&.Mui-focused": {
+                              color: "#44484e",
+                            },
+                            right: 30,
+                            left: "auto",
+                          }}
+                        >
+                          العملة
+                        </InputLabel>
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <Select
+                          label="العملة"
+                          value={payment.currency}
+                          onChange={(e) =>
+                            handlePaymentChange(
+                              index,
+                              "currency",
+                              e.target.value
+                            )
+                          }
+                          variant="standard"
+                          // sx={{ textAlign: "right" }}
+                          sx={{
+                            textAlign: "right",
+                            "& .MuiSelect-select": {
+                              textAlign: "right", // Align text to the right
+                            },
+                            "&:before": {
+                              borderBottomColor: "#44484e", // Normal underline color
+                            },
+                            "&:hover:not(.Mui-disabled):before": {
+                              borderBottomColor: "#44484e", // Hover underline color
+                            },
+                            "&:after": {
+                              borderBottomColor: "#44484e", // Focused underline color
+                            },
+                          }}
+                        >
+                          <MenuItem value="$">$</MenuItem>
+                          <MenuItem value="IQD">IQD</MenuItem>
+                        </Select>
+                      </Grid>
+                    </Grid>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
