@@ -46,16 +46,6 @@ const AddPayment = ({ onClose }) => {
       });
   }, [id]);
 
-  // const formatAmount = (amount) => {
-  //   const parsedAmount = parseFloat(amount);
-  //   return isNaN(parsedAmount)
-  //     ? "0.00"
-  //     : parsedAmount.toLocaleString("en-US", {
-  //         minimumFractionDigits: 3,
-  //         maximumFractionDigits: 3,
-  //       });
-  // };
-
   const handleAddPayment = () => {
     const updatedCustomer = {
       ...customer,
@@ -63,7 +53,6 @@ const AddPayment = ({ onClose }) => {
         ...customer.payments,
         {
           ...newPayment,
-          // amount: parseFloat(newPayment.amount.replace(/,/g, "")),
           date: newPayment.date,
         },
       ],
@@ -84,12 +73,11 @@ const AddPayment = ({ onClose }) => {
     <Grid item xs={12} md={4}>
       <Paper sx={{ padding: "16px", textAlign: "center" }}>
         <Typography variant="h5" gutterBottom fontWeight={"bold"}>
-          {/* Add New Payment */}
           تسديد الدين
         </Typography>
         <FormControl fullWidth margin="normal">
           <TextField
-            label="التسديد" //"Amount"
+            label="التسديد"
             value={newPayment.amount}
             onChange={(e) =>
               setNewPayment({
@@ -97,12 +85,6 @@ const AddPayment = ({ onClose }) => {
                 amount: e.target.value,
               })
             }
-            // onBlur={(e) =>
-            //   setNewPayment({
-            //     ...newPayment,
-            //     amount: formatAmount(e.target.value),
-            //   })
-            // }
             variant="standard"
             InputProps={{
               style: { textAlign: "right" },
@@ -113,20 +95,20 @@ const AddPayment = ({ onClose }) => {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
@@ -157,16 +139,16 @@ const AddPayment = ({ onClose }) => {
             sx={{
               textAlign: "right",
               "& .MuiSelect-select": {
-                textAlign: "right", // Align text to the right
+                textAlign: "right",
               },
               "&:before": {
-                borderBottomColor: "#44484e", // Normal underline color
+                borderBottomColor: "#44484e",
               },
               "&:hover:not(.Mui-disabled):before": {
-                borderBottomColor: "#44484e", // Hover underline color
+                borderBottomColor: "#44484e",
               },
               "&:after": {
-                borderBottomColor: "#44484e", // Focused underline color
+                borderBottomColor: "#44484e",
               },
             }}
           >
@@ -176,7 +158,6 @@ const AddPayment = ({ onClose }) => {
         </FormControl>
         <FormControl fullWidth margin="normal">
           <TextField
-            // label="Date"
             type="date"
             value={newPayment.date}
             onChange={(e) =>
@@ -188,20 +169,20 @@ const AddPayment = ({ onClose }) => {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
@@ -220,7 +201,6 @@ const AddPayment = ({ onClose }) => {
             },
           }}
         >
-          {/* Add Payment */}
           اضافة تسديد
         </Button>
       </Paper>

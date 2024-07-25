@@ -1,4 +1,5 @@
 import Customer from "../models/CustomerSchema.js";
+import Stored from "../models/StoredSchema.js";
 
 // Get all customers
 export const getCustomers = async (req, res) => {
@@ -22,6 +23,24 @@ export const getCustomerById = async (req, res) => {
   }
 };
 
+// // Create a new customer
+// export const createCustomer = async (req, res) => {
+//   const customer = new Customer({
+//     name: req.body.name,
+//     phoneNumber: req.body.phoneNumber,
+//     debts: req.body.debts || [],
+//     payments: req.body.payments || [],
+//     buyers: req.body.buyers || [],
+//     store: req.body.fromStore || [],
+//   });
+//   try {
+//     const newCustomer = await customer.save();
+//     res.status(201).json(newCustomer);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+
 // Create a new customer
 export const createCustomer = async (req, res) => {
   const customer = new Customer({
@@ -30,30 +49,74 @@ export const createCustomer = async (req, res) => {
     debts: req.body.debts || [],
     payments: req.body.payments || [],
     buyers: req.body.buyers || [],
-    store: req.body.fromStore || [],
+    fromStore: Array.isArray(req.body.fromStore) ? req.body.fromStore : [],
   });
+
   try {
+    // Decrease the quantity of Stored items
+    if (Array.isArray(req.body.fromStore)) {
+      for (const item of req.body.fromStore) {
+        const storedItem = await Stored.findById(item.name);
+        if (storedItem) {
+          storedItem.quantity -= item.quantity;
+          await storedItem.save();
+        }
+      }
+    }
+
     const newCustomer = await customer.save();
     res.status(201).json(newCustomer);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
+// // Update a customer
+// export const updateCustomer = async (req, res) => {
+//   try {
+//     const updatedCustomer = await Customer.findByIdAndUpdate(
+//       req.params.id,
+//       req.body,
+//       { new: true }
+//     );
+//     res.json(updatedCustomer);
+//   } catch (error) {
+//     console.error("Error updating customer:", error);
+//     res.status(500).json({ error: "Failed to update customer" });
+//   }
+// };
 
 // Update a customer
 export const updateCustomer = async (req, res) => {
   try {
-    const updatedCustomer = await Customer.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const customer = await Customer.findById(req.params.id);
+
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    // Decrease the quantity of Stored items based on new fromStore data
+    if (Array.isArray(req.body.fromStore)) {
+      for (const item of req.body.fromStore) {
+        const storedItem = await Stored.findById(item.name);
+        if (storedItem) {
+          const existingItem = customer.fromStore.find(i => i.name.toString() === item.name);
+          const quantityDifference = existingItem ? item.quantity - existingItem.quantity : item.quantity;
+          storedItem.quantity -= quantityDifference;
+          await storedItem.save();
+        }
+      }
+    }
+
+    // Update customer data
+    Object.assign(customer, req.body);
+    const updatedCustomer = await customer.save();
     res.json(updatedCustomer);
   } catch (error) {
     console.error("Error updating customer:", error);
     res.status(500).json({ error: "Failed to update customer" });
   }
 };
+
 
 // Delete a customer
 export const deleteCustomer = async (req, res) => {

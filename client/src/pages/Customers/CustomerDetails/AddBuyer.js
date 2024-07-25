@@ -65,7 +65,7 @@ const AddBuyer = ({ onClose }) => {
           count: "",
           date: "",
         }); // Reset newBuyer state
-      onClose();
+        onClose();
       })
       .catch((error) => {
         console.error("Error updating customer:", error);
@@ -76,12 +76,11 @@ const AddBuyer = ({ onClose }) => {
     <Grid item xs={12} md={4}>
       <Paper sx={{ padding: "16px", textAlign: "center" }}>
         <Typography variant="h5" gutterBottom fontWeight={"bold"}>
-          {/* Add New Buyer */}
           اضافة بضاعة
         </Typography>
         <FormControl fullWidth margin="normal">
           <TextField
-            label="البضاعة" //"Name"
+            label="البضاعة"
             value={newBuyer.name}
             onChange={(e) => setNewBuyer({ ...newBuyer, name: e.target.value })}
             variant="standard"
@@ -92,27 +91,27 @@ const AddBuyer = ({ onClose }) => {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
         </FormControl>
         <FormControl fullWidth margin="normal">
           <TextField
-            label="السعر" //"price"
+            label="السعر"
             value={newBuyer.price}
             onChange={(e) =>
               setNewBuyer({ ...newBuyer, price: e.target.value })
@@ -127,20 +126,20 @@ const AddBuyer = ({ onClose }) => {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
@@ -168,16 +167,16 @@ const AddBuyer = ({ onClose }) => {
             sx={{
               textAlign: "right",
               "& .MuiSelect-select": {
-                textAlign: "right", // Align text to the right
+                textAlign: "right",
               },
               "&:before": {
-                borderBottomColor: "#44484e", // Normal underline color
+                borderBottomColor: "#44484e",
               },
               "&:hover:not(.Mui-disabled):before": {
-                borderBottomColor: "#44484e", // Hover underline color
+                borderBottomColor: "#44484e",
               },
               "&:after": {
-                borderBottomColor: "#44484e", // Focused underline color
+                borderBottomColor: "#44484e",
               },
             }}
           >
@@ -187,7 +186,7 @@ const AddBuyer = ({ onClose }) => {
         </FormControl>
         <FormControl fullWidth margin="normal">
           <TextField
-            label="العدد" //"Count"
+            label="العدد"
             value={newBuyer.count}
             onChange={(e) =>
               setNewBuyer({ ...newBuyer, count: e.target.value })
@@ -202,27 +201,26 @@ const AddBuyer = ({ onClose }) => {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
         </FormControl>
         <FormControl fullWidth margin="normal">
           <TextField
-            // label="Date"
             type="date"
             value={newBuyer.date}
             onChange={(e) => setNewBuyer({ ...newBuyer, date: e.target.value })}
@@ -235,20 +233,20 @@ const AddBuyer = ({ onClose }) => {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
@@ -267,7 +265,6 @@ const AddBuyer = ({ onClose }) => {
             },
           }}
         >
-          {/* Add Buyer */}
           اضافة بضاعة
         </Button>
       </Paper>

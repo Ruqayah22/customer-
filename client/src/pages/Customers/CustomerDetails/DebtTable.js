@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
-    Box,
-    Button,
-    Container,
-    Dialog,
-    DialogActions,
-    DialogContent,
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
   DialogTitle,
-  // Grid,
   IconButton,
   Paper,
   Table,
@@ -84,12 +83,6 @@ const DebtTable = () => {
       });
   };
 
-  // // Edit functions for Debt, Payment, and Buyer
-  // const handleEditItem = (type, item) => {
-  //   setEditItem({ type, item });
-  //   setEditDialogOpen(true);
-  // };
-
   const handleEditItem = (type, item) => {
     if (item.date) {
       item.date = formatDate(item.date);
@@ -97,7 +90,7 @@ const DebtTable = () => {
     setEditItem({ type, item });
     setEditDialogOpen(true);
   };
-  
+
   const handleSaveEdit = () => {
     const { type, item } = editItem;
     const updatedCustomer = {
@@ -117,41 +110,39 @@ const DebtTable = () => {
       });
   };
 
-function formatCurrency(amount, currency) {
-  switch (currency) {
-    case "$":
-      return `$${amount}`;
-    case "IQD":
-      return `${formatAmount(amount)} IQD`;
-    default:
-      return `${amount.toFixed(2)}`;
+  function formatCurrency(amount, currency) {
+    switch (currency) {
+      case "$":
+        return `$${amount}`;
+      case "IQD":
+        return `${formatAmount(amount)} IQD`;
+      default:
+        return `${amount.toFixed(2)}`;
+    }
   }
-}
 
-if (!customer) return <Typography>Loading...</Typography>;
-
+  if (!customer) return <Typography>Loading...</Typography>;
 
   return (
     <Container>
-      {/* <TableContainer> */}
-      {/* <Grid item xs={12} md={6}> */}
       <Typography variant="h5" gutterBottom fontWeight={"bold"} marginRight={5}>
-        {/* Debts */}
         الديون
       </Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>المبلغ {/*Amount*/}</TableCell>
-              <TableCell>التاريخ {/*Date*/}</TableCell>
+              <TableCell>المبلغ </TableCell>
+              <TableCell>التاريخ </TableCell>
               <TableCell>{/*Actions*/}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {customer.debts.map((debt) => (
               <TableRow key={debt._id}>
-                <TableCell>{formatCurrency(debt.amount, debt.currency)}</TableCell>
+                <TableCell>
+                  {formatCurrency(debt.amount, debt.currency)}
+                </TableCell>
                 <TableCell>{formatDate(debt.date)}</TableCell>
                 <TableCell>
                   <IconButton
@@ -185,8 +176,6 @@ if (!customer) return <Typography>Loading...</Typography>;
           </TableBody>
         </Table>
       </TableContainer>
-      {/* </Grid> */}
-      {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
         <DialogTitle
           sx={{ textAlign: "center", fontWeight: "bold", fontSize: "30px" }}
@@ -200,7 +189,7 @@ if (!customer) return <Typography>Loading...</Typography>;
             >
               {editItem.type !== "buyers" && (
                 <TextField
-                  label="المبلغ" //"Amount"
+                  label="المبلغ"
                   value={editItem.item.amount}
                   onChange={(e) =>
                     setEditItem({
@@ -233,7 +222,7 @@ if (!customer) return <Typography>Loading...</Typography>;
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="البضاعة" //"Buyer Name"
+                  label="البضاعة"
                   value={editItem.item.name}
                   onChange={(e) =>
                     setEditItem({
@@ -266,7 +255,7 @@ if (!customer) return <Typography>Loading...</Typography>;
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="السعر" //"Buyer Name"
+                  label="السعر"
                   value={editItem.item.price}
                   onChange={(e) =>
                     setEditItem({
@@ -299,7 +288,7 @@ if (!customer) return <Typography>Loading...</Typography>;
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="العدد" //"Count"
+                  label="العدد"
                   type="number"
                   value={editItem.item.count}
                   onChange={(e) =>
@@ -332,7 +321,7 @@ if (!customer) return <Typography>Loading...</Typography>;
                 />
               )}
               <TextField
-                label="التاريخ" //"Date"
+                label="التاريخ"
                 type="date"
                 value={editItem.item.date}
                 onChange={(e) =>
@@ -374,17 +363,16 @@ if (!customer) return <Typography>Loading...</Typography>;
             onClick={() => setEditDialogOpen(false)}
             sx={{ color: "#44484e", fontWeight: "bold" }}
           >
-            {/* Cancel */} الالغاء
+            الالغاء
           </Button>
           <Button
             onClick={handleSaveEdit}
             sx={{ color: "#44484e", fontWeight: "bold" }}
           >
-            {/* Save */} حفظ
+            حفظ
           </Button>
         </DialogActions>
       </Dialog>
-      {/* </TableContainer> */}
     </Container>
   );
 };

@@ -7,7 +7,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  // Grid,
   IconButton,
   Paper,
   Table,
@@ -85,12 +84,6 @@ const PaymentTable = () => {
       });
   };
 
-  // // Edit functions for Debt, Payment, and Buyer
-  // const handleEditItem = (type, item) => {
-  //   setEditItem({ type, item });
-  //   setEditDialogOpen(true);
-  // };
-
   const handleEditItem = (type, item) => {
     if (item.date) {
       item.date = formatDate(item.date);
@@ -134,18 +127,15 @@ const PaymentTable = () => {
 
   return (
     <Container>
-      {/* <TableContainer> */}
-      {/* <Grid item xs={12} md={6}> */}
       <Typography variant="h5" gutterBottom fontWeight={"bold"} marginRight={5}>
-        {/* Payments */}
         التسديد
       </Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>المبلغ {/*Amount*/}</TableCell>
-              <TableCell>التاريخ {/*Date*/}</TableCell>
+              <TableCell>المبلغ </TableCell>
+              <TableCell>التاريخ </TableCell>
               <TableCell>{/*Actions*/}</TableCell>
             </TableRow>
           </TableHead>
@@ -186,8 +176,6 @@ const PaymentTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* </Grid> */}
-      {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
         <DialogTitle
           sx={{ textAlign: "center", fontWeight: "bold", fontSize: "30px" }}
@@ -201,7 +189,7 @@ const PaymentTable = () => {
             >
               {editItem.type !== "buyers" && (
                 <TextField
-                  label="المبلغ" //"Amount"
+                  label="المبلغ" 
                   value={editItem.item.amount}
                   onChange={(e) =>
                     setEditItem({
@@ -234,7 +222,7 @@ const PaymentTable = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="البضاعة" //"Buyer Name"
+                  label="البضاعة" 
                   value={editItem.item.name}
                   onChange={(e) =>
                     setEditItem({
@@ -267,7 +255,7 @@ const PaymentTable = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="السعر" //"Buyer Name"
+                  label="السعر" 
                   value={editItem.item.price}
                   onChange={(e) =>
                     setEditItem({
@@ -300,7 +288,7 @@ const PaymentTable = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="العدد" //"Count"
+                  label="العدد" 
                   type="number"
                   value={editItem.item.count}
                   onChange={(e) =>
@@ -333,7 +321,7 @@ const PaymentTable = () => {
                 />
               )}
               <TextField
-                label="التاريخ" //"Date"
+                label="التاريخ" 
                 type="date"
                 value={editItem.item.date}
                 onChange={(e) =>

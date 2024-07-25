@@ -1,16 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import dayjs from "dayjs";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
 import PrintIcon from "@mui/icons-material/Print";
-import { useParams } from 'react-router-dom';
-import PrintDialog from '../PrintDialog';
+import { useParams } from "react-router-dom";
+import PrintDialog from "../PrintDialog";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
-
 
 const BuyersTable = () => {
   const { id } = useParams();
@@ -56,7 +73,6 @@ const BuyersTable = () => {
     return dayjs(date).format("YYYY-MM-DD");
   };
 
-
   // Delete functions for Debt, Payment, and Buyer
   const handleDeleteItem = (type, itemId) => {
     const updatedCustomer = {
@@ -74,11 +90,6 @@ const BuyersTable = () => {
       });
   };
 
-  // // Edit functions for Debt, Payment, and Buyer
-  // const handleEditItem = (type, item) => {
-  //   setEditItem({ type, item });
-  //   setEditDialogOpen(true);
-  // };
   const handleEditItem = (type, item) => {
     if (item.date) {
       item.date = formatDate(item.date);
@@ -106,7 +117,6 @@ const BuyersTable = () => {
       });
   };
 
-  
   function formatCurrency(amount, currency) {
     switch (currency) {
       case "$":
@@ -126,7 +136,7 @@ const BuyersTable = () => {
 
   const handleCloseDialog = () => {
     setPrintDialogOpen(false);
-    setSelectedBuyer(null); // Clear selected buyer after closing
+    setSelectedBuyer(null);
   };
 
   if (!customer) return <Typography>Loading...</Typography>;
@@ -139,18 +149,17 @@ const BuyersTable = () => {
         sx={{ marginTop: "20px", marginRight: "40px" }}
         fontWeight={"bold"}
       >
-        {/* Buyers */}
         البضاعة
       </Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>البضاعة {/*Name*/}</TableCell>
-              <TableCell>العدد {/*Count*/}</TableCell>
-              <TableCell>السعر {/*price*/}</TableCell>
-              <TableCell>السعر الكلي {/*total price*/}</TableCell>
-              <TableCell>التاريخ {/*Date*/}</TableCell>
+              <TableCell>البضاعة </TableCell>
+              <TableCell>العدد </TableCell>
+              <TableCell>السعر </TableCell>
+              <TableCell>السعر الكلي </TableCell>
+              <TableCell>التاريخ </TableCell>
               <TableCell>{/*Actions*/}</TableCell>
             </TableRow>
           </TableHead>
@@ -212,7 +221,7 @@ const BuyersTable = () => {
             >
               {editItem.type !== "buyers" && (
                 <TextField
-                  label="المبلغ" //"Amount"
+                  label="المبلغ"
                   value={editItem.item.amount}
                   onChange={(e) =>
                     setEditItem({
@@ -245,7 +254,7 @@ const BuyersTable = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="البضاعة" //"Buyer Name"
+                  label="البضاعة"
                   value={editItem.item.name}
                   onChange={(e) =>
                     setEditItem({
@@ -278,7 +287,7 @@ const BuyersTable = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="السعر" //"Buyer Name"
+                  label="السعر"
                   value={editItem.item.price}
                   onChange={(e) =>
                     setEditItem({
@@ -311,7 +320,7 @@ const BuyersTable = () => {
               )}
               {editItem.type === "buyers" && (
                 <TextField
-                  label="العدد" //"Count"
+                  label="العدد"
                   type="number"
                   value={editItem.item.count}
                   onChange={(e) =>
@@ -344,7 +353,7 @@ const BuyersTable = () => {
                 />
               )}
               <TextField
-                label="التاريخ" //"Date"
+                label="التاريخ"
                 type="date"
                 value={editItem.item.date}
                 onChange={(e) =>
@@ -386,18 +395,18 @@ const BuyersTable = () => {
             onClick={() => setEditDialogOpen(false)}
             sx={{ color: "#44484e", fontWeight: "bold" }}
           >
-            {/* Cancel */} الالغاء
+            الالغاء
           </Button>
           <Button
             onClick={handleSaveEdit}
             sx={{ color: "#44484e", fontWeight: "bold" }}
           >
-            {/* Save */} حفظ
+            حفظ
           </Button>
         </DialogActions>
       </Dialog>
-      {/* Print Dialog */}
 
+      {/* Print Dialog */}
       <PrintDialog
         open={printDialogOpen}
         onClose={handleCloseDialog}
@@ -405,6 +414,6 @@ const BuyersTable = () => {
       />
     </Container>
   );
-}
+};
 
-export default BuyersTable
+export default BuyersTable;

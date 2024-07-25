@@ -27,7 +27,6 @@ const AddDebt = ({ onClose }) => {
     date: dayjs().format("YYYY-MM-DD"),
   });
 
-  
   useEffect(() => {
     axios
       .get(`${apiUrl}/customers/${id}`)
@@ -48,16 +47,6 @@ const AddDebt = ({ onClose }) => {
       });
   }, [id]);
 
-  // const formatAmount = (amount) => {
-  //   const parsedAmount = parseFloat(amount);
-  //   return isNaN(parsedAmount)
-  //     ? "0.00"
-  //     : parsedAmount.toLocaleString("en-US", {
-  //         minimumFractionDigits: 3,
-  //         maximumFractionDigits: 3,
-  //       });
-  // };
-
   const handleAddDebt = () => {
     const updatedCustomer = {
       ...customer,
@@ -65,7 +54,6 @@ const AddDebt = ({ onClose }) => {
         ...customer.debts,
         {
           ...newDebt,
-          // amount: parseFloat(newDebt.amount.replace(/,/g, "")),
           date: newDebt.date,
         },
       ],
@@ -75,9 +63,8 @@ const AddDebt = ({ onClose }) => {
       .put(`${apiUrl}/customers/${id}`, updatedCustomer)
       .then((response) => {
         setCustomer(response.data);
-        setNewDebt({ amount: "", currency: "$", date: ""  });
+        setNewDebt({ amount: "", currency: "$", date: "" });
         onClose();
-        
       })
       .catch((error) => {
         console.error("Error updating customer:", error);
@@ -88,25 +75,18 @@ const AddDebt = ({ onClose }) => {
     <Grid item xs={12} md={4}>
       <Paper sx={{ padding: "16px", textAlign: "center" }}>
         <Typography variant="h5" gutterBottom fontWeight={"bold"}>
-          {/* Add New Debt */}
           اضافة دين
         </Typography>
         <FormControl fullWidth margin="normal">
           <TextField
-            label="الدين" //"Amount"
+            label="الدين"
             value={newDebt.amount}
             onChange={(e) =>
               setNewDebt({
                 ...newDebt,
-                amount: e.target.value
+                amount: e.target.value,
               })
             }
-            // onBlur={(e) =>
-            //   setNewDebt({
-            //     ...newDebt,
-            //     amount: formatAmount(e.target.value),
-            //   })
-            // }
             variant="standard"
             InputProps={{
               style: { textAlign: "right" },
@@ -117,20 +97,20 @@ const AddDebt = ({ onClose }) => {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
@@ -161,16 +141,16 @@ const AddDebt = ({ onClose }) => {
             sx={{
               textAlign: "right",
               "& .MuiSelect-select": {
-                textAlign: "right", // Align text to the right
+                textAlign: "right",
               },
               "&:before": {
-                borderBottomColor: "#44484e", // Normal underline color
+                borderBottomColor: "#44484e",
               },
               "&:hover:not(.Mui-disabled):before": {
-                borderBottomColor: "#44484e", // Hover underline color
+                borderBottomColor: "#44484e",
               },
               "&:after": {
-                borderBottomColor: "#44484e", // Focused underline color
+                borderBottomColor: "#44484e",
               },
             }}
           >
@@ -180,7 +160,6 @@ const AddDebt = ({ onClose }) => {
         </FormControl>
         <FormControl fullWidth margin="normal">
           <TextField
-            // label="Date"
             type="date"
             value={newDebt.date}
             onChange={(e) => setNewDebt({ ...newDebt, date: e.target.value })}
@@ -193,20 +172,20 @@ const AddDebt = ({ onClose }) => {
             sx={{
               "& .MuiInput-underline": {
                 "&:before": {
-                  borderBottomColor: "#44484e", // Normal underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:hover:not(.Mui-disabled):before": {
-                  borderBottomColor: "#44484e", // Hover underline color
+                  borderBottomColor: "#44484e",
                 },
                 "&:after": {
-                  borderBottomColor: "#44484e", // Focused underline color
+                  borderBottomColor: "#44484e",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "#44484e", // Normal label color
+                color: "#44484e",
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#44484e", // Focused label color
+                color: "#44484e",
               },
             }}
           />
@@ -225,7 +204,6 @@ const AddDebt = ({ onClose }) => {
             },
           }}
         >
-          {/* Add Debt */}
           اضافة دين
         </Button>
       </Paper>
