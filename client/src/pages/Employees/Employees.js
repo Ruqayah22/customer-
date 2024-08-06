@@ -14,8 +14,8 @@ import {
 import MuiAppBar from "@mui/material/AppBar";
 import { useNavigate } from "react-router-dom";
 import { Brightness4, Brightness7, Home, Menu } from "@mui/icons-material";
-import AllStore from "./AllStore";
-import SideListPages from '../../components/SideListPages';
+import SideListPages from "../../components/SideListPages";
+import AllEmployees from "./AllEmployees";
 
 const drawerWidth = 240;
 
@@ -42,10 +42,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
-function Stored() {
+const Employees = () => {
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(true);
 
@@ -69,7 +70,7 @@ function Stored() {
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="fixed" open={open} sx={{ background: "#44484e" }}>
+        <AppBar position="fixed" open={open} sx={{ background: "#44484e" }}> 
           <Toolbar>
             <IconButton
               color="inherit"
@@ -84,11 +85,7 @@ function Stored() {
               <Menu />
             </IconButton>
             <Tooltip title="Go back to home page">
-              <IconButton
-                sx={{ mr: 1 }}
-                onClick={() => navigate("/")}
-                color="inherit"
-              >
+              <IconButton sx={{ mr: 1 }} onClick={() => navigate("/")}>
                 <Home />
               </IconButton>
             </Tooltip>
@@ -98,7 +95,7 @@ function Stored() {
               component="div"
               sx={{ flexGrow: 1 }}
             >
-              Stored
+              Employees
             </Typography>
             <IconButton onClick={() => setDark(!dark)}>
               {dark ? <Brightness7 /> : <Brightness4 />}
@@ -108,11 +105,11 @@ function Stored() {
         <SideListPages {...{ open, setOpen }} />;
         <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
           <DrawerHeader />
-          <AllStore />
+          <AllEmployees />
         </Box>
       </Box>
     </ThemeProvider>
   );
-}
+};
 
-export default Stored;
+export default Employees;

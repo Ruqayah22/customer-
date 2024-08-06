@@ -13,8 +13,9 @@ import {
 
 import MuiAppBar from "@mui/material/AppBar";
 import { useNavigate } from "react-router-dom";
-import { Brightness4, Brightness7, Home } from "@mui/icons-material";
+import { Brightness4, Brightness7, Home, Menu } from "@mui/icons-material";
 import AllCustomers from "./AllCustomers";
+import SideListPages from "../../components/SideListPages";
 
 const drawerWidth = 240;
 
@@ -45,6 +46,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const Customers = () => {
+  const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(true);
 
   const darkTheme = useMemo(
@@ -56,6 +58,9 @@ const Customers = () => {
       }),
     [dark]
   );
+const handleDrawerOpen = () => {
+  setOpen(true);
+};
 
   
 
@@ -65,8 +70,20 @@ const Customers = () => {
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="fixed"  sx={{ background: "#44484e" }}>
+        <AppBar position="fixed" open={open} sx={{ background: "#44484e" }}>
           <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: "none" }),
+              }}
+            >
+              <Menu />
+            </IconButton>
             <Tooltip title="Go back to home page">
               <IconButton
                 sx={{ mr: 1 }}
@@ -89,6 +106,7 @@ const Customers = () => {
             </IconButton>
           </Toolbar>
         </AppBar>
+        <SideListPages {...{ open, setOpen }} />;
         <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
           <DrawerHeader />
           <AllCustomers />
