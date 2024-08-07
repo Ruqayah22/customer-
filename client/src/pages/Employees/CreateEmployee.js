@@ -5,6 +5,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
 // import dayjs from "dayjs";
+import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -17,41 +19,13 @@ const CreateEmployee = () => {
   const [address, setAddress] = useState("");
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [photo, setPhoto] = useState("");
-  // const [debts, setDebts] = useState([
-  //   { amount: "0", currency: "", date: dayjs().format("YYYY-MM-DD") },
-  // ]);
-  // const [payments, setPayments] = useState([
-  //   { amount: "0", currency: "", date: dayjs().format("YYYY-MM-DD") },
-  // ]);
+  
+  
   const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setPhoto(e.target.files[0]);
   };
-
-  // //create product function
-  // const handleCreate = async (e) => {
-  //   e.preventDefault();
-
-  //     const employee = {
-  //       name,
-  //       phoneNumber,
-  //       birth,
-  //       job,
-  //       salary,
-  //       address,
-  //       date,
-  //       photo,
-  //     };
-
-  //     try {
-  //       await axios.post(`${apiUrl}/employee/createEmployee`, employee);
-  //       navigate("/employees");
-  //     } catch (error) {
-  //       console.error("There was an error creating the employee!", error);
-  //     }
-
-  // };
 
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -81,8 +55,14 @@ const CreateEmployee = () => {
       toast.error("Something went wrong");
     }
   };
-  
 
+  const handleDateChange = (newValue) => {
+    setBirth(newValue.format("YYYY-MM-DD"));
+  };
+
+  const handleDateChange2 = (newValue) => {
+    setDate(newValue.format("YYYY-MM-DD"));
+  };
   return (
     <>
       <Box
@@ -208,9 +188,32 @@ const CreateEmployee = () => {
                     marginBottom: "10px",
                   }}
                 />
-
-                <TextField
-                  type="text"
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <MobileDatePicker
+                    placeholder="المواليد"
+                    inputFormat="MM/DD/YYYY"
+                    value={dayjs(birth)}
+                    onChange={handleDateChange}
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        sx: {
+                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                            {
+                              borderColor: "#91C7B1",
+                            },
+                          "& .MuiInputLabel-root.Mui-focused": {
+                            color: "#91C7B1",
+                          },
+                          width: "100%",
+                          marginBottom: "10px",
+                        },
+                      },
+                    }}
+                  />
+                </LocalizationProvider>
+                {/* <TextField
+                  type="data"
                   name="birth"
                   value={birth}
                   placeholder="المواليد"
@@ -231,7 +234,7 @@ const CreateEmployee = () => {
                     width: "100%",
                     marginBottom: "10px",
                   }}
-                />
+                /> */}
 
                 <TextField
                   type="text"
@@ -303,7 +306,31 @@ const CreateEmployee = () => {
                     marginBottom: "10px",
                   }}
                 />
-                <TextField
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <MobileDatePicker
+                    placeholder="تاريخ التوظيف"
+                    inputFormat="MM/DD/YYYY"
+                    value={dayjs(date)}
+                    onChange={handleDateChange2}
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        sx: {
+                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                            {
+                              borderColor: "#91C7B1",
+                            },
+                          "& .MuiInputLabel-root.Mui-focused": {
+                            color: "#91C7B1",
+                          },
+                          width: "100%",
+                          marginBottom: "10px",
+                        },
+                      },
+                    }}
+                  />
+                </LocalizationProvider>
+                {/* <TextField
                   type="text"
                   name="date"
                   value={date}
@@ -325,7 +352,7 @@ const CreateEmployee = () => {
                     width: "100%",
                     marginBottom: "10px",
                   }}
-                />
+                /> */}
               </Box>
               <Button
                 type="submit"

@@ -20,6 +20,7 @@ import NoteAltIcon from "@mui/icons-material/NoteAlt";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 // import AddToQueueIcon from "@mui/icons-material/AddToQueue";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
 import LayersClearIcon from "@mui/icons-material/LayersClear";
 // import image1 from "../../images/employees1.jpg";
 import axios from "axios";
@@ -84,9 +85,9 @@ const AllEmployees = () => {
   //get all products
   const getAllEmployees = async () => {
     try {
-      const { data } = await axios.get(`${apiUrl}/employee/getEmployees`);
+      const { data } = await axios.get(`${apiUrl}/employee`);
       setEmployee(data.employees);
-      // console.log(data);
+      // console.log(data.employees);
     } catch (error) {
       console.error("Error fetching Employee:", error);
     }
@@ -96,6 +97,17 @@ const AllEmployees = () => {
   useEffect(() => {
     getAllEmployees();
   }, []);
+
+const handleDelete = async (employeeId) => {
+  if (!window.confirm("هل انت متأكد؟")) return;
+    try {
+    await axios.delete(`${apiUrl}/employee/${employeeId}`);
+    getAllEmployees();
+    window.alert("تم الحذف بنجاح");
+  } catch (error) {
+    console.error("Error deleting employee:", error);
+  }
+};
 
   const formatDate = (date) => {
     return dayjs(date).format("YYYY-MM-DD");
@@ -440,7 +452,7 @@ const AllEmployees = () => {
 
                     <CardActions sx={{ justifyContent: "flex-start" }}>
                       <IconButton
-                        // onClick={() => handleDelete(p._id)}
+                        onClick={() => handleDelete(e._id)}
                         aria-label="Delete"
                         title="خذف منتج"
                       >
@@ -458,14 +470,17 @@ const AllEmployees = () => {
                           <NoteAltIcon />
                         </IconButton>
                       </Link>
-                      {/* <Link
-                      // to={`/createCustomer/${p.slug}`}
-                      className="product-link"
-                    >
-                      <IconButton aria-label="Add Customer" title="اضافة زبون">
-                        <PersonAddAlt1Icon />
-                      </IconButton>
-                    </Link> */}
+                      <Link
+                        to={`/employeesDetails/${e._id}`}
+                        className="product-link"
+                      >
+                        <IconButton
+                          aria-label="Add Customer"
+                          title="تفاصيل العامل"
+                        >
+                          <ContactPageIcon />
+                        </IconButton>
+                      </Link>
                     </CardActions>
                   </Card>
                 </Grid>
