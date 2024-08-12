@@ -15,18 +15,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-// import CloseIcon from "@mui/icons-material/Close";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
-// import AddToQueueIcon from "@mui/icons-material/AddToQueue";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import LayersClearIcon from "@mui/icons-material/LayersClear";
-// import image1 from "../../images/employees1.jpg";
-import axios from "axios";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import dayjs from "dayjs";
+import { deleteEmployee } from "../../api/EmployeeApi";
+import axios from "axios";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -82,32 +78,33 @@ const AllEmployees = () => {
     navigate("/createEmployees");
   };
 
-  //get all products
-  const getAllEmployees = async () => {
-    try {
-      const { data } = await axios.get(`${apiUrl}/employee`);
-      setEmployee(data.employees);
-      // console.log(data.employees);
-    } catch (error) {
-      console.error("Error fetching Employee:", error);
-    }
-  };
-
   //lifecycle method
   useEffect(() => {
     getAllEmployees();
   }, []);
 
-const handleDelete = async (employeeId) => {
-  if (!window.confirm("هل انت متأكد؟")) return;
+  //get all products
+  const getAllEmployees = async () => {
     try {
-    await axios.delete(`${apiUrl}/employee/${employeeId}`);
-    getAllEmployees();
-    window.alert("تم الحذف بنجاح");
-  } catch (error) {
-    console.error("Error deleting employee:", error);
-  }
-};
+      const { data } = await axios.get(`${apiUrl}/employee`);
+      setEmployee(data.employees);
+      // const response = await getEmployees();
+      // setEmployee(response.data);
+    } catch (error) {
+      console.error("Error fetching Employee:", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("هل انت متأكد؟")) return;
+    try {
+      await deleteEmployee(id);
+      getAllEmployees();
+      window.alert("تم الحذف بنجاح");
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    }
+  };
 
   const formatDate = (date) => {
     return dayjs(date).format("YYYY-MM-DD");
@@ -245,7 +242,8 @@ const handleDelete = async (employeeId) => {
                               fullWidth
                               name="name"
                               variant="standard"
-                              value={e.name}
+                              //value={e.name}
+                              value={e.name ?? "N/A"}
                               InputProps={{
                                 readOnly: true,
                               }}
@@ -459,8 +457,7 @@ const handleDelete = async (employeeId) => {
                         <LayersClearIcon />
                       </IconButton>
                       <Link
-                        // key={p._id}
-                        // to={`/product/${p.slug}`}
+                        to={`/updateEmployees/${e._id}`}
                         className="product-link"
                       >
                         <IconButton

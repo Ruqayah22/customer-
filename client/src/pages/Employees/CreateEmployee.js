@@ -124,7 +124,7 @@ const CreateEmployee = () => {
                   />
                   <label htmlFor="photo-input">
                     <Button variant="outlined" component="span" fullWidth>
-                      {photo ? photo.name : "Upload Photo"}
+                      {photo ? photo.name : "تحميل الصورة"}
                     </Button>
                   </label>
                 </Grid>
@@ -190,7 +190,7 @@ const CreateEmployee = () => {
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <MobileDatePicker
-                    placeholder="المواليد"
+                    label="المواليد"
                     inputFormat="MM/DD/YYYY"
                     value={dayjs(birth)}
                     onChange={handleDateChange}
@@ -308,7 +308,7 @@ const CreateEmployee = () => {
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <MobileDatePicker
-                    placeholder="تاريخ التوظيف"
+                    label="تاريخ التوظيف"
                     inputFormat="MM/DD/YYYY"
                     value={dayjs(date)}
                     onChange={handleDateChange2}

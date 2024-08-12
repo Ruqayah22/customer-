@@ -38,13 +38,7 @@ const PaymentTable = () => {
     axios
       .get(`${apiUrl}/employee/${id}`)
       .then((response) => {
-        const employeeData = response.data.employee;
-
-        if (!Array.isArray(employeeData.payment)) {
-          employeeData.payment = [];
-        }
-
-        setEmployee(employeeData);
+        setEmployee(response.data.employee);
       })
       .catch((error) => {
         console.error(
@@ -53,6 +47,9 @@ const PaymentTable = () => {
         );
       });
   }, [id]);
+  
+  if (!employee) return <Typography>Loading...</Typography>;
+
 
   const formatAmount = (amount) => {
     const parsedAmount = parseFloat(amount);
@@ -68,49 +65,43 @@ const PaymentTable = () => {
     return dayjs(date).format("YYYY-MM-DD");
   };
 
-  // Delete functions for Debt, Payment, and Buyer
-  const handleDeleteItem = (type, itemId) => {
-    const updatedEmployee = {
-      ...employee,
-      [type]: employee[type].filter((item) => item._id !== itemId),
-    };
-
+  const handleDeleteDebt = (paymentId) => {
     axios
-      .put(`${apiUrl}/employee/getEmployee/${id}`, updatedEmployee)
+      .delete(`${apiUrl}/employee/${id}/payments`, { data: { paymentId } })
       .then((response) => {
-        setEmployee(response.data);
-      })
+        setEmployee(response.data.employee);
+         console.log("payment deleted successfully", response.data);})
       .catch((error) => {
-        console.error("Error updating customer:", error);
+        console.error("Error deleting payment:", error);
       });
   };
 
   const handleEditItem = (type, item) => {
-    if (item.date) {
-      item.date = formatDate(item.date);
-    }
     setEditItem({ type, item });
     setEditDialogOpen(true);
   };
 
-  const handleSaveEdit = () => {
-    const { type, item } = editItem;
-    const updatedEmployee = {
-      ...employee,
-      [type]: employee[type].map((i) => (i._id === item._id ? item : i)),
-    };
+   const handleSaveEdit = () => {
+     const updatedPayment = {
+       amount: editItem.item.amount,
+       date: editItem.item.date,
+     };
 
-    axios
-      .put(`${apiUrl}/employee/getEmployee/${id}`, updatedEmployee)
-      .then((response) => {
-        setEmployee(response.data);
-        setEditDialogOpen(false);
-        setEditItem(null);
-      })
-      .catch((error) => {
-        console.error("Error updating customer:", error);
-      });
-  };
+     axios
+       .put(
+         `${apiUrl}/employee/${id}/payments/${editItem.item._id}`,
+         updatedPayment
+       )
+       .then((response) => {
+         setEmployee(response.data.employee);
+         setEditDialogOpen(false);
+         setEditItem(null);
+       })
+       .catch((error) => {
+         console.error("Error updating payment:", error);
+       });
+   };
+
 
   if (!employee) return <Typography>Loading...</Typography>;
 
@@ -131,9 +122,7 @@ const PaymentTable = () => {
           <TableBody>
             {employee.payments.map((payment) => (
               <TableRow key={payment._id}>
-                <TableCell>
-                  {formatAmount(payment.amount)}
-                </TableCell>
+                <TableCell>{formatAmount(payment.amount)}</TableCell>
                 <TableCell>{formatDate(payment.date)}</TableCell>
                 <TableCell>
                   <IconButton
@@ -144,7 +133,7 @@ const PaymentTable = () => {
                       margin: "5px",
                       color: "#44484e",
                     }}
-                    onClick={() => handleDeleteItem("payments", payment._id)}
+                    onClick={() => handleDeleteDebt(payment._id)}
                   >
                     <ClearIcon />
                   </IconButton>
@@ -178,43 +167,77 @@ const PaymentTable = () => {
             <Box
               sx={{ display: "flex", flexDirection: "column", margin: "5px" }}
             >
-              
-                <TextField
-                  label="المبلغ"
-                  value={editItem.item.amount}
-                  onChange={(e) =>
-                    setEditItem({
-                      ...editItem,
-                      item: { ...editItem.item, amount: e.target.value },
-                    })
-                  }
-                  fullWidth
-                  sx={{
-                    marginBottom: "20px",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#44484e",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "#44484e",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#44484e",
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "#44484e",
-                    },
-                    "& .MuiInputLabel-root.Mui-focused": {
-                      color: "#44484e",
-                    },
-                  }}
-                />
-              
               <TextField
+                label="المبلغ"
+                value={editItem.item.amount}
+                onChange={(e) =>
+                  setEditItem({
+                    ...editItem,
+                    item: { ...editItem.item, amount: e.target.value },
+                  })
+                }
+                fullWidth
+                sx={{
+                  marginBottom: "20px",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#44484e",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#44484e",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#44484e",
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#44484e",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#44484e",
+                  },
+                }}
+              />
+
+              {/* <TextField
                 label="التاريخ"
                 type="date"
                 value={editItem.item.date}
+                onChange={(e) =>
+                  setEditItem({
+                    ...editItem,
+                    item: { ...editItem.item, date: e.target.value },
+                  })
+                }
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                sx={{
+                  marginBottom: "20px",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#44484e",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#44484e",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#44484e",
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#44484e",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "#44484e",
+                  },
+                }}
+              /> */}
+              <TextField
+                label="التاريخ"
+                type="date"
+                value={formatDate(editItem.item.date)}
                 onChange={(e) =>
                   setEditItem({
                     ...editItem,

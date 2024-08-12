@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import {
   Button,
   FormControl,
@@ -6,8 +6,7 @@ import {
   Paper,
   TextField,
   Typography,
-  CircularProgress,
-} from "@mui/material";
+  } from "@mui/material";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
@@ -16,45 +15,25 @@ const apiUrl = process.env.REACT_APP_SERVER_URL;
 
 const AddDebt = ({ onClose }) => {
   const { id } = useParams();
-  const [employee, setEmployee] = useState(null);
-  const [loading, setLoading] = useState(false);
 
+  
   const [debts, setDebt] = useState({
     amount: "0",
     date: dayjs().format("YYYY-MM-DD"),
   });
 
-  useEffect(() => {
-    setLoading(true);
+  const handleAddDebt = () => {
     axios
-      .get(`${apiUrl}/employee/${id}`)
-      .then((response) => {
-        const employeeData = response.data;
-
-
-        if (!Array.isArray(employeeData.debts)) {
-          employeeData.debts = [];
-          
-        }
-
-        setEmployee(employeeData);
-        setLoading(false);
+      .post(`${apiUrl}/employee/${id}/addDebt`, debts)
+      .then(() => {
+        onClose();
       })
       .catch((error) => {
-        console.error("Error fetching employee details:", error);
-        setLoading(false);
+        console.error("Error adding debt:", error);
       });
-  }, [id]);
 
-  const handleAddDebt = () => {
-    
+
   };
-
-  
-
-  if (loading) {
-    return <CircularProgress />;
-  }
 
   return (
     <Grid item xs={12} md={4}>

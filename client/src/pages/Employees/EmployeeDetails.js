@@ -13,7 +13,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import ClearIcon from "@mui/icons-material/Clear";
-import EditIcon from "@mui/icons-material/Edit";
 import AddDebt from "./AddDebt";
 import DialogWrapper from "../../components/DialogWrapper";
 import AddPayment from "./AddPayment";
@@ -48,6 +47,15 @@ useEffect(() => {
     });
 }, [id]);
 
+const formatAmount = (amount) => {
+  const parsedAmount = parseFloat(amount);
+  return isNaN(parsedAmount)
+    ? "0.000"
+    : parsedAmount.toLocaleString("en-US", {
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3,
+      });
+};
 
 
 const handleOpenDialog = (dialogType) => {
@@ -68,6 +76,25 @@ const handleDelete = async () => {
     console.error("Error deleting employee:", error);
   }
 };
+
+const calculateTotalDebt = () => {
+  return employee.debts.reduce(
+    (total, debt) => total + parseFloat(debt.amount),
+    0
+  );
+};
+
+const calculateTotalPayment = () => {
+  return employee.payments.reduce(
+    (total, payment) => total + parseFloat(payment.amount),
+    0
+  );
+};
+
+const totalDebt = employee ? calculateTotalDebt() : 0;
+const totalPayment = employee ? calculateTotalPayment() : 0;
+const restAmount = totalDebt - totalPayment;
+
 
 if (!employee) return <Typography>Loading...</Typography>;
 
@@ -128,15 +155,6 @@ if (!employee) return <Typography>Loading...</Typography>;
                 >
                   <ClearIcon />
                 </IconButton>
-
-                <IconButton
-                  variant="contained"
-                  color="primary"
-                  sx={{ padding: "5px", margin: "5px", color: "#44484e" }}
-                  // onClick={handleEditCustomer}
-                >
-                  <EditIcon />
-                </IconButton>
               </Box>
             </Box>
           </Box>
@@ -154,8 +172,8 @@ if (!employee) return <Typography>Loading...</Typography>;
               gutterBottom
               sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
             >
-              مجموع الديون
-              {/* مجموع الديون (IQD): {formatAmount(totalDebtIQD)} */}
+              {/* مجموع الديون */}
+              مجموع الديون : {formatAmount(totalDebt)}
             </Typography>
 
             <Typography
@@ -163,8 +181,8 @@ if (!employee) return <Typography>Loading...</Typography>;
               gutterBottom
               sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
             >
-              مجموع التسديد
-              {/* مجموع التسديد (IQD): {formatAmount(totalPaymentIQD)} */}
+              {/* مجموع التسديد */}
+              مجموع التسديد : {formatAmount(totalPayment)}
             </Typography>
 
             <Typography
@@ -172,8 +190,8 @@ if (!employee) return <Typography>Loading...</Typography>;
               gutterBottom
               sx={{ padding: "5px", margin: "5px", fontWeight: "bold" }}
             >
-              الباقي
-              {/* الباقي (IQD): {formatAmount(restAmountIQD)} */}
+              {/* الباقي */}
+              الباقي : {formatAmount(restAmount)}
             </Typography>
           </Box>
         </Box>

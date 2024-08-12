@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   FormControl,
@@ -7,61 +7,28 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
 
 const AddPayment = ({ onClose }) => {
   const { id } = useParams();
-  const [employee, setEmployee] = useState(null);
 
-  const [payments, setPayments] = useState([
-    { amount: "0", date: dayjs().format("YYYY-MM-DD") },
-  ]);
-
-  useEffect(() => {
-    axios
-      .get(`${apiUrl}/employee/${id}`)
-      .then((response) => {
-        const employeeData = response.data;
-
-        if (!Array.isArray(employeeData.payments)) {
-          employeeData.payments = [];
-        }
-
-        setEmployee(employeeData);
-      })
-      .catch((error) => {
-        console.error(
-          "There was an error fetching the employee details!",
-          error
-        );
-      });
-  }, [id]);
+  const [payments, setPayments] = useState({
+    amount: "0",
+    date: dayjs().format("YYYY-MM-DD"),
+  });
 
   const handleAddPayment = () => {
-    const updatedEmployee = {
-      ...employee,
-      payments: [
-        ...employee.payments,
-        {
-          ...payments,
-          date: payments.date,
-        },
-      ],
-    };
-
     axios
-      .put(`${apiUrl}/employee/${id}`, updatedEmployee)
-      .then((response) => {
-        setEmployee(response.data);
-        setPayments({ amount: "", date: "" });
+      .post(`${apiUrl}/employee/${id}/addPayment`, payments)
+      .then(() => {
         onClose();
       })
       .catch((error) => {
-        console.error("Error updating employee:", error);
+        console.error("Error adding payment:", error);
       });
   };
 

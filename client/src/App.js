@@ -31,9 +31,9 @@ function App() {
 
         <Route path="/employees" element={<Employees />} />
         <Route path="/createEmployees" element={<CreateEmployee />} />
-        <Route path="/updateEmployees" element={<UpdateEmployee />} />
+        <Route path="/updateEmployees/:id" element={<UpdateEmployee />} />
         <Route path="/employeesDetails/:id" element={<EmployeeDetails />} />
-      </Routes>
+        </Routes>
     </BrowserRouter>
   );
 }
