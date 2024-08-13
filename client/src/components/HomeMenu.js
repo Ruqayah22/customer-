@@ -1,21 +1,36 @@
 import React from "react";
-import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
+import { AppBar, Box, IconButton, ListItem, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
+import toast from "react-hot-toast";
 // import LoginIcon from "@mui/icons-material/Login";
 // import SensorOccupiedIcon from "@mui/icons-material/SensorOccupied";
-// import LogoutIcon from "@mui/icons-material/Logout";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const HomeMenu = () => {
+const [auth, setAuth] = useAuth();
 
-  // const isUserSignedIn = !!localStorage.getItem("token");
+const handleLogout = (event) => {
+  event.preventDefault();
+  try {
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+    localStorage.removeItem("auth");
+    toast.success("Logout Successfully");
+    navigate("/login");
+  } catch (error) {
+    console.log(error);
+    toast.error("Something went wrong");
+  }
+};
   
   const navigate = useNavigate();
 
-  // const handleSignOut = () => {
-  //   localStorage.removeItem("token");
-  //   navigate("/login");
-  // };
+  
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -27,8 +42,37 @@ const HomeMenu = () => {
         }}
       >
         <Toolbar>
-          {/* {isUserSignedIn ? ( */}
-            {/* <> */}
+          {!auth?.user ? (
+            <>
+              <ListItem disablePadding>
+                <ListItemButton sx={{ textAlign: "center" }}>
+                  <ListItemText>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontSize: "20px", fontWeight: "bold" }}
+                      onClick={() => navigate("/register")}
+                    >
+                      حساب جديد {/* Register */}
+                    </Typography>
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton sx={{ textAlign: "center" }}>
+                  <ListItemText>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontSize: "20px", fontWeight: "bold" }}
+                      onClick={() => navigate("/login")}
+                    >
+                      تسجيل دخول {/* Login */}
+                    </Typography>
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
+            </>
+          ) : (
+            <>
               <IconButton
                 size="large"
                 edge="start"
@@ -39,51 +83,19 @@ const HomeMenu = () => {
               >
                 <MenuIcon />
               </IconButton>
-              {/* <IconButton
+              <IconButton
                 size="large"
                 edge="end"
                 color="inherit"
                 aria-label="menu"
-                onClick={handleSignOut}
+                onClick={handleLogout}
                 sx={{ mr: 2, background: "#0000", marginLeft: "90%" }}
               >
                 <LogoutIcon />
-              </IconButton> */}
-            {/* </> */}
-          {/* ) : ( */}
-            {/* <>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                onClick={() => navigate("main")}
-                sx={{ mr: 2, background: "#494c52" }}
-              >
-                <MenuIcon />
               </IconButton>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                onClick={() => navigate("/login")}
-                sx={{ mr: 2, background: "#494c52" }}
-              >
-                <LoginIcon />
-              </IconButton>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                onClick={() => navigate("/register")}
-                sx={{ mr: 2, background: "#494c52" }}
-              >
-                <SensorOccupiedIcon />
-              </IconButton>
-            </> */}
-          {/* )} */}
+              
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

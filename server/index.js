@@ -7,6 +7,7 @@ import Connection from "./database/db.js";
 import customersRouter from "./routers/customersRoute.js";
 import storedRouter from "./routers/StoredRoutes.js";
 import employeeRouter from "./routers/EmployeesRoute.js"
+import authRoutes from "./routers/authRoute.js"
 
 const app = express();
 
@@ -17,11 +18,12 @@ app.use(bodyParser.json());
 app.use(cors()); 
 
 // Routes
+app.use("/auth", authRoutes);
 app.use("/customers", customersRouter);
 app.use("/stored", storedRouter);
 app.use("/employee", employeeRouter);
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8080;
 
 
 Connection();
